@@ -167,7 +167,9 @@ button:hover {
     margin-top: 16px;
 }
 
-
+.section {
+    margin-top: 40px;
+}
 @media screen and (max-width: 450px) {
     .auth {
         margin-top: 267px;
@@ -203,6 +205,6 @@ button:hover {
 
 @media screen and (max-width: 700px) {
     .section {
-        padding: 20px 40px;
+        padding: 0 40px;
     }
 }

@@ -1,0 +1,46 @@
+@page "/events"
+
+@using eventTicketPesentation.Data
+@using eventTicketPesentation.Models
+@using eventTicketPesentation.Network
+@inject EventService _service
+@using eventTicketPesentation.Shared.Components.EventCard
+@using eventTicketPesentation.Shared.Components.Preloader
+@using eventTicketPesentation.Shared.Components.NavMenu
+<NavMenu ShowLogin="true" ShowRegister="true"></NavMenu>
+<section class="section">
+    <h1 class="events__title">Events</h1>
+    <div class="search__container">
+        <img
+            class="search__icon"
+            src="images/search-icon.svg"
+            alt="Search icon"/>
+        <input placeholder="Search by name" class="search__input" type="text"/>
+    </div>
+
+
+    @if (_events == null)
+    {
+        <Preloader/>
+    }
+    else
+    {
+        <div class="row" style="margin-top: 40px;">
+            @foreach (var eventItem in _events)
+            {
+                <EventCard Event="@eventItem">
+                </EventCard>
+            }
+        </div>
+    }
+</section>
+
+@code {
+    private List<Event> _events;
+
+    protected override async Task OnInitializedAsync()
+    {
+        _events = await _service.GetAllEventsAsync();
+    }
+
+}

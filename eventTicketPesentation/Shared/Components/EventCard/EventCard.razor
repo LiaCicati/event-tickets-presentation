@@ -1,0 +1,23 @@
+@using eventTicketPesentation.Models
+
+<div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 my-2">
+    <div class="card">
+        <div class="card__image-container">
+            <img class="card__image img-fluid" alt="Event image" src="https://static.gaffa.dk/images/2021/07/01/5b374/356026-860x484.jpg"/>
+        </div>
+        <div class="card__data">
+            <div class="card__info">
+                <p class="card__category">Concert</p>
+                <span class="card__date">@Event.dateTime.ToShortDateString()</span>
+            </div>
+            <h4 class="card__title">@Event.name</h4>
+        </div>
+    </div>
+</div>
+
+@code {
+
+    [Parameter]
+    public Event Event { get; set; }
+
+}

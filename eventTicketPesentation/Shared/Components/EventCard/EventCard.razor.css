@@ -1,0 +1,43 @@
+.card {
+    background: #ffffff;
+    border-radius: 16px;
+    padding: 0 0 40px;
+}
+
+.card__data {
+    padding: 16px 22px 0;
+}
+
+.card__info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.card__category {
+    font-weight: 600;
+    font-size: 11px;
+    line-height: 15px;
+    color: #6e798c;
+}
+
+.card__date {
+    font-weight: normal;
+    font-size: 11px;
+    line-height: 15px;
+    text-align: right;
+    color: #6e798c;
+}
+
+.card__title {
+    font-weight: normal;
+    font-size: 20px;
+    line-height: 25px;
+    color: #081f32;
+    margin: 0;
+}
+
+.card__image {
+   
+    border-radius: 16px 16px 0px 0px;
+}
