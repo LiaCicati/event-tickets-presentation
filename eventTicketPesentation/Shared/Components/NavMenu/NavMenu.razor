@@ -11,41 +11,18 @@
 
             <ul class="header__nav-links navbar-nav">
                 <NavLink href="/events" class="nav-link">Events</NavLink>
-
-                <NavLink href="/locations" class="nav-link">Locations</NavLink>
-
             </ul>
-            @* <AuthorizeView> *@
-            @*     <Authorized> *@
-            @* <ul class="manage-profile"> *@
-            @*    <a class="login-link" href="/profile">Account</a> *@
-            @*   *@
-            @* </ul> *@
-
-            @* </Authorized> *@
-            @* <NotAuthorized> *@
-
-            @* <a class="login-link" href="/login">Login</a> *@
-            @* <a class="login-link" href="/sign-up">Sign Up</a> *@
-            @* @if (ShowLogin) *@
-            @* { *@
-            @*     <a class="login-link" href="/login">Login</a> *@
-            @* } *@
-            @* else *@
-            @* { *@
-            @*     <a class="login-link" href="/sign-up">Sign Up</a> *@
-            @* } *@
 
             <div class="header__auth">
-            @if (ShowLogin)
-            {
-                <a class="header__main-link" href="/login">Login</a>
-            }
+                @if (ShowLogin)
+                {
+                    <a class="header__main-link" href="/login">Login</a>
+                }
 
-            @if (ShowRegister)
-            {
-                <a style="margin-left: 10px" class="header__main-link" href="/sign-up">Sign Up</a>
-            }
+                @if (ShowRegister)
+                {
+                    <a style="margin-left: 10px" class="header__main-link" href="/sign-up">Sign Up</a>
+                }
             </div>
 
         </div>
@@ -57,8 +34,10 @@
 
     [Parameter]
     public bool ShowLogin { get; set; }
+
     [Parameter]
     public bool ShowRegister { get; set; }
+
     [Parameter]
     public bool ShowAccount { get; set; }
 

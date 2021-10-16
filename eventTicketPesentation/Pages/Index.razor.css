@@ -1,0 +1,37 @@
+.logo__wrapper {
+    display: flex;
+    justify-content: center;
+    margin-top: 30px;
+}
+
+.slogan {
+    max-width: 900px;
+    margin: 60px auto 0;
+    text-align: center;
+}
+
+.logo-image {
+   margin: 14px 0;
+}
+
+@media screen and (max-width: 800px) {
+    .slogan {
+        font-size: 28px;
+        line-height: 38px;
+    }
+
+    .logo-image {
+        width: 200px;
+    }
+}
+
+@media screen and (max-width: 550px) {
+    .slogan {
+        font-size: 22px;
+        line-height: 32px;
+    }
+
+    .logo-image {
+        width: 100px;
+    }
+}
