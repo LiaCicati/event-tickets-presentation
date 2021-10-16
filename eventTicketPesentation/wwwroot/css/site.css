@@ -1,7 +1,9 @@
 @import url('open-iconic/font/css/open-iconic-bootstrap.min.css');
+@import url("../fonts/Montserrat.css");
+
 
 html, body {
-    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-family: 'Montserrat', Helvetica, Arial, sans-serif;
 }
 
 a, .btn-link {
@@ -42,9 +44,165 @@ a, .btn-link {
     z-index: 1000;
 }
 
-    #blazor-error-ui .dismiss {
-        cursor: pointer;
-        position: absolute;
-        right: 0.75rem;
-        top: 0.5rem;
+#blazor-error-ui .dismiss {
+    cursor: pointer;
+    position: absolute;
+    right: 0.75rem;
+    top: 0.5rem;
+}
+
+a:hover {
+    opacity: 0.8;
+}
+
+a {
+    justify-content: center;
+    display: flex;
+    text-decoration: none;
+
+    /*text-transform: uppercase;*/
+    color: #5C6A79;
+}
+
+a.active {
+    font-weight: bolder;
+    color: #000;
+}
+
+h1 {
+    font-weight: normal;
+    font-size: 35px;
+    line-height: 44px;
+    letter-spacing: -0.0068em;
+    color: #0B0B0C;
+    margin-bottom: 40px;
+}
+
+label {
+    font-weight: 600;
+    font-size: 12px;
+    line-height: 21px;
+    letter-spacing: 0.0112em;
+    text-transform: uppercase;
+    color: #636363;
+}
+
+input {
+    background: #FFFFFF;
+    border: 1px solid #EBEBEB;
+    box-sizing: border-box;
+    border-radius: 7px;
+    font-weight: normal;
+    font-size: 15px;
+    line-height: 24px;
+    letter-spacing: -0.0033em;
+    color: #B9B9B9;
+    padding: 22px 12px;
+    outline: none;
+}
+
+input:focus {
+    transform: scale(1.02);
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    max-width: 690px;
+    margin: 60px auto 0;
+}
+
+button {
+    font-weight: 500;
+    background: #3DDC84;
+    border-radius: 10px;
+    padding: 18px 36px;
+    color: #fff;
+    border: none;
+    outline: none;
+    transition: opacity 0.3s ease-in-out;
+    cursor: pointer;
+    width: fit-content;
+    font-size: 15px;
+    line-height: 22px;
+    align-items: center;
+    text-align: center;
+    letter-spacing: -0.18px;
+    text-transform: uppercase;
+    margin-top: 50px;
+
+}
+
+button:hover {
+    opacity: 0.8;
+}
+
+.auth__paragraph {
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 17px;
+    text-align: center;
+    color: #a0a0a0;
+    margin: 0;
+}
+
+.auth__link {
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 17px;
+    text-align: center;
+    color: #ff6838;
+    text-decoration: none;
+    margin-left: 6px;
+    transition: opacity 0.3s ease-in-out;
+}
+
+.auth__link:hover {
+    opacity: 0.8;
+}
+
+.auth__redirect {
+    display: flex;
+    align-items: center;
+    margin-top: 16px;
+}
+
+
+@media screen and (max-width: 450px) {
+    .auth {
+        margin-top: 267px;
     }
+
+    .auth__link {
+        font-size: 12px;
+        line-height: 15px;
+        margin-left: 7px;
+    }
+
+    .auth__paragraph {
+        font-size: 12px;
+        line-height: 15px;
+    }
+}
+
+.form__group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 30px;
+}
+
+.form__inputs {
+    display: flex;
+}
+
+@media screen and (max-width: 580px) {
+    .form__inputs {
+        flex-direction: column;
+    }
+}
+
+@media screen and (max-width: 700px) {
+    .section {
+        padding: 20px 40px;
+    }
+}

@@ -27,14 +27,14 @@ else
         @* </tr> *@
         @* </thead> *@
         <tbody>
-        @foreach (var ev in _events)
-        {
-            <tr>
-                <td>@ev.name</td>
-                <td>@ev.description</td>
-                <td>@ev.location</td>
-            </tr>
-        }
+        @* @foreach (var ev in _events) *@
+        @* { *@
+        @*     <tr> *@
+        @*         <td>@ev.name</td> *@
+        @*         <td>@ev.description</td> *@
+        @*         <td>@ev.location</td> *@
+        @*     </tr> *@
+        @* } *@
         </tbody>
     </table>
 }
@@ -44,7 +44,7 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        _events = await _service.GetAllEventsAsync();
+        // _events = await _service.GetAllEventsAsync();
     }
 
 }

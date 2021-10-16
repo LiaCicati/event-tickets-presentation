@@ -2,6 +2,7 @@
     position: relative;
     display: flex;
     flex-direction: column;
+    background: #F4F1F1;
 }
 
 .main[b-50ybbxbtuw] {
@@ -21,10 +22,10 @@
     align-items: center;
 }
 
-    .top-row[b-50ybbxbtuw]  a, .top-row .btn-link[b-50ybbxbtuw] {
-        white-space: nowrap;
-        margin-left: 1.5rem;
-    }
+    /*.top-row ::deep a, .top-row .btn-link {*/
+    /*    white-space: nowrap;*/
+    /*    margin-left: 1.5rem;*/
+    /*}*/
 
     .top-row a:first-child[b-50ybbxbtuw] {
         overflow: hidden;

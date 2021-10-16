@@ -1,17 +1,17 @@
+@using eventTicketPesentation.Shared.Components.Footer
 @inherits LayoutComponentBase
-
+@using eventTicketPesentation.Shared.Components.NavMenu
 <div class="page">
-    <div class="sidebar">
-        <NavMenu/>
-    </div>
+  
+      
+
 
     <div class="main">
-        <div class="top-row px-4">
-            <a href="https://docs.microsoft.com/aspnet/" target="_blank">About</a>
-        </div>
+        @* <NavMenu /> *@
 
-        <div class="content px-4">
+        <div>
             @Body
+            <Footer></Footer>
         </div>
     </div>
 </div>

@@ -1,0 +1,19 @@
+.form__group_half[b-hfufdi1uvb] {
+    width: 50%;
+}
+.form__button-register[b-hfufdi1uvb] {
+    width: 100%;
+}
+.form__group_half:first-of-type[b-hfufdi1uvb] {
+    margin-right: 10px;
+}
+
+@media screen and (max-width: 580px) {
+    .form__group_half[b-hfufdi1uvb] {
+        width: 100%;
+    }
+
+    .form__group_half:first-of-type[b-hfufdi1uvb] {
+        margin-right: 0;
+    }
+}

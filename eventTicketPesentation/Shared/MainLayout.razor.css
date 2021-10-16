@@ -2,6 +2,7 @@
     position: relative;
     display: flex;
     flex-direction: column;
+    background: #F4F1F1;
 }
 
 .main {
@@ -21,10 +22,10 @@
     align-items: center;
 }
 
-    .top-row ::deep a, .top-row .btn-link {
-        white-space: nowrap;
-        margin-left: 1.5rem;
-    }
+    /*.top-row ::deep a, .top-row .btn-link {*/
+    /*    white-space: nowrap;*/
+    /*    margin-left: 1.5rem;*/
+    /*}*/
 
     .top-row a:first-child {
         overflow: hidden;

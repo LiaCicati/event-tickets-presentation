@@ -13,91 +13,91 @@ namespace eventTicketPesentation.Pages
     using System.Threading.Tasks;
     using Microsoft.AspNetCore.Components;
 #nullable restore
-#line 1 "C:\Users\Lia Cicati\SEP3\eventTicketPesentation\eventTicketPesentation\_Imports.razor"
+#line 1 "c:\Users\Lia Cicati\SEP3\eventTicketPesentation\eventTicketPesentation\_Imports.razor"
 using System.Net.Http;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 2 "C:\Users\Lia Cicati\SEP3\eventTicketPesentation\eventTicketPesentation\_Imports.razor"
+#line 2 "c:\Users\Lia Cicati\SEP3\eventTicketPesentation\eventTicketPesentation\_Imports.razor"
 using Microsoft.AspNetCore.Authorization;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 3 "C:\Users\Lia Cicati\SEP3\eventTicketPesentation\eventTicketPesentation\_Imports.razor"
+#line 3 "c:\Users\Lia Cicati\SEP3\eventTicketPesentation\eventTicketPesentation\_Imports.razor"
 using Microsoft.AspNetCore.Components.Authorization;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 4 "C:\Users\Lia Cicati\SEP3\eventTicketPesentation\eventTicketPesentation\_Imports.razor"
+#line 4 "c:\Users\Lia Cicati\SEP3\eventTicketPesentation\eventTicketPesentation\_Imports.razor"
 using Microsoft.AspNetCore.Components.Forms;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 5 "C:\Users\Lia Cicati\SEP3\eventTicketPesentation\eventTicketPesentation\_Imports.razor"
+#line 5 "c:\Users\Lia Cicati\SEP3\eventTicketPesentation\eventTicketPesentation\_Imports.razor"
 using Microsoft.AspNetCore.Components.Routing;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 6 "C:\Users\Lia Cicati\SEP3\eventTicketPesentation\eventTicketPesentation\_Imports.razor"
+#line 6 "c:\Users\Lia Cicati\SEP3\eventTicketPesentation\eventTicketPesentation\_Imports.razor"
 using Microsoft.AspNetCore.Components.Web;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 7 "C:\Users\Lia Cicati\SEP3\eventTicketPesentation\eventTicketPesentation\_Imports.razor"
+#line 7 "c:\Users\Lia Cicati\SEP3\eventTicketPesentation\eventTicketPesentation\_Imports.razor"
 using Microsoft.AspNetCore.Components.Web.Virtualization;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 8 "C:\Users\Lia Cicati\SEP3\eventTicketPesentation\eventTicketPesentation\_Imports.razor"
+#line 8 "c:\Users\Lia Cicati\SEP3\eventTicketPesentation\eventTicketPesentation\_Imports.razor"
 using Microsoft.JSInterop;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 9 "C:\Users\Lia Cicati\SEP3\eventTicketPesentation\eventTicketPesentation\_Imports.razor"
+#line 9 "c:\Users\Lia Cicati\SEP3\eventTicketPesentation\eventTicketPesentation\_Imports.razor"
 using eventTicketPesentation;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 10 "C:\Users\Lia Cicati\SEP3\eventTicketPesentation\eventTicketPesentation\_Imports.razor"
+#line 10 "c:\Users\Lia Cicati\SEP3\eventTicketPesentation\eventTicketPesentation\_Imports.razor"
 using eventTicketPesentation.Shared;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 3 "C:\Users\Lia Cicati\SEP3\eventTicketPesentation\eventTicketPesentation\Pages\FetchData.razor"
+#line 3 "c:\Users\Lia Cicati\SEP3\eventTicketPesentation\eventTicketPesentation\Pages\FetchData.razor"
 using eventTicketPesentation.Data;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 4 "C:\Users\Lia Cicati\SEP3\eventTicketPesentation\eventTicketPesentation\Pages\FetchData.razor"
+#line 4 "c:\Users\Lia Cicati\SEP3\eventTicketPesentation\eventTicketPesentation\Pages\FetchData.razor"
 using eventTicketPesentation.Models;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 5 "C:\Users\Lia Cicati\SEP3\eventTicketPesentation\eventTicketPesentation\Pages\FetchData.razor"
+#line 5 "c:\Users\Lia Cicati\SEP3\eventTicketPesentation\eventTicketPesentation\Pages\FetchData.razor"
 using eventTicketPesentation.Network;
 
 #line default
@@ -112,13 +112,13 @@ using eventTicketPesentation.Network;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 42 "C:\Users\Lia Cicati\SEP3\eventTicketPesentation\eventTicketPesentation\Pages\FetchData.razor"
+#line 42 "c:\Users\Lia Cicati\SEP3\eventTicketPesentation\eventTicketPesentation\Pages\FetchData.razor"
        
     private List<Event> _events;
 
     protected override async Task OnInitializedAsync()
     {
-        _events = await _service.GetAllEventsAsync();
+        // _events = await _service.GetAllEventsAsync();
     }
 
 
