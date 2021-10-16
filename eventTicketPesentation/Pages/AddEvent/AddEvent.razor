@@ -1,0 +1,51 @@
+@page "/addEvent"
+@using eventTicketPesentation.Shared.Components.NavMenu
+<NavMenu/>
+<section class="section">
+    <form>
+        <h1>Add Event</h1>
+        <div class="form__group">
+            <label >Name</label>
+            <input type="text" placeholder="name"/>
+        </div>
+        <div class="form__group">
+            <label >Description</label>
+            <input type="text" placeholder="description"/>
+        </div>
+        <div class="form__group">
+            <label >Location</label>
+            <textarea type="text" placeholder="location"></textarea>
+        </div>
+
+        <div class="form__inputs">
+            <div class="form__group form__group_half">
+                <label >Date</label>
+                <input type="date" placeholder="date"/>
+            </div>
+
+            <div class="form__group form__group_half">
+                <label >Time</label>
+                <input type="time" placeholder="time"/>
+            </div>
+        </div>
+
+        <div class="form__inputs">
+            <div class="form__group form__group_half">
+                <label >Thumbnail</label>
+                <input type="url" placeholder="url"/>
+            </div>
+
+            <div class="form__group form__group_half">
+                <label >Nr. of tickets</label>
+                <input type="number" placeholder="number of tickets"/>
+            </div>
+        </div>
+
+
+        <button class="form__button-create">Create</button>
+    </form>
+</section>
+
+@code {
+
+}

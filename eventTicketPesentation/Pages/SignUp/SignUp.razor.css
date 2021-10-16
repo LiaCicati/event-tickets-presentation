@@ -1,19 +1,3 @@
-.form__group_half {
-    width: 50%;
-}
 .form__button-register {
     width: 100%;
-}
-.form__group_half:first-of-type {
-    margin-right: 10px;
-}
-
-@media screen and (max-width: 580px) {
-    .form__group_half {
-        width: 100%;
-    }
-
-    .form__group_half:first-of-type {
-        margin-right: 0;
-    }
 }

@@ -87,7 +87,7 @@ label {
     color: #636363;
 }
 
-input {
+input, textarea {
     background: #FFFFFF;
     border: 1px solid #EBEBEB;
     box-sizing: border-box;
@@ -101,7 +101,7 @@ input {
     outline: none;
 }
 
-input:focus {
+input:focus, textarea:focus {
     transform: scale(1.02);
 }
 
@@ -207,5 +207,23 @@ button:hover {
 @media screen and (max-width: 700px) {
     .section {
         padding: 0 40px;
+    }
+}
+
+.form__group_half {
+    width: 50%;
+}
+
+.form__group_half:first-of-type {
+    margin-right: 10px;
+}
+
+@media screen and (max-width: 580px) {
+    .form__group_half {
+        width: 100%;
+    }
+
+    .form__group_half:first-of-type {
+        margin-right: 0;
     }
 }
