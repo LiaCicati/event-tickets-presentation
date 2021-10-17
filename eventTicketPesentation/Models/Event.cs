@@ -10,6 +10,7 @@ namespace eventTicketPesentation.Models
         public string location { get; set; }
         public string thumbnail { get; set; }
         public int nrOfTickets { get; set; }
+        public string Category { get; set; }
         public bool isCancelled { get; set; }
         public DateTime dateTime { get; set; }
     
