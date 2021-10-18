@@ -5,6 +5,7 @@ namespace eventTicketPesentation.Models
 {
     public class Event
     {
+        
         public long id { get; set; }
 
         [Required(ErrorMessage = "Name Field is Required")]
@@ -19,6 +20,7 @@ namespace eventTicketPesentation.Models
         public string Category { get; set; }
         public bool isCancelled { get; set; }
         public DateTime dateTime { get; set; }
+        public Address Address { get; set; }
 
         public override string ToString()
         {
