@@ -1,51 +1,84 @@
 @page "/addEvent"
 @using eventTicketPesentation.Shared.Components.NavMenu
+@using eventTicketPesentation.Models
+@inject NavigationManager _navigationManager
+
 <NavMenu/>
 <section class="section">
-    <form>
+    <EditForm Model="@newEvent" OnValidSubmit="@Submit">
         <h1>Add Event</h1>
         <div class="form__group">
             <label >Name</label>
-            <input type="text" placeholder="name"/>
+            <InputText type="text" placeholder="name" @bind-Value="newEvent.name"/>
         </div>
         <div class="form__group">
             <label >Description</label>
-            <input type="text" placeholder="description"/>
+            <InputTextArea type="text" placeholder="description" @bind-Value="newEvent.description"></InputTextArea>
         </div>
-        <div class="form__group">
-            <label >Location</label>
-            <textarea type="text" placeholder="location"></textarea>
+        <div class="form__inputs">
+            <div class="form__group form__group_half">
+                <label >Location</label>
+                <InputText type="text" placeholder="location" @bind-Value="newEvent.location"/>
+            </div>
+            <div class="form__group form__group_half">
+                <label >Category</label>
+                <InputSelect class="input" id="category" @bind-Value="newEvent.Category">
+                    <option value="">
+                        Select category
+                    </option>
+                    <option value="Concert">
+                        Concert
+                    </option>
+                    <option value="Workshop">
+                        Workshop
+                    </option>
+                    <option value="Art Exhibition">
+                        Art Exhibition
+                    </option>
+                    <option value="Public Speaking">
+                        Public Speaking
+                    </option>
+
+                </InputSelect>
+            </div>
         </div>
 
         <div class="form__inputs">
             <div class="form__group form__group_half">
                 <label >Date</label>
-                <input type="date" placeholder="date"/>
+                <input type="date" placeholder="date" @bind-value="newEvent.dateTime"/>
             </div>
 
             <div class="form__group form__group_half">
                 <label >Time</label>
-                <input type="time" placeholder="time"/>
+                <input type="time" placeholder="time" @bind-value="newEvent.dateTime"/>
             </div>
         </div>
 
         <div class="form__inputs">
             <div class="form__group form__group_half">
                 <label >Thumbnail</label>
-                <input type="url" placeholder="url"/>
+                <InputText type="url" placeholder="url" @bind-Value="newEvent.thumbnail"/>
             </div>
 
             <div class="form__group form__group_half">
                 <label >Nr. of tickets</label>
-                <input type="number" placeholder="number of tickets"/>
+                <InputNumber type="number" placeholder="number of tickets" @bind-Value="newEvent.nrOfTickets"/>
             </div>
         </div>
 
-
+        <DataAnnotationsValidator/>
+        <ValidationSummary/>
         <button class="form__button-create">Create</button>
-    </form>
+    </EditForm>
 </section>
 
 @code {
+    private Event newEvent = new Event();
+
+    public void Submit()
+    {
+        _navigationManager.NavigateTo("/events");
+    }
 
 }

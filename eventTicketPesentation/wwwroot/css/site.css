@@ -87,7 +87,7 @@ label {
     color: #636363;
 }
 
-input, textarea {
+input, textarea, option, select {
     background: #FFFFFF;
     border: 1px solid #EBEBEB;
     box-sizing: border-box;
@@ -96,7 +96,6 @@ input, textarea {
     font-size: 15px;
     line-height: 24px;
     letter-spacing: -0.0033em;
-    color: #B9B9B9;
     padding: 22px 12px;
     outline: none;
 }

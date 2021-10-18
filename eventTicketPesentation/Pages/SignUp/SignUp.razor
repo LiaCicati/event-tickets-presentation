@@ -1,50 +1,53 @@
 @page "/sign-up"
 @using eventTicketPesentation.Shared.Components.NavMenu
+@using eventTicketPesentation.Models
 <NavMenu ShowLogin="true"></NavMenu>
 <section class="section">
-    <form>
+    <EditForm Model="@newUser" OnValidSubmit="@Submit">
         <h1>Sign Up</h1>
         <div class="form__group">
             <label >Email address</label>
-            <input type="email" placeholder="email"/>
+            <InputText type="email" placeholder="email" @bind-Value="newUser.Email"/>
         </div>
         <div class="form__inputs">
             <div class="form__group form__group_half">
                 <label >First Name</label>
-                <input type="text" placeholder="first name"/>
+                <InputText type="text" placeholder="first name" @bind-Value="newUser.FirstName"/>
             </div>
 
             <div class="form__group form__group_half">
                 <label >Last Name</label>
-                <input type="text" placeholder="last name"/>
+                <InputText type="text" placeholder="last name" @bind-Value="newUser.LastName"/>
             </div>
         </div>
         <div class="form__inputs">
             <div class="form__group form__group_half">
                 <label >Address</label>
-                <input type="text" placeholder="Address"/>
+                <InputText type="text" placeholder="Address" @bind-Value="newUser.Email"/>
             </div>
 
             <div class="form__group form__group_half">
                 <label >Zip Code</label>
-                <input type="text" placeholder="zip code"/>
+                <input type="number" placeholder="zip code" @bind-value="newUser.Id"/>
             </div>
         </div>
         <div class="form__inputs">
             <div class="form__group form__group_half">
                 <label >Country</label>
-                <input type="text" placeholder="country"/>
+                <InputText type="text" placeholder="country" @bind-Value="newUser.Email"/>
             </div>
 
             <div class="form__group form__group_half">
                 <label >Town</label>
-                <input type="text" placeholder="town"/>
+                <InputText type="text" placeholder="town" @bind-Value="newUser.Email"/>
             </div>
         </div>
         <div class="form__group">
             <label >Password</label>
-            <input type="password" placeholder="password"/>
+            <InputText type="password" placeholder="password" @bind-Value="newUser.Email"/>
         </div>
+        <DataAnnotationsValidator/>
+        <ValidationSummary/>
         <button class="form__button-register">Sign Up</button>
         <div class="auth__redirect">
             <p class="auth__paragraph">Already have an account?</p>
@@ -52,9 +55,14 @@
                 Login
             </a>
         </div>
-    </form>
+    </EditForm>
 </section>
 
 @code {
+    private User newUser = new User();
+
+    public void Submit()
+    {
+    }
 
 }
