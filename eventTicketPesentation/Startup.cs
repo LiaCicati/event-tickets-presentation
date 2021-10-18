@@ -11,6 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using eventTicketPesentation.Data;
 using eventTicketPesentation.Network;
+using RabbitMQ.Client;
 
 namespace eventTicketPesentation
 {
@@ -32,7 +33,9 @@ namespace eventTicketPesentation
             services.AddHttpClient();
             
             // Dependency Injection configuration
-            services.AddSingleton<EventService>();
+            services.AddSingleton<IConnection>(sp =>
+                new ConnectionFactory() { HostName = "localhost" }.CreateConnection());
+            services.AddSingleton<IEventService, MQEventService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

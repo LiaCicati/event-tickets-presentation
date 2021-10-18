@@ -1,12 +1,14 @@
 using System.Collections.Generic;
 using System.Net.Http;
+using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 using eventTicketPesentation.Models;
+using RabbitMQ.Client;
 
 namespace eventTicketPesentation.Network
 {
-    public class EventService
+    public class EventService: IEventService
     {
         private HttpClient _client;
 
@@ -15,14 +17,11 @@ namespace eventTicketPesentation.Network
             this._client = client;
         }
 
-        public async Task<List<Event>> GetAllEventsAsync()
+        public List<Event> GetAllEvents()
         {
-            var response = await _client.GetAsync("http://localhost:8080/events");
-            var eventsJson = await response.Content.ReadAsStringAsync();
-
-            var events = JsonSerializer.Deserialize<List<Event>>(eventsJson);
-
-            return events;
+            var response = _client.GetAsync("http://localhost:8080/events").Result;
+            var eventsJson = response.Content.ReadAsStringAsync().Result;
+            return JsonSerializer.Deserialize<List<Event>>(eventsJson);
         }
     }
 }

@@ -1,12 +1,12 @@
 @page "/events"
 
-@using eventTicketPesentation.Data
 @using eventTicketPesentation.Models
 @using eventTicketPesentation.Network
-@inject EventService _service
+@inject IEventService _service
 @using eventTicketPesentation.Shared.Components.EventCard
 @using eventTicketPesentation.Shared.Components.Preloader
 @using eventTicketPesentation.Shared.Components.NavMenu
+
 <NavMenu ShowLogin="true" ShowRegister="true"></NavMenu>
 <section class="section">
     <h1 class="events__title">Events</h1>
@@ -40,7 +40,6 @@
 
     protected override async Task OnInitializedAsync()
     {
-        _events = await _service.GetAllEventsAsync();
+        _events = _service.GetAllEvents();
     }
-
 }
