@@ -6,5 +6,7 @@ namespace eventTicketPesentation.Network
     public interface IEventService
     {
         List<Event> GetAllEvents();
+
+        Event AddEvent(Event e);
     }
 }

@@ -14,8 +14,6 @@ namespace eventTicketPesentation.Network
         private IModel channel;
         private string replyQueueName;
         private EventingBasicConsumer consumer;
-        
-        private string logicTierQueue = "eventTicketLogicQueue";
 
         public MQEventService(IConnection connection)
         {
@@ -24,18 +22,17 @@ namespace eventTicketPesentation.Network
             replyQueueName = queue.QueueName;
             consumer = new EventingBasicConsumer(channel);
         }
-        
-        public List<Event> GetAllEvents()
+
+        private T sendRequest<T>(string queue, byte[] msg)
         {
             var props = channel.CreateBasicProperties();
             props.CorrelationId = Guid.NewGuid().ToString();
             props.ReplyTo = replyQueueName;
-            
+
             var respQueue = new BlockingCollection<string>();
             
-            var msg = Encoding.UTF8.GetBytes("getAllEvents");
-            channel.BasicPublish("", logicTierQueue, props, msg);
-
+            channel.BasicPublish("", queue, props, msg);
+            
             consumer.Received += (model, ea) =>
             {
                 var body = ea.Body.ToArray();
@@ -49,7 +46,24 @@ namespace eventTicketPesentation.Network
             
             channel.BasicConsume(replyQueueName, true, consumer);
 
-            return JsonSerializer.Deserialize<List<Event>>(respQueue.Take());
+            return JsonSerializer.Deserialize<T>(respQueue.Take());
+        }
+
+        private T sendRequest<T>(string queue)
+        {
+            return sendRequest<T>(queue, new byte[] { });
+        }
+        
+        public List<Event> GetAllEvents()
+        {
+            return sendRequest<List<Event>>("getAllEvents");
+        }
+
+        public Event AddEvent(Event e)
+        {
+            var msg = Encoding.UTF8.GetBytes(
+                JsonSerializer.Serialize(e));
+            return sendRequest<Event>("addEvent", msg);
         }
     }
 }

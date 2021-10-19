@@ -1,7 +1,10 @@
 @page "/addEvent"
 @using eventTicketPesentation.Shared.Components.NavMenu
 @using eventTicketPesentation.Models
+@using eventTicketPesentation.Network
+
 @inject NavigationManager _navigationManager
+@inject IEventService _service;
 
 <NavMenu/>
 <section class="section">
@@ -46,12 +49,12 @@
         <div class="form__inputs">
             <div class="form__group form__group_half">
                 <label >Date</label>
-                <input type="date" placeholder="date" @bind-value="newEvent.dateTime"/>
+                <InputDate placeholder="date" @bind-Value="newEvent.dateTime"/>
             </div>
 
             <div class="form__group form__group_half">
                 <label >Time</label>
-                <input type="time" placeholder="time" @bind-value="newEvent.dateTime"/>
+                <input type="time" placeholder="time"/>
             </div>
         </div>
 
@@ -78,6 +81,7 @@
 
     public void Submit()
     {
+        _service.AddEvent(newEvent);
         _navigationManager.NavigateTo("/events");
     }
 
