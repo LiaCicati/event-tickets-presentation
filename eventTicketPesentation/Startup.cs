@@ -38,7 +38,7 @@ namespace eventTicketPesentation
                 {
                     HostName = "172.25.131.120",
                     UserName = "full_access",
-                    Password = "s3crEt"
+                    Password = "qwerty"
                 }.CreateConnection().CreateModel());
             services.AddSingleton<IEventService, MQEventService>();
             services.AddSingleton<IUserService, MQUserService>();

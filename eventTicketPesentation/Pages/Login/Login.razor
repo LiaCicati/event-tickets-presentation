@@ -1,17 +1,23 @@
 @page "/login"
 @using eventTicketPesentation.Shared.Components.NavMenu
+@using eventTicketPesentation.Network.dto
+@using eventTicketPesentation.Network
+@inject IUserService _userService
+@inject NavigationManager _navigationManager
+
 <NavMenu ShowRegister="true"></NavMenu>
 <section class="section">
-    <form>
+    <EditForm Model="@_loginUserDto" OnSubmit="@Submit">
         <h1>Login</h1>
         <div class="form__group">
             <label >Email address</label>
-            <input type="email" placeholder="email"/>
+            <input type="email" placeholder="email" @bind-value="_loginUserDto.email"/>
         </div>
         <div class="form__group">
             <label >Password</label>
-            <input type="password" placeholder="password"/>
+            <input type="password" placeholder="password" @bind-value="_loginUserDto.password"/>
         </div>
+        <div> @errorMessage </div>
         <button>Login to your account</button>
         <div class="auth__redirect">
             <p class="auth__paragraph">Not on Event Enthusiast yet?</p>
@@ -19,9 +25,26 @@
                 Sign Up
             </a>
         </div>
-    </form>
+    </EditForm>
 </section>
 
 @code {
+    private LoginUserDTO _loginUserDto = new LoginUserDTO();
+    private string errorMessage;
+
+    public void Submit()
+    {
+        try
+        {
+            _userService.Login(_loginUserDto);
+            _navigationManager.NavigateTo("/events");
+        }
+        catch (Exception e)
+        {
+            errorMessage = e.Message;
+        }
+    }
+
+
 
 }
