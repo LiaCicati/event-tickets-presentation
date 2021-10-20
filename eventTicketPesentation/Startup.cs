@@ -33,9 +33,15 @@ namespace eventTicketPesentation
             services.AddHttpClient();
             
             // Dependency Injection configuration
-            services.AddSingleton<IConnection>(sp =>
-                new ConnectionFactory() { HostName = "localhost" }.CreateConnection());
+            services.AddSingleton<IModel>(sp =>
+                new ConnectionFactory()
+                {
+                    HostName = "172.25.131.120",
+                    UserName = "full_access",
+                    Password = "s3crEt"
+                }.CreateConnection().CreateModel());
             services.AddSingleton<IEventService, MQEventService>();
+            services.AddSingleton<IUserService, MQUserService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
