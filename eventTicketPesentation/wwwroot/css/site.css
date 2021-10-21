@@ -4,6 +4,12 @@
 
 html, body {
     font-family: 'Montserrat', Helvetica, Arial, sans-serif;
+    background: #F4F1F1;
+}
+
+.page {
+    display: flex;
+    flex-direction: column !important;
 }
 
 a, .btn-link {
@@ -108,7 +114,7 @@ form {
     display: flex;
     flex-direction: column;
     max-width: 690px;
-    margin: 60px auto 0;
+    margin: 0 auto;
 }
 
 button {
@@ -130,6 +136,10 @@ button {
     text-transform: uppercase;
     margin-top: 50px;
 
+}
+
+.button__full-width {
+    width: 100%;
 }
 
 button:hover {
@@ -224,5 +234,11 @@ button:hover {
 
     .form__group_half:first-of-type {
         margin-right: 0;
+    }
+}
+
+@media (min-width: 1200px){
+    .container {
+        max-width: 1360px !important;
     }
 }

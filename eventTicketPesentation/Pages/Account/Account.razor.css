@@ -1,0 +1,13 @@
+.account {
+    display: flex;
+}
+
+.account__container {
+
+}
+
+@media (max-width: 580px) {
+    .account__container {
+        margin-top: 20px;
+    }
+}
