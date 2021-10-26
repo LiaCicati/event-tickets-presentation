@@ -1,11 +1,12 @@
 using System;
+using System.Collections.Generic;
 using System.Text;
 using System.Text.Json;
 using eventTicketPesentation.Models;
-using eventTicketPesentation.Network.dto;
+using eventTicketPesentation.Service.dto;
 using RabbitMQ.Client;
 
-namespace eventTicketPesentation.Network
+namespace eventTicketPesentation.Service
 {
     public class MQUserService : MQService, IUserService
     {
@@ -24,7 +25,9 @@ namespace eventTicketPesentation.Network
             try
             {
                 var msg = Encoding.UTF8.GetBytes(JsonSerializer.Serialize(loginUserDto));
-                return sendRequest<User>("loginUser", msg);
+                var result = sendRequest<User>("loginUser", msg);
+                IList<User> claims = new List<User>();
+                
             }
             catch (Exception e)
             {

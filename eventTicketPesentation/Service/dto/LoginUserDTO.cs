@@ -1,4 +1,4 @@
-namespace eventTicketPesentation.Network.dto
+namespace eventTicketPesentation.Service.dto
 {
     public class LoginUserDTO
     {

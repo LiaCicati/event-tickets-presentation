@@ -1,7 +1,7 @@
 using eventTicketPesentation.Models;
-using eventTicketPesentation.Network.dto;
+using eventTicketPesentation.Service.dto;
 
-namespace eventTicketPesentation.Network
+namespace eventTicketPesentation.Service
 {
     public interface IUserService
     {

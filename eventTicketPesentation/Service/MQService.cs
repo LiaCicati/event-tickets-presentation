@@ -5,7 +5,7 @@ using System.Text.Json;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 
-namespace eventTicketPesentation.Network
+namespace eventTicketPesentation.Service
 {
     public class MQService
     {

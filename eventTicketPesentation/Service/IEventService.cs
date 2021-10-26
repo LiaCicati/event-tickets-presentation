@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using eventTicketPesentation.Models;
 
-namespace eventTicketPesentation.Network
+namespace eventTicketPesentation.Service
 {
     public interface IEventService
     {
