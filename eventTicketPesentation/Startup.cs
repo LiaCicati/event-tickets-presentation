@@ -1,16 +1,10 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using eventTicketPesentation.Data;
-using eventTicketPesentation.Network;
+using eventTicketPesentation.Service;
+using Microsoft.AspNetCore.Components.Authorization;
 using RabbitMQ.Client;
 
 namespace eventTicketPesentation
@@ -31,18 +25,24 @@ namespace eventTicketPesentation
             services.AddRazorPages();
             services.AddServerSideBlazor();
             services.AddHttpClient();
-            
+
             // Dependency Injection configuration
             services.AddSingleton<IModel>(sp =>
                 new ConnectionFactory()
                 {
-                    // HostName = "172.25.131.120",
-                    // UserName = "full_access",
-                    // Password = "qwerty"
-                    HostName = "localhost"
+                    HostName = "25.44.73.109",
+                    UserName = "full_access",
+                    Password = "qwerty"
+                    // HostName = "localhost"
                 }.CreateConnection().CreateModel());
             services.AddSingleton<IEventService, MQEventService>();
-            services.AddSingleton<IUserService, MQUserService>();
+            services.AddScoped<IUserService, MQUserService>();
+            services.AddScoped<AuthenticationStateProvider, CustomAuthenticationStateProvider>();
+
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("isAdmin", policy => policy.RequireClaim("isAdmin", "True"));
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

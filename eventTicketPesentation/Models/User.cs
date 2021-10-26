@@ -1,3 +1,5 @@
+using System;
+
 namespace eventTicketPesentation.Models
 {
     public class User
@@ -6,5 +8,6 @@ namespace eventTicketPesentation.Models
         public string email { get; set; }
         public string fullName { get; set; }
         public string password { get; set; }
+        public bool admin { get; set; }
     }
 }

@@ -7,5 +7,6 @@ namespace eventTicketPesentation.Service
     {
         User RegisterUser(User user);
         User Login(LoginUserDTO loginUserDto);
+        void Logout();
     }
 }

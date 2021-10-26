@@ -1,37 +1,52 @@
 @page "/account"
+@attribute [Authorize]
+@* @inject CustomAuthenticationStateProvider _authenticationStateProvider *@
 @using eventTicketPesentation.Shared.Components.PageSwitcher
 @using eventTicketPesentation.Shared.Components.NavMenu
+@using eventTicketPesentation.Models
+@using eventTicketPesentation.Service
 <NavMenu></NavMenu>
 <section class=" section">
     <div class="container">
         <div class="row">
-        <PageSwitcher></PageSwitcher>
-        <div class="account__container col-xs-12 col-sm-7 col-md-8">
-            <form>
-                <h1>Personal info</h1>
-                <div class="form__group">
-                    <label >Email address</label>
-                    <input type="email" placeholder="email"/>
-                </div>
+            <PageSwitcher></PageSwitcher>
+            <div class="account__container col-xs-12 col-sm-7 col-md-8">
+                <EditForm Model="@user">
+                    <h1>Personal info</h1>
+                    <div class="form__group">
+                        <label >Email address</label>
+                        <InputText type="email" @bind-Value="@user.email"/>
+                    </div>
 
-                <div class="form__group ">
-                    <label >Full Name</label>
-                    <input type="text" placeholder="full name"/>
-                </div>
+                    <div class="form__group ">
+                        <label >Full Name</label>
+                        <InputText type="text"  @bind-Value="@user.fullName"/>
+                    </div>
 
-                <div class="form__group">
-                    <label >Password</label>
-                    <input type="password" placeholder="password"/>
-                </div>
+                    @* <div class="form__group"> *@
+                    @*     <label >Password</label> *@
+                    @*     <input type="password" placeholder="password"/> *@
+                    @* </div> *@
 
-                <button class="button__full-width">Save</button>
+                    <button class="button__full-width">Save</button>
 
-            </form>
+                </EditForm>
+            </div>
         </div>
-    </div>
     </div>
 </section>
 
 @code {
-
+    private User user = new User();
+    private string _email;
+    private string _fullName;
+    
+    
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+       
+     
+    }
+    
 }

@@ -35,6 +35,7 @@ namespace eventTicketPesentation.Service
             {
                 var body = ea.Body.ToArray();
                 var response = Encoding.UTF8.GetString(body);
+                Console.WriteLine(response);
 
                 if (ea.BasicProperties.CorrelationId == props.CorrelationId)
                 {

@@ -11,24 +11,27 @@
 
             <ul class="header__nav-links navbar-nav">
                 <NavLink href="/events" class="nav-link">Events</NavLink>
-                <NavLink href="/addEvent" class="nav-link">Add Event</NavLink>
+                <AuthorizeView Policy="isAdmin">
+                    <Authorized>
+                        <NavLink href="/addEvent" class="nav-link">Add Event</NavLink>
+                    </Authorized>
+                </AuthorizeView>
             </ul>
 
-            <div class="header__auth">
-                @if (ShowLogin)
-                {
-                    <a class="header__main-link" href="/login">Login</a>
-                }
 
-                @if (ShowRegister)
-                {
-                    <a style="margin-left: 10px" class="header__main-link" href="/sign-up">Sign Up</a>
-                }
-                @if (ShowAccount)
-                {
-                    <a style="margin-left: 10px" class="header__main-link" href="/account">Account</a>
-                }
+            <div class="header__auth">
+                <AuthorizeView>
+                    <NotAuthorized>
+                        <a class="header__main-link" href="/login">Login</a>
+                        <a style="margin-left: 10px" class="header__main-link" href="/sign-up">Sign Up</a>
+                    </NotAuthorized>
+
+                    <Authorized>
+                        <a style="margin-left: 10px" class="header__main-link" href="/account">Account</a>
+                    </Authorized>
+                </AuthorizeView>
             </div>
+
 
         </div>
 
