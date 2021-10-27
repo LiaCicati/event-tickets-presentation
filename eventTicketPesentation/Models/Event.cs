@@ -13,12 +13,17 @@ namespace eventTicketPesentation.Models
 
         [Required(ErrorMessage = "Description Field is Required")]
         public string description { get; set; }
+        [Required]
 
         public string location { get; set; }
+        [Required]
         public string thumbnail { get; set; }
+        [Required]
         public int nrOfTickets { get; set; }
+        [Required]
         public string Category { get; set; }
         public bool isCancelled { get; set; }
+        [Required]
         public DateTime dateTime { get; set; }
         public Address Address { get; set; }
 

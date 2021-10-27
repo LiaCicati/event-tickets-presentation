@@ -50,8 +50,10 @@
             <label >Password</label>
             <InputText type="password" placeholder="password" @bind-Value="newUser.password"/>
         </div>
+        @* <input type="hidden" @bind-value="newUser.admin"/> *@
         <DataAnnotationsValidator/>
         <ValidationSummary/>
+        <div style="color: red">@errorMessage</div>
         <button class="form__button-register">Sign Up</button>
         <div class="auth__redirect">
             <p class="auth__paragraph">Already have an account?</p>
@@ -64,11 +66,19 @@
 
 @code {
     private User newUser = new User();
+    private string errorMessage;
 
     public void Submit()
     {
-        _userService.RegisterUser(newUser);
-        _navigationManager.NavigateTo("/events");
+        try
+        {
+            _userService.RegisterUser(newUser);
+            _navigationManager.NavigateTo("/login");
+        }
+        catch (Exception e)
+        {
+            errorMessage = e.Message;
+        }
     }
 
 }

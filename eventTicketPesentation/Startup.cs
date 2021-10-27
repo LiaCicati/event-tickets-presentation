@@ -30,10 +30,10 @@ namespace eventTicketPesentation
             services.AddSingleton<IModel>(sp =>
                 new ConnectionFactory()
                 {
-                    HostName = "25.44.73.109",
-                    UserName = "full_access",
-                    Password = "qwerty"
-                    // HostName = "localhost"
+                    // HostName = "25.44.73.109",
+                    // UserName = "full_access",
+                    // Password = "qwerty"
+                    HostName = "localhost"
                 }.CreateConnection().CreateModel());
             services.AddSingleton<IEventService, MQEventService>();
             services.AddScoped<IUserService, MQUserService>();

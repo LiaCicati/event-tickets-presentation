@@ -70,6 +70,20 @@
                 user.id = Convert.ToInt64(claim.Value);
                 return;
             }
+
+            if (claim.Type.Equals("email"))
+            {
+                user.email = claim.Value;
+                return;
+            }
+            
+            // if (claim.Type.Equals("Name"))
+            // {
+            //     user.fullName = claim.Value;
+            //     return;
+            // }
+            
+            
         }
     }
 

@@ -22,8 +22,16 @@ namespace eventTicketPesentation.Service
 
         public User RegisterUser(User user)
         {
-            var msg = Encoding.UTF8.GetBytes(JsonSerializer.Serialize(user));
-            return sendRequest<User>("registerUser", msg);
+            try
+            {
+                var msg = Encoding.UTF8.GetBytes(JsonSerializer.Serialize(user));
+                return sendRequest<User>("registerUser", msg);  
+            }
+            catch (Exception e)
+            {
+                throw new ArgumentException("Same email provided");
+            }
+            
         }
 
         public User Login(LoginUserDTO loginUserDto)
@@ -34,11 +42,11 @@ namespace eventTicketPesentation.Service
                 var result = sendRequest<User>("loginUser", msg);
                 Console.WriteLine();
                 IList<Claim> claims = new List<Claim>();
-                claims.Add(new Claim(ClaimTypes.Email, result.email));
+                claims.Add(new Claim("email", result.email));
                 claims.Add(new Claim("id", "" + result.id));
                 claims.Add(new Claim(ClaimTypes.Name, result.fullName));
                 claims.Add(new Claim("isAdmin", result.admin.ToString()));
-                Console.WriteLine(result.admin.ToString());
+                Console.WriteLine("is admin? " + result.admin.ToString());
                 var claimIdentity = new ClaimsIdentity(claims, "apiauth_type");
                 var principal = new ClaimsPrincipal(claimIdentity);
                 _authenticationStateProvider.LoggedInUser = principal;
