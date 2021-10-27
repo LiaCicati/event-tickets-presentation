@@ -1,5 +1,7 @@
 @page "/account"
 @attribute [Authorize]
+@inject IUserService _userService
+@inject AuthenticationStateProvider _authenticationStateProvider
 @* @inject CustomAuthenticationStateProvider _authenticationStateProvider *@
 @using eventTicketPesentation.Shared.Components.PageSwitcher
 @using eventTicketPesentation.Shared.Components.NavMenu
@@ -11,7 +13,7 @@
         <div class="row">
             <PageSwitcher></PageSwitcher>
             <div class="account__container col-xs-12 col-sm-7 col-md-8">
-                <EditForm Model="@user">
+                <EditForm Model="@user" OnValidSubmit="@Submit">
                     <h1>Personal info</h1>
                     <div class="form__group">
                         <label >Email address</label>
@@ -20,15 +22,21 @@
 
                     <div class="form__group ">
                         <label >Full Name</label>
-                        <InputText type="text"  @bind-Value="@user.fullName"/>
+                        <InputText type="text" @bind-Value="@user.fullName"/>
                     </div>
 
-                    @* <div class="form__group"> *@
-                    @*     <label >Password</label> *@
-                    @*     <input type="password" placeholder="password"/> *@
-                    @* </div> *@
+                    <div class="form__group">
+                        <label >Password</label>
+                        <InputText type="password" placeholder="password" @bind-Value="@user.password"/>
+                    </div>
+                    <div class="form__group">
+                        <label >Confirm password</label>
+                        <InputText type="password" placeholder="password" @bind-Value="@_password"/>
+                    </div>
 
-                    <button class="button__full-width">Save</button>
+                    <div>@_errorMessage</div>
+
+                    <button type="submit" class="button__full-width">Save</button>
 
                 </EditForm>
             </div>
@@ -38,15 +46,31 @@
 
 @code {
     private User user = new User();
-    private string _email;
-    private string _fullName;
-    
-    
+    private string _password;
+    private string _errorMessage;
+
+    private void Submit()
+    {
+        if (user.password != _password)
+        {
+            _errorMessage = "Password does not match";
+            return;
+        }
+        _userService.UpdateUser(user);
+    }
+
     protected override void OnInitialized()
     {
         base.OnInitialized();
-       
-     
+        var authState = _authenticationStateProvider.GetAuthenticationStateAsync().Result;
+        foreach (var claim in authState.User.Claims)
+        {
+            if (claim.Type.Equals("id"))
+            {
+                user.id = Convert.ToInt64(claim.Value);
+                return;
+            }
+        }
     }
-    
+
 }

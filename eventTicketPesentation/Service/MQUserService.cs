@@ -37,8 +37,8 @@ namespace eventTicketPesentation.Service
                 claims.Add(new Claim(ClaimTypes.Email, result.email));
                 claims.Add(new Claim("id", "" + result.id));
                 claims.Add(new Claim(ClaimTypes.Name, result.fullName));
-                claims.Add(new Claim("isAdmin",  result.admin.ToString()));
-                Console.WriteLine( result.admin.ToString());
+                claims.Add(new Claim("isAdmin", result.admin.ToString()));
+                Console.WriteLine(result.admin.ToString());
                 var claimIdentity = new ClaimsIdentity(claims, "apiauth_type");
                 var principal = new ClaimsPrincipal(claimIdentity);
                 _authenticationStateProvider.LoggedInUser = principal;
@@ -53,6 +53,12 @@ namespace eventTicketPesentation.Service
         public void Logout()
         {
             _authenticationStateProvider.LoggedInUser = new ClaimsPrincipal();
+        }
+
+        public User UpdateUser(User user)
+        {
+            var msg = Encoding.UTF8.GetBytes(JsonSerializer.Serialize(user));
+            return sendRequest<User>("updateUser", msg);
         }
     }
 }
