@@ -1,0 +1,129 @@
+.event__title {
+    text-align: center;
+    letter-spacing: -0.0033em;
+    color: #000000;
+    font-weight: normal;
+    font-size: 24px;
+    line-height: 24px;
+}
+
+.event {
+    margin-top: 100px;
+}
+
+.image__container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 30px;
+}
+
+.event__thumbnail {
+    min-width: 1144px;
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+
+}
+
+.event__details {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #FFFFFF;
+    border-radius: 6px;
+    width: fit-content;
+    margin: 32px auto 48px;
+
+}
+
+.event__data {
+    display: flex;
+    padding: 0;
+    list-style: none;
+    margin: 0;
+}
+
+.event__data-item {
+    display: flex;
+    align-items: center;
+    padding: 25px 30px;
+    border-right: 1px solid #8E8787;
+}
+
+.event__icon {
+    margin-right: 8px;
+}
+
+.event__data-item:last-of-type {
+    border: 0;
+}
+
+.event__buy-button {
+    display: flex;
+    margin: 0 auto;
+    z-index: 2;
+}
+
+.event__description {
+    padding: 28px 20px;
+    background: #fff;
+    border-radius: 6px;
+    max-width: 1240px;
+    display: flex;
+    margin: 48px auto 0;
+}
+
+.event__paragraph {
+    font-weight: 500;
+    font-size: 15px;
+    line-height: 22px;
+    color: #000;
+}
+
+.event__payment {
+    display: flex;
+}
+
+.event__payment-price {
+    display: flex;
+    align-items: center;
+}
+
+@media (max-width: 1160px) {
+
+
+    .event__thumbnail {
+        min-width: 100%;
+    }
+}
+
+@media (max-width: 675px) {
+    .event__data {
+        flex-direction: column;
+    }
+
+    .event__data-item {
+        border: 0;
+        padding: 25px 30px 0 25px;
+    }
+
+    .event__details {
+        width: 100%;
+        background: transparent;
+        justify-content: flex-start;
+    }
+
+    .event__buy-button {
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+        text-align: center;
+        left: 0;
+        justify-content: center;
+    }
+
+    .event__text {
+        font-size: 18px;
+    }
+
+}

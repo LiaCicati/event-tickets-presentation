@@ -9,18 +9,20 @@ namespace eventTicketPesentation.Service
 {
     public class MQService
     {
-        private IModel channel;
+        private IModel channel; // represents an AMQP 0-9-1 channel, and provides most of the operations (protocol methods)
         private string replyQueueName;
-        private EventingBasicConsumer consumer;
+        private EventingBasicConsumer consumer; // a consumer implementation built around C# event handlers.
 
         public MQService(IModel channel)
         {
             this.channel = channel;
             var queue = channel.QueueDeclare("", false, false, false, null);
             this.replyQueueName = queue.QueueName;
-            this.consumer = new EventingBasicConsumer(channel);
+            this.consumer = new EventingBasicConsumer(channel); // sets the Model property to the given value.
         }
 
+        // publish/subscribe - asynchronous update 
+        // request/reply pattern (Remote Procedure Call) - immediate response 
         protected T sendRequest<T>(string queue, byte[] msg)
         {
             var props = channel.CreateBasicProperties();

@@ -1,0 +1,55 @@
+@page "/event/{id:int}"
+@inject IEventService _service
+@using eventTicketPesentation.Service
+@using eventTicketPesentation.Shared.Components.NavMenu
+
+<NavMenu ShowLogin="true" ShowRegister="true"></NavMenu>
+<section class="event">
+    <div class="container image__container">
+        <img class="img-fluid event__thumbnail" src="@_e.thumbnail" alt="Thumbnail"/>
+    </div>
+    <h3 class="event__title">@_e.name</h3>
+
+    <div class="event__details">
+        <ul class="event__data">
+            <li class="event__data-item">
+                <img class="event__icon" src="images/calendar-icon.svg" alt="Calendar icon"/>
+                <h5 class="event__text">@_e.dateTime.Date.ToShortDateString()</h5>
+            </li>
+            <li class="event__data-item">
+                <img class="event__icon" src="images/time-icon.svg" alt="Time icon"/>
+                <h5 class="event__text">@_e.dateTime.DayOfWeek, @_e.dateTime.Hour pm</h5>
+            </li>
+            <li class="event__data-item">
+                <img class="event__icon" src="images/location-icon.svg" alt="Location icon"/>
+                <h5 class="event__text">@_e.location</h5>
+            </li>
+        </ul>
+    </div>
+    <div class="container event__payment">
+        <div class="event__payment-price">
+            <img class="event__icon" src="images/tickets-icon.svg" alt="Tickets icon"/>
+            <h5 class="event__text">475 dkk</h5>
+        </div>
+        <button class="event__buy-button">Buy ticket</button>
+    </div>
+
+    <div class="event__description">
+        <p class="event__paragraph">@_e.description</p>
+    </div>
+</section>
+
+@code {
+
+    [Parameter]
+    public int Id { get; set; }
+
+    private Models.Event? _e;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var events = _service.GetAllEvents();
+        _e = events.FirstOrDefault(x => x.id == this.Id);
+    }
+
+}
