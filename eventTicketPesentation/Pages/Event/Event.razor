@@ -1,5 +1,6 @@
 @page "/event/{id:int}"
 @inject IEventService _service
+@inject NavigationManager _navigationManager
 @using eventTicketPesentation.Service
 @using eventTicketPesentation.Shared.Components.NavMenu
 
@@ -31,7 +32,7 @@
             <img class="event__icon" src="images/tickets-icon.svg" alt="Tickets icon"/>
             <h5 class="event__text">475 dkk</h5>
         </div>
-        <button class="event__buy-button">Buy ticket</button>
+        <button class="event__buy-button" @onclick="BuyTicket">Buy ticket</button>
     </div>
 
     <div class="event__description">
@@ -51,5 +52,8 @@
         var events = _service.GetAllEvents();
         _e = events.FirstOrDefault(x => x.id == this.Id);
     }
-
+    public void BuyTicket()
+    {
+        _navigationManager.NavigateTo("/checkout");
+    }
 }
