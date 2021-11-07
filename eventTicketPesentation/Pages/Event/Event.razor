@@ -32,7 +32,8 @@
             <img class="event__icon" src="images/tickets-icon.svg" alt="Tickets icon"/>
             <h5 class="event__text">475 dkk</h5>
         </div>
-        <button class="event__buy-button" @onclick="BuyTicket">Buy ticket</button>
+        @* <button class="event__buy-button" @onclick="BuyTicket">Buy ticket</button> *@
+        <a class="event__buy-link main-link" href="@($"/event/{_e.id}/checkout")">Buy ticket</a>
     </div>
 
     <div class="event__description">
@@ -44,16 +45,16 @@
 
     [Parameter]
     public int Id { get; set; }
+    
 
-    private Models.Event? _e;
+    private Models.Event _e;
 
     protected override async Task OnInitializedAsync()
     {
         var events = _service.GetAllEvents();
-        _e = events.FirstOrDefault(x => x.id == this.Id);
+        _e = events.FirstOrDefault(x => x.id == Id);
     }
-    public void BuyTicket()
-    {
-        _navigationManager.NavigateTo("/checkout");
-    }
+
+   
+
 }

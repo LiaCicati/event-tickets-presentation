@@ -13,6 +13,7 @@ namespace eventTicketPesentation.Shared.Components.Checkout
         /// List of <see cref="WizardStep"/> added to the Wizard
         /// </summary>
         protected internal List<WizardStep> Steps = new List<WizardStep>();
+        
 
         /// <summary>
         /// The control Id
@@ -109,5 +110,7 @@ namespace eventTicketPesentation.Shared.Components.Checkout
                 StateHasChanged();
             }
         }
+
+      
     }
 }
