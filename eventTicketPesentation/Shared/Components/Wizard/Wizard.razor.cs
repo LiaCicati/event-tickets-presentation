@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Components;
 
-namespace eventTicketPesentation.Shared.Components.Checkout
+namespace eventTicketPesentation.Shared.Components.Wizard
 {
     /// <summary>
     /// Wizard Component

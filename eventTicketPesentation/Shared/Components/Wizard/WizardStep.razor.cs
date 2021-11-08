@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Components;
 
-namespace eventTicketPesentation.Shared.Components.Checkout
+namespace eventTicketPesentation.Shared.Components.Wizard
 {
     /// <summary>
     /// Wizard Step component

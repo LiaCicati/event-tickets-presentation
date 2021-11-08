@@ -1,11 +1,10 @@
 .card {
     background: #ffffff;
     border-radius: 16px;
-    padding: 0 0 40px;
 }
 
 .card__data {
-    padding: 16px 22px 0;
+    padding: 16px 22px 40px;
 }
 
 .card__info {
@@ -42,6 +41,9 @@
 }
 
 .card__image {
-   
+    width: 308px;
+    height: 168px;
+    object-position: center;
+    object-fit: cover;
     border-radius: 16px 16px 0px 0px;
 }
