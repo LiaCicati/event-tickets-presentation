@@ -1,0 +1,70 @@
+@inject ExportService _exportService
+@inject Microsoft.JSInterop.IJSRuntime _jsRuntime
+@using System.IO
+@using eventTicketPesentation.Data
+@using eventTicketPesentation.Models
+@using eventTicketPesentation.Service
+<div class="col-md-6">
+    <div class="ticket__item">
+        <div class="ticket__event-image">
+            <a href="/">
+                <img class="img-fluid"
+                     src="https://thumbor.forbes.com/thumbor/960x0/https%3A%2F%2Fspecials-images.forbesimg.com%2Fimageserve%2F602ce4ee669af720b8f0cd2b%2FGojira-band-members-left-to-right--Mario-Duplantier--Jean-Michel-Labadie--Joe%2F960x0.jpg%3Ffit%3Dscale"
+                     alt="Thumbnail">
+            </a>
+        </div>
+
+        <div class="ticket__details">
+            <div class="ticket__number">
+                <span >@_ticket.Number</span>
+            </div>
+            <h4 class="ticket__title">
+                <a href="/">@_ticket.Name</a>
+            </h4>
+            <div class="ticket__info">
+                <ul class="ticket__time-location p-0">
+                    <li class="list-unstyled d-flex mb-3">
+                        <img class="mr-2" src="images/calendar-icon.svg" alt="Calendar icon"/>
+                        <p class="m-0">November 13, 7pm</p>
+                    </li>
+                    <li class="list-unstyled d-flex mb-3">
+                        <img class="mr-2" src="images/time-icon.svg" alt="Time icon"/>
+                        <p class="m-0">January 22, 7pm</p>
+                    </li>
+                    <li class="list-unstyled d-flex mb-3">
+                        <img class="mr-2" src="images/location-icon.svg" alt="Location icon"/>
+                        <p class="m-0">Copenhagen</p>
+                    </li>
+
+                    <li class="list-unstyled d-flex mb-3">
+                        <img class="mr-2" src="images/tickets-icon.svg" alt="Tickets icon"/>
+                        <p class="ticket__count m-0"> 1 ticket at the price of <strong >400</strong> dkk</p>
+                    </li>
+
+                </ul>
+            </div>
+            <button @onclick="@ExportToPdf" class="d-flex mx-auto">See Ticket</button>
+        </div>
+
+    </div>
+</div>
+
+@code {
+    private Ticket _ticket;
+
+    protected override async Task OnInitializedAsync()
+    {
+        _ticket = new Ticket();
+        _ticket.Name = "Gojira";
+        _ticket.Number = 6462090431;
+    }
+
+    protected async Task ExportToPdf()
+    {
+        await using (MemoryStream memoryStream = _exportService.CreatePdf(_ticket))
+        {
+            await _jsRuntime.SaveAs("Ticket.pdf", memoryStream.ToArray());
+        }
+    }
+
+}

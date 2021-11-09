@@ -1,3 +1,4 @@
+using eventTicketPesentation.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -38,6 +39,7 @@ namespace eventTicketPesentation
             services.AddSingleton<IEventService, MQEventService>();
             services.AddScoped<IUserService, MQUserService>();
             services.AddScoped<AuthenticationStateProvider, CustomAuthenticationStateProvider>();
+            services.AddSingleton<ExportService>();
 
             services.AddAuthorization(options =>
             {

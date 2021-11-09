@@ -6,11 +6,14 @@
 
     <ItemGroup>
       <_ContentIncludedByDefault Remove="Shared\Components\Header\Header.razor" />
+      <_ContentIncludedByDefault Remove="Pages\Event\Checkout\Checkout.razor" />
+      <_ContentIncludedByDefault Remove="Pages\Checkout\Checkout.razor" />
     </ItemGroup>
 
     <ItemGroup>
       <PackageReference Include="BlazorWizard" Version="0.1.0" />
       <PackageReference Include="RabbitMQ.Client" Version="6.2.2" />
+      <PackageReference Include="Syncfusion.Pdf.Net.Core" Version="19.3.0.48" />
     </ItemGroup>
 
 </Project>
