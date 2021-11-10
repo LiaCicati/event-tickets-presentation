@@ -1,18 +1,18 @@
 @using eventTicketPesentation.Models
 
 <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 my-2">
-     <a class="card__link" href="@($"/events/{@Event.id}")">
+     <a class="card__link" href="@($"/events/{@Event.Id}")">
      <div class="card">
 
          <div class="card__image-container">
-             <img class="card__image img-fluid" alt="Event image" src="@Event.thumbnail"/>
+             <img class="card__image img-fluid" alt="Event image" src="@Event.Thumbnail"/>
          </div>
          <div class="card__data">
              <div class="card__info">
                  <p class="card__category">@Event.Category</p>
-                 <span class="card__date">@Event.dateTime.ToShortDateString()</span>
+                 <span class="card__date">@Event.DateTime.ToShortDateString()</span>
              </div>
-             <h4 class="card__title">@Event.name</h4>
+             <h4 class="card__title">@Event.Name</h4>
          </div>
 
      </div>

@@ -17,17 +17,17 @@
                     <h1>Personal info</h1>
                     <div class="form__group">
                         <label >Email address</label>
-                        <InputText type="email" @bind-Value="@user.email"/>
+                        <InputText type="email" @bind-Value="@user.Email"/>
                     </div>
 
                     <div class="form__group ">
                         <label >Full Name</label>
-                        <InputText type="text" @bind-Value="@user.fullName"/>
+                        <InputText type="text" @bind-Value="@user.FullName"/>
                     </div>
 
                     <div class="form__group">
                         <label >Password</label>
-                        <InputText type="password" placeholder="password" @bind-Value="@user.password"/>
+                        <InputText type="password" placeholder="password" @bind-Value="@user.Password"/>
                     </div>
                     <div class="form__group">
                         <label >Confirm password</label>
@@ -51,7 +51,7 @@
 
     private void Submit()
     {
-        if (user.password != _password)
+        if (user.Password != _password)
         {
             _errorMessage = "Password does not match";
             return;
@@ -67,13 +67,13 @@
         {
             if (claim.Type.Equals("id"))
             {
-                user.id = Convert.ToInt64(claim.Value);
+                user.Id = Convert.ToInt64(claim.Value);
                 return;
             }
 
             if (claim.Type.Equals("email"))
             {
-                user.email = claim.Value;
+                user.Email = claim.Value;
                 return;
             }
             

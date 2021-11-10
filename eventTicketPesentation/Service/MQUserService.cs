@@ -41,10 +41,10 @@ namespace eventTicketPesentation.Service
                 var result = await SendAndConvertAsync<User, LoginUserDTO>("loginUser", loginUserDto);
 
                 IList<Claim> claims = new List<Claim>();
-                claims.Add(new Claim("email", result.email));
-                claims.Add(new Claim("id", "" + result.id));
-                claims.Add(new Claim(ClaimTypes.Name, result.fullName));
-                claims.Add(new Claim("isAdmin", result.admin.ToString()));
+                claims.Add(new Claim("email", result.Email));
+                claims.Add(new Claim("id", "" + result.Id));
+                claims.Add(new Claim(ClaimTypes.Name, result.FullName));
+                claims.Add(new Claim("isAdmin", result.Admin.ToString()));
                 var claimIdentity = new ClaimsIdentity(claims, "apiauth_type");
                 var principal = new ClaimsPrincipal(claimIdentity);
                 

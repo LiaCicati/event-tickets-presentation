@@ -13,16 +13,16 @@
         <h1>Add Event</h1>
         <div class="form__group">
             <label >Name</label>
-            <InputText type="text" placeholder="name" @bind-Value="newEvent.name"/>
+            <InputText type="text" placeholder="name" @bind-Value="newEvent.Name"/>
         </div>
         <div class="form__group">
             <label >Description</label>
-            <InputTextArea type="text" placeholder="description" @bind-Value="newEvent.description"></InputTextArea>
+            <InputTextArea type="text" placeholder="description" @bind-Value="newEvent.Description"></InputTextArea>
         </div>
         <div class="form__inputs">
             <div class="form__group form__group_half">
                 <label >Location</label>
-                <InputText type="text" placeholder="location" @bind-Value="newEvent.location"/>
+                <InputText type="text" placeholder="location" @bind-Value="newEvent.Location"/>
             </div>
             <div class="form__group form__group_half">
                 <label >Category</label>
@@ -50,7 +50,7 @@
         <div class="form__inputs">
             <div class="form__group form__group_half">
                 <label >Date</label>
-                <InputDate placeholder="date" @bind-Value="newEvent.dateTime"/>
+                <InputDate placeholder="date" @bind-Value="newEvent.DateTime"/>
             </div>
 
             <div class="form__group form__group_half">
@@ -62,18 +62,18 @@
         <div class="form__inputs">
             <div class="form__group form__group_half">
                 <label >Thumbnail</label>
-                <InputText type="url" placeholder="url" @bind-Value="newEvent.thumbnail"/>
+                <InputText type="url" placeholder="url" @bind-Value="newEvent.Thumbnail"/>
             </div>
 
             <div class="form__group form__group_half">
                 <label >Nr. of tickets</label>
-                <InputNumber type="number" placeholder="number of tickets" @bind-Value="newEvent.nrOfTickets"/>
+                <InputNumber type="number" placeholder="number of tickets" @bind-Value="newEvent.NrOfTickets"/>
             </div>
         </div>
 
         <div class="form__group">
             <label >Price of a ticket</label>
-            <InputNumber type="number" placeholder="price" @bind-Value="newEvent.price"></InputNumber>
+            <InputNumber type="number" placeholder="price" @bind-Value="newEvent.Price"></InputNumber>
         </div>
 
         <DataAnnotationsValidator/>

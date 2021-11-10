@@ -1,30 +1,49 @@
 using System;
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace eventTicketPesentation.Models
 {
     public class Event
     {
-        public long id { get; set; }
+        [JsonPropertyName("id")] public long Id { get; set; }
 
         [Required(ErrorMessage = "Name Field is Required")]
-        public string name { get; set; }
+        [JsonPropertyName("name")]
+        public string Name { get; set; }
 
         [Required(ErrorMessage = "Description Field is Required")]
-        public string description { get; set; }
+        [JsonPropertyName("description")]
+        public string Description { get; set; }
 
-        [Required] public string location { get; set; }
-        [Required] public string thumbnail { get; set; }
-        [Required] public int nrOfTickets { get; set; }
-        [Required] public string Category { get; set; }
-        public bool isCancelled { get; set; }
-        [Required] public DateTime dateTime { get; set; }
+        [JsonPropertyName("location")]
+        [Required]
+        public string Location { get; set; }
+
+        [JsonPropertyName("thumbnail")]
+        [Required]
+        public string Thumbnail { get; set; }
+
+        [JsonPropertyName("nrOfTickets")]
+        [Required]
+        public int NrOfTickets { get; set; }
+
+        [JsonPropertyName("category")]
+        [Required]
+        public string Category { get; set; }
+
+        [JsonPropertyName("isCancelled")] public bool IsCancelled { get; set; }
+
+        [JsonPropertyName("dateTime")]
+        [Required]
+        public DateTime DateTime { get; set; }
+
         public Address Address { get; set; }
-        public double price { get; set; }
+        [JsonPropertyName("price")] public double Price { get; set; }
 
         public override string ToString()
         {
-            return $"{id} {name} {description}";
+            return $"{Id} {Name} {Description}";
         }
     }
 }

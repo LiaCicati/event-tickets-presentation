@@ -11,13 +11,13 @@
 @using eventTicketPesentation.Service.dto
 <NavMenu/>
 <section class="section">
-    <h1 class="text-center">@_event.name</h1>
+    <h1 class="text-center">@_event.Name</h1>
     <div class="container">
 
         <Wizard Id="Checkout" Submit="@Submit">
             <WizardStep Name="1. Nr. of tickets">
 
-                <p class="text-center text-black-50 font-weight-bold">@_event.dateTime.Date.ToShortDateString() | @_event.dateTime.TimeOfDay.Hours pm</p>
+                <p class="text-center text-black-50 font-weight-bold">@_event.DateTime.Date.ToShortDateString() | @_event.DateTime.TimeOfDay.Hours pm</p>
                 <div class="row justify-content-center" style="padding-top: 20px">
                     <div class="col-md-10 col-md-offset-1">
                         <table class="step1-table">
@@ -30,10 +30,10 @@
                             </thead>
                             <tbody>
                             <tr>
-                                <td>@_event.nrOfTickets</td>
+                                <td>@_event.NrOfTickets</td>
 
                                 <td>
-                                    <div>@_event.price</div>
+                                    <div>@_event.Price</div>
                                 </td>
                                 <td>
                                     @* <input class="ticket-quantity" type="number" min="1" max="5"/> *@
@@ -161,7 +161,7 @@
 
     private double TotalPrice()
     {
-        return _event.price * _ticketDto.nrOfTickets;
+        return _event.Price * _ticketDto.nrOfTickets;
     }
 
     protected override async Task OnInitializedAsync()
@@ -169,8 +169,8 @@
         _event = await  _eventService.GetEventByIdAsync(Id);
 
         var authState = ((CustomAuthenticationStateProvider) _authenticationStateProvider);
-        _ticketDto.BuyerId = authState.LoggedInUser.id;
-        _ticketDto.EventId = _event.id;
+        _ticketDto.BuyerId = authState.LoggedInUser.Id;
+        _ticketDto.EventId = _event.Id;
     }
     
     private void Submit()

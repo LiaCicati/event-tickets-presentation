@@ -16,7 +16,7 @@
 
         <div class="ticket__details">
             <div class="ticket__number">
-                <span >@Ticket.ticketNr</span>
+                <span >@Ticket.TicketNr</span>
             </div>
             <h4 class="ticket__title">
                 <a href="/">@Ticket.EventId</a>
@@ -38,7 +38,7 @@
 
                     <li class="list-unstyled d-flex mb-3">
                         <img class="mr-2" src="images/tickets-icon.svg" alt="Tickets icon"/>
-                        <p class="ticket__count m-0"> 1 ticket at the price of <strong >400</strong> dkk</p>
+                        <p class="ticket__count m-0"> @Ticket.NrOfTickets ticket at the price of <strong >@Ticket.Price</strong> dkk</p>
                     </li>
 
                 </ul>
@@ -53,15 +53,8 @@
     
     [Parameter]
     public Ticket Ticket { get; set; }
-    // private Ticket _ticket;
-
-    // protected override async Task OnInitializedAsync()
-    // {
-    //     _ticket = new Ticket();
-    //     _ticket.Name = "Gojira";
-    //     _ticket.Number = 6462090431;
-    // }
-    //
+    [Parameter]
+    public Event Event { get; set; }
     protected async Task ExportToPdf()
     {
         await using (MemoryStream memoryStream = _exportService.CreatePdf(Ticket))

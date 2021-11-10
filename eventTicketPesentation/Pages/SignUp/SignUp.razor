@@ -11,12 +11,12 @@
         <h1>Sign Up</h1>
         <div class="form__group">
             <label >Email address</label>
-            <InputText type="email" placeholder="email" @bind-Value="newUser.email"/>
+            <InputText type="email" placeholder="email" @bind-Value="newUser.Email"/>
         </div>
         @* <div class="form__inputs"> *@
             <div class="form__group">
                 <label >Full Name</label>
-                <InputText type="text" placeholder="full name" @bind-Value="newUser.fullName"/>
+                <InputText type="text" placeholder="full name" @bind-Value="newUser.FullName"/>
             </div>
 
             @* <div class="form__group form__group_half"> *@
@@ -48,7 +48,7 @@
         @* </div> *@
         <div class="form__group">
             <label >Password</label>
-            <InputText type="password" placeholder="password" @bind-Value="newUser.password"/>
+            <InputText type="password" placeholder="password" @bind-Value="newUser.Password"/>
         </div>
         @* <input type="hidden" @bind-value="newUser.admin"/> *@
         <DataAnnotationsValidator/>

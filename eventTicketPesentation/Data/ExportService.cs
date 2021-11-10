@@ -35,10 +35,12 @@ namespace eventTicketPesentation.Service
                 PdfLayoutFormat format = new PdfLayoutFormat();
                 format.Layout = PdfLayoutType.Paginate;
                 PdfTextElement TicketName = new PdfTextElement("Event: " + ticket.EventId, contentFont, PdfBrushes.Black);
-                PdfTextElement TicketNumber = new PdfTextElement("Nr: " + ticket.ticketNr, contentFont, PdfBrushes.Black);
+                PdfTextElement TicketNumber = new PdfTextElement("Nr: " + ticket.TicketNr, contentFont, PdfBrushes.Black);
+                PdfTextElement NumberOfTickets = new PdfTextElement("Nr of purchased tickets: " + ticket.NrOfTickets, contentFont, PdfBrushes.Black);
                 result = TicketName.Draw(page, new RectangleF(0, result.Bounds.Bottom + paragraphAfterSpacing, page.GetClientSize().Width, page.GetClientSize().Height), format);
                 result = TicketNumber.Draw(page, new RectangleF(0, result.Bounds.Bottom + paragraphAfterSpacing, page.GetClientSize().Width, page.GetClientSize().Height), format);
-                
+                result = NumberOfTickets.Draw(page, new RectangleF(0, result.Bounds.Bottom + paragraphAfterSpacing, page.GetClientSize().Width, page.GetClientSize().Height), format);
+
                 
                 // PdfGrid pdfGrid = new PdfGrid();
                 // pdfGrid.Style.CellPadding.Left = cellMargin;

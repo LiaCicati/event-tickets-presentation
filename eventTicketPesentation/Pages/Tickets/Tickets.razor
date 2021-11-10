@@ -29,14 +29,6 @@
                     </div>
                 </div>
             }
-            @* <div class="col-xs-12 col-sm-7 col-md-9 col-lg-8"> *@
-            @*     <div class="row"> *@
-            @*     <TicketCard/> *@
-            @*     <TicketCard/> *@
-            @*     <TicketCard/> *@
-            @*     <TicketCard/> *@
-            @*     </div> *@
-            @* </div> *@
         </div>
     </div>
 </section>
@@ -54,12 +46,12 @@
         {
             if (claim.Type.Equals("id"))
             {
-                _user.id = Convert.ToInt64(claim.Value);
+                _user.Id = Convert.ToInt64(claim.Value);
                 break;
             }
         }
     
-        _tickets = await _service.GetTicketsForUserAsync(_user.id);
+        _tickets = await _service.GetTicketsForUserAsync(_user.Id);
     }
 
 }
