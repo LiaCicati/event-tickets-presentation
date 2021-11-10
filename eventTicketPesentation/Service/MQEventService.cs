@@ -3,6 +3,7 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Text;
 using System.Text.Json;
+using System.Threading.Tasks;
 using eventTicketPesentation.Models;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
@@ -16,22 +17,19 @@ namespace eventTicketPesentation.Service
         }
 
 
-        public List<Event> GetAllEvents()
+        public Task<List<Event>> GetAllEventsAsync()
         {
-            return sendRequest<List<Event>>("getAllEvents");
+            return SendAndConvertAsync<List<Event>>("getAllEvents");
         }
 
-        public Event AddEvent(Event e)
+        public Task<Event> AddEventAsync(Event e)
         {
-            var msg = Encoding.UTF8.GetBytes(
-                JsonSerializer.Serialize(e));
-            return sendRequest<Event>("addEvent", msg);
+            return SendAndConvertAsync<Event, Event>("addEvent", e);
         }
 
-        public Event GetEventById(long id)
+        public Task<Event> GetEventByIdAsync(long id)
         {
-            return sendRequest<Event>("getEventById", BitConverter.GetBytes(id));
-            
+            return SendAndConvertAsync<Event, long>("getEventById", id);
         }
     }
 }

@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using eventTicketPesentation.Models;
 using eventTicketPesentation.Service.dto;
 
@@ -5,9 +6,9 @@ namespace eventTicketPesentation.Service
 {
     public interface IUserService
     {
-        User RegisterUser(User user);
-        User Login(LoginUserDTO loginUserDto);
+        Task<User> RegisterUserAsync(User user);
+        Task<User> LoginAsync(LoginUserDTO loginUserDto);
         void Logout();
-        User UpdateUser(User user);
+        Task<User> UpdateUserAsync(User user);
     }
 }

@@ -85,9 +85,9 @@
 @code {
     private Event newEvent = new Event();
 
-    public void Submit()
+    public async void Submit()
     {
-        _service.AddEvent(newEvent);
+       await _service.AddEventAsync(newEvent);
         _navigationManager.NavigateTo("/events");
     }
 

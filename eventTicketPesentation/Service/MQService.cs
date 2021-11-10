@@ -2,6 +2,7 @@ using System;
 using System.Collections.Concurrent;
 using System.Text;
 using System.Text.Json;
+using System.Threading.Tasks;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 
@@ -13,7 +14,7 @@ namespace eventTicketPesentation.Service
         private string replyQueueName;
         private EventingBasicConsumer consumer; // a consumer implementation built around C# event handlers.
 
-        public MQService(IModel channel)
+        protected MQService(IModel channel)
         {
             this.channel = channel;
             var queue = channel.QueueDeclare("", false, false, false, null);
@@ -23,41 +24,54 @@ namespace eventTicketPesentation.Service
 
         // publish/subscribe - asynchronous update 
         // request/reply pattern (Remote Procedure Call) - immediate response 
-        protected T sendRequest<T>(string queue, byte[] msg)
+        protected Task<byte[]> SendRequestAsync(string queue, byte[] msg)
         {
             var props = channel.CreateBasicProperties();
             props.CorrelationId = Guid.NewGuid().ToString();
             props.ReplyTo = replyQueueName;
 
-            var respQueue = new BlockingCollection<string>();
-
             channel.BasicPublish("", queue, props, msg);
 
-            consumer.Received += (model, ea) =>
-            {
-                var body = ea.Body.ToArray();
-                var response = Encoding.UTF8.GetString(body);
-                Console.WriteLine(response);
+            var completionSource = new TaskCompletionSource<byte[]>();
 
+            EventHandler<BasicDeliverEventArgs> handler = null;
+            handler = (model, ea) =>
+            {
                 if (ea.BasicProperties.CorrelationId == props.CorrelationId)
                 {
-                    respQueue.Add(response);
+                    consumer.Received -= handler;
+                    completionSource.SetResult(ea.Body.ToArray());
                 }
             };
+            consumer.Received += handler;
 
             channel.BasicConsume(replyQueueName, true, consumer);
 
-            return JsonSerializer.Deserialize<T>(respQueue.Take());
-        }
-
-        public byte[] Serialize(Object obj)
-        {
-            return Encoding.UTF8.GetBytes(JsonSerializer.Serialize(obj));
+            return completionSource.Task;
         }
         
-        protected T sendRequest<T>(string queue)
+        protected Task<byte[]> SendRequestAsync(string queue)
         {
-            return sendRequest<T>(queue, new byte[] { });
+            return SendRequestAsync(queue, new byte[] { });
+        }
+
+        protected async Task<TR> SendAndConvertAsync<TR, TP>(string queue, TP arg)
+        {
+            var req = Encoding.UTF8.GetBytes(
+                JsonSerializer.Serialize(arg));
+            
+            var resp = await SendRequestAsync(queue, req);
+
+            return JsonSerializer.Deserialize<TR>(
+                Encoding.UTF8.GetString(resp));
+        }
+
+        protected async Task<TR> SendAndConvertAsync<TR>(string queue)
+        {
+            var resp = await SendRequestAsync(queue);
+
+            return JsonSerializer.Deserialize<TR>(
+                Encoding.UTF8.GetString(resp));
         }
     }
 }

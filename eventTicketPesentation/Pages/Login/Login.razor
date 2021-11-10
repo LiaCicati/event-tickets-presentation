@@ -36,7 +36,7 @@
     {
         try
         {
-            _userService.Login(_loginUserDto);
+            _userService.LoginAsync(_loginUserDto);
             _navigationManager.NavigateTo("/account");
         }
         catch (Exception e)

@@ -1,13 +1,14 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using eventTicketPesentation.Models;
 
 namespace eventTicketPesentation.Service
 {
     public interface IEventService
     {
-        List<Event> GetAllEvents();
+        Task<List<Event>> GetAllEventsAsync();
 
-        Event AddEvent(Event e);
-        Event GetEventById(long id);
+        Task<Event> AddEventAsync(Event e);
+        Task<Event> GetEventByIdAsync(long id);
     }
 }

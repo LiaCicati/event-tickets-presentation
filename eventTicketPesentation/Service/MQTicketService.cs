@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
-using System.Text;
-using System.Text.Json;
+using System.Threading.Tasks;
 using eventTicketPesentation.Models;
 using eventTicketPesentation.Service.dto;
 using RabbitMQ.Client;
@@ -14,16 +13,14 @@ namespace eventTicketPesentation.Service
         {
         }
 
-        public Ticket BookTicket(BookTicketDTO ticketDto)
+        public Task<Ticket> BookTicketAsync(BookTicketDTO ticketDto)
         {
-            var msg = Serialize(ticketDto);
-            return sendRequest<Ticket>("bookTicket", msg);
+            return SendAndConvertAsync<Ticket, BookTicketDTO>("bookTicket", ticketDto);
         }
 
-        public List<Ticket> GetTicketsForUser(long userId)
+        public Task<List<Ticket>> GetTicketsForUserAsync(long userId)
         {
-            var res = sendRequest<List<Ticket>>("getTicketsForUser", BitConverter.GetBytes(userId));
-            Console.WriteLine(res);
+            var res = SendAndConvertAsync<List<Ticket>, long>("getTicketsForUser", userId);
             return res;
         }
     }

@@ -72,7 +72,7 @@
     {
         try
         {
-            _userService.RegisterUser(newUser);
+            _userService.RegisterUserAsync(newUser);
             _navigationManager.NavigateTo("/login");
         }
         catch (Exception e)

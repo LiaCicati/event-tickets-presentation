@@ -59,7 +59,7 @@
             }
         }
     
-        _tickets = _service.GetTicketsForUser(_user.id);
+        _tickets = await _service.GetTicketsForUserAsync(_user.id);
     }
 
 }

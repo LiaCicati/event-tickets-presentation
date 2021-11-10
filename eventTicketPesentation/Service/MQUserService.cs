@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Security.Claims;
 using System.Text;
 using System.Text.Json;
+using System.Threading.Tasks;
 using eventTicketPesentation.Models;
 using eventTicketPesentation.Service.dto;
 using Microsoft.AspNetCore.Components.Authorization;
@@ -20,12 +21,11 @@ namespace eventTicketPesentation.Service
             this._authenticationStateProvider = (CustomAuthenticationStateProvider) authenticationStateProvider;
         }
 
-        public User RegisterUser(User user)
+        public async Task<User> RegisterUserAsync(User user)
         {
             try
             {
-                var msg = Encoding.UTF8.GetBytes(JsonSerializer.Serialize(user));
-                return sendRequest<User>("registerUser", msg);  
+                return await SendAndConvertAsync<User, User>("registerUser", user);  
             }
             catch (Exception e)
             {
@@ -34,23 +34,23 @@ namespace eventTicketPesentation.Service
             
         }
 
-        public User Login(LoginUserDTO loginUserDto)
+        public async Task<User> LoginAsync(LoginUserDTO loginUserDto)
         {
             try
             {
-                var msg = Encoding.UTF8.GetBytes(JsonSerializer.Serialize(loginUserDto));
-                var result = sendRequest<User>("loginUser", msg);
-                Console.WriteLine();
+                var result = await SendAndConvertAsync<User, LoginUserDTO>("loginUser", loginUserDto);
+
                 IList<Claim> claims = new List<Claim>();
                 claims.Add(new Claim("email", result.email));
                 claims.Add(new Claim("id", "" + result.id));
                 claims.Add(new Claim(ClaimTypes.Name, result.fullName));
                 claims.Add(new Claim("isAdmin", result.admin.ToString()));
-                Console.WriteLine("is admin? " + result.admin.ToString());
                 var claimIdentity = new ClaimsIdentity(claims, "apiauth_type");
                 var principal = new ClaimsPrincipal(claimIdentity);
+                
                 _authenticationStateProvider.Claims = principal;
                 _authenticationStateProvider.LoggedInUser = result;
+                
                 return result;
             }
             catch (Exception e)
@@ -64,10 +64,9 @@ namespace eventTicketPesentation.Service
             _authenticationStateProvider.Claims = new ClaimsPrincipal();
         }
 
-        public User UpdateUser(User user)
+        public Task<User> UpdateUserAsync(User user)
         {
-            var msg = Encoding.UTF8.GetBytes(JsonSerializer.Serialize(user));
-            return sendRequest<User>("updateUser", msg);
+            return SendAndConvertAsync<User, User>("updateUser", user);
         }
     }
 }

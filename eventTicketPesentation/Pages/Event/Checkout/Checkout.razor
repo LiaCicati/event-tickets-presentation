@@ -48,36 +48,35 @@
                         </table>
                     </div>
                     <div class="container">
-                        <div class="total">
-                            <div class="left">Total</div>
+          -\              <div class="total">
+         7                   <div class="left">Total</div>
                             <div class="right">@TotalPrice()</div>
                         </div>
                     </div>
                 </div>
             </WizardStep>
-            <WizardStep Name="2. Personal Data">
+            @* <WizardStep Name="2. Personal Data"> *@
+            @* *@
+            @*     <EditForm Model="@_user"> *@
+            @* *@
+            @*         <div class="form__group"> *@
+            @* *@
+            @*             <label >Email address</label> *@
+            @*             <InputText type="email" placeholder="email" @bind-Value="@_user.email"/> *@
+            @*         </div> *@
+            @* *@
+            @*         <div class="form__group"> *@
+            @*             <label >Full Name</label> *@
+            @*             <InputText type="text" placeholder="full name" @bind-Value="@_user.fullName"/> *@
+            @*         </div> *@
+            @*         <DataAnnotationsValidator/> *@
+            @*         <ValidationSummary/> *@
+            @*     </EditForm> *@
+            @* *@
+            @* </WizardStep> *@
 
-                <EditForm Model="@_user">
 
-                    <div class="form__group">
-
-                        <label >Email address</label>
-                        <InputText type="email" placeholder="email" @bind-Value="@_user.email"/>
-                    </div>
-
-                    <div class="form__group">
-                        <label >Full Name</label>
-                        <InputText type="text" placeholder="full name" @bind-Value="@_user.fullName"/>
-                    </div>
-                    <DataAnnotationsValidator/>
-                    <ValidationSummary/>
-                </EditForm>
-
-            </WizardStep>
-
-
-            <WizardStep Name="3. Payment">
-
+            <WizardStep Name="2. Payment">
                 <div class="col-md-10 mx-auto">
                     <div class="row justify-content-around">
                         <div class="col-md-4">
@@ -167,7 +166,7 @@
 
     protected override async Task OnInitializedAsync()
     {
-        _event = _eventService.GetEventById(Id);
+        _event = await  _eventService.GetEventByIdAsync(Id);
 
         var authState = ((CustomAuthenticationStateProvider) _authenticationStateProvider);
         _ticketDto.BuyerId = authState.LoggedInUser.id;
@@ -178,7 +177,7 @@
     {
         try
         {
-            _ticketService.BookTicket(_ticketDto);
+            _ticketService.BookTicketAsync(_ticketDto);
             _navigationManager.NavigateTo("/thank-you");
         }
         catch (Exception e)

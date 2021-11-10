@@ -52,7 +52,7 @@
     protected override async Task OnInitializedAsync()
     {
         Console.WriteLine("Id: " +Id);
-        _event = _service.GetEventById(Id);
+        _event = await _service.GetEventByIdAsync(Id);
         Console.WriteLine(_event);
         StateHasChanged();
 

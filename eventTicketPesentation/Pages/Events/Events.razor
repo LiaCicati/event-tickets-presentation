@@ -42,7 +42,7 @@
 
     protected override async Task OnInitializedAsync()
     {
-        _events = _service.GetAllEvents();
+        _events = await _service.GetAllEventsAsync();
     }
 
 }
