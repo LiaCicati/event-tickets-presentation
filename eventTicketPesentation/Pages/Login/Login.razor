@@ -2,7 +2,7 @@
 @using eventTicketPesentation.Shared.Components.NavMenu
 @using eventTicketPesentation.Service.dto
 @using eventTicketPesentation.Service
-@inject IUserService _userService
+@inject AuthenticationStateProvider _authenticationStateProvider
 @inject NavigationManager _navigationManager
 
 <NavMenu ShowRegister="true"></NavMenu>
@@ -32,11 +32,11 @@
     private LoginUserDTO _loginUserDto = new LoginUserDTO();
     private string errorMessage;
 
-    public void Submit()
+    public async Task Submit()
     {
         try
         {
-            _userService.LoginAsync(_loginUserDto);
+            await ((CustomAuthenticationStateProvider) _authenticationStateProvider).Login(_loginUserDto);
             _navigationManager.NavigateTo("/account");
         }
         catch (Exception e)
@@ -44,8 +44,8 @@
             errorMessage = e.Message;
         }
     }
-    
-    
+
+
 
 
 

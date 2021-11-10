@@ -8,7 +8,6 @@ namespace eventTicketPesentation.Service
     {
         Task<User> RegisterUserAsync(User user);
         Task<User> LoginAsync(LoginUserDTO loginUserDto);
-        void Logout();
         Task<User> UpdateUserAsync(User user);
     }
 }

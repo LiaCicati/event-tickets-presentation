@@ -10,9 +10,12 @@ namespace eventTicketPesentation.Service
 {
     public class MQService
     {
-        private IModel channel; // represents an AMQP 0-9-1 channel, and provides most of the operations (protocol methods)
+        private IModel
+            channel; // represents an AMQP 0-9-1 channel, and provides most of the operations (protocol methods)
+
         private string replyQueueName;
         private EventingBasicConsumer consumer; // a consumer implementation built around C# event handlers.
+        private string logicTierExchange;
 
         protected MQService(IModel channel)
         {
@@ -20,17 +23,17 @@ namespace eventTicketPesentation.Service
             var queue = channel.QueueDeclare("", false, false, false, null);
             this.replyQueueName = queue.QueueName;
             this.consumer = new EventingBasicConsumer(channel); // sets the Model property to the given value.
+            this.logicTierExchange = "eventTicketsLogicTier";
+            channel.ExchangeDeclare(logicTierExchange, "direct", true);
         }
 
-        // publish/subscribe - asynchronous update 
-        // request/reply pattern (Remote Procedure Call) - immediate response 
         protected Task<byte[]> SendRequestAsync(string queue, byte[] msg)
         {
             var props = channel.CreateBasicProperties();
             props.CorrelationId = Guid.NewGuid().ToString();
             props.ReplyTo = replyQueueName;
 
-            channel.BasicPublish("", queue, props, msg);
+            channel.BasicPublish(logicTierExchange, queue, props, msg);
 
             var completionSource = new TaskCompletionSource<byte[]>();
 
@@ -49,7 +52,7 @@ namespace eventTicketPesentation.Service
 
             return completionSource.Task;
         }
-        
+
         protected Task<byte[]> SendRequestAsync(string queue)
         {
             return SendRequestAsync(queue, new byte[] { });
@@ -59,7 +62,7 @@ namespace eventTicketPesentation.Service
         {
             var req = Encoding.UTF8.GetBytes(
                 JsonSerializer.Serialize(arg));
-            
+
             var resp = await SendRequestAsync(queue, req);
 
             return JsonSerializer.Deserialize<TR>(

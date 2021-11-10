@@ -1,5 +1,5 @@
 @using eventTicketPesentation.Service
-@inject IUserService _userService
+@inject AuthenticationStateProvider _authenticationStateProvider
 @inject NavigationManager _navigationManager
 <div class=" col-sm-5 col-md-3 col-lg-4">
 
@@ -12,12 +12,12 @@
             Profile
         </NavLink>
     </div>
-       <div class="area__link-container">
-            <NavLink href="/tickets" class="area__link nav-link">
-                <img src="images/tickets-icon.svg" alt="Tickets icon" class="area__link-icon"/>
-                My Tickets
-            </NavLink>
-        </div>
+    <div class="area__link-container">
+        <NavLink href="/tickets" class="area__link nav-link">
+            <img src="images/tickets-icon.svg" alt="Tickets icon" class="area__link-icon"/>
+            My Tickets
+        </NavLink>
+    </div>
 
     <div class="area__link-container">
         @* <NavLink href="/logout" class="area__link nav-link"> *@
@@ -34,7 +34,7 @@
 
     public void Logout()
     {
-        _userService.Logout();
+        ((CustomAuthenticationStateProvider) _authenticationStateProvider).Logout();
         _navigationManager.NavigateTo("/");
     }
 
