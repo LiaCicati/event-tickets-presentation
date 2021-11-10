@@ -38,10 +38,11 @@ namespace eventTicketPesentation
                     // HostName = "localhost"
                 }.CreateConnection().CreateModel());
             services.AddSingleton<IEventService, MQEventService>();
-            services.AddScoped<IUserService, MQUserService>();
-            services.AddScoped<ITicketService, MQTicketService>();
+            services.AddSingleton<IUserService, MQUserService>();
+            services.AddSingleton<ITicketService, MQTicketService>();
             services.AddScoped<AuthenticationStateProvider, CustomAuthenticationStateProvider>();
             services.AddSingleton<ExportService>();
+            services.AddSingleton<ICreditCardService, MQCreditCardService>();
 
             services.AddAuthorization(options =>
             {

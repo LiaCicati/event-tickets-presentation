@@ -1,6 +1,7 @@
 ﻿@page "/events/{id:long}/checkout"
 @inject IEventService _eventService
 @inject ITicketService _ticketService
+@inject ICreditCardService _creditCardService
 @inject NavigationManager _navigationManager
 @inject AuthenticationStateProvider _authenticationStateProvider
 @* @using BlazorWizard *@
@@ -48,8 +49,10 @@
                         </table>
                     </div>
                     <div class="container">
-          -\              <div class="total">
-         7                   <div class="left">Total</div>
+                        -\
+                        <div class="total">
+                            7
+                            <div class="left">Total</div>
                             <div class="right">@TotalPrice()</div>
                         </div>
                     </div>
@@ -86,47 +89,40 @@
                         </div>
                         <div class="col-md-6">
                             <h2 class="mb-4">Card Details</h2>
-                            <form>
+                            <EditForm Model="_creditCard">
                                 <div class="form__group">
 
                                     <label >Card Owner</label>
-                                    <input type="text" placeholder="Name Surname"/>
+                                    <InputText Value="@_user.FullName" type="text" placeholder="Name Surname" @bind-Value="@_creditCard.CardOwnerName"/>
                                 </div>
                                 <div class="form__group">
 
                                     <label >Card Number</label>
-                                    <input type="text" maxlength="16" minlength="16" placeholder="1234 1234 1234 1234"/>
+                                    <InputText type="text" maxlength="16" minlength="16" @bind-Value="@_creditCard.CardNumber" placeholder="1234 1234 1234 1234"/>
                                 </div>
                                 <div class="form__inputs">
                                     <div class="form__group form__group_half">
 
                                         <label >Expiry Date(MM)</label>
-                                        <input type="number" placeholder="MM"/>
+                                        <InputNumber @bind-Value="@_creditCard.ExpiryMonth" type="number" placeholder="MM"/>
                                     </div>
                                     <div class="form__group form__group_half">
                                         <label class="hide">Expiry Date(YY)</label>
-                                        <input type="number" placeholder="YY"/>
+                                        <InputNumber @bind-Value="@_creditCard.ExpiryYear" type="number" placeholder="YY"/>
                                     </div>
                                 </div>
                                 <div class="form__group">
 
                                     <label >Card Security Code</label>
-                                    <input type="text" minlength="3" maxlength="3" placeholder="123"/>
+                                    <InputNumber @bind-Value="@_creditCard.Cvv" type="number" minlength="3" maxlength="3" placeholder="123"/>
                                 </div>
-                            </form>
+                            </EditForm>
                         </div>
                     </div>
                 </div>
 
 
             </WizardStep>
-
-
-            @* <WizardStep Name="4. Done"> *@
-            @*     <div class="row"> *@
-            @*         <p>The final step has been reached. Thank you \o/</p> *@
-            @*     </div> *@
-            @* </WizardStep> *@
         </Wizard>
     </div>
 </section>
@@ -136,15 +132,11 @@
     private User _user = new User();
     private Event _event = new Event();
     private BookTicketDTO _ticketDto = new BookTicketDTO();
-    
-    
+    private CreditCard _creditCard = new CreditCard();
+
 
     [Parameter]
     public long Id { get; set; }
-
-    // private Models.Event _e;
-    //
-        
 
     private void IncrementCount()
     {
@@ -155,7 +147,7 @@
     private void DecrementCount()
     {
         if (_ticketDto.nrOfTickets != 0)
-        _ticketDto.nrOfTickets--;
+            _ticketDto.nrOfTickets--;
         StateHasChanged();
     }
 
@@ -166,24 +158,29 @@
 
     protected override async Task OnInitializedAsync()
     {
-        _event = await  _eventService.GetEventByIdAsync(Id);
+        _event = await _eventService.GetEventByIdAsync(Id);
 
         var authState = ((CustomAuthenticationStateProvider) _authenticationStateProvider);
         _ticketDto.BuyerId = authState.LoggedInUser.Id;
         _ticketDto.EventId = _event.Id;
     }
-    
-    private void Submit()
+
+    private async void Submit()
     {
         try
         {
-            _ticketService.BookTicketAsync(_ticketDto);
+            if (_creditCard.OwnerId == null)
+            {
+                await _creditCardService.AddCreditCardAsync(_creditCard);
+            }
+    //TODO Add payment
+
+            await _ticketService.BookTicketAsync(_ticketDto);
             _navigationManager.NavigateTo("/thank-you");
         }
         catch (Exception e)
         {
             Console.WriteLine(e.Message);
         }
-           
     }
 }

@@ -1,0 +1,48 @@
+@page "/creditCards"
+@inject ICreditCardService _cardService
+@inject AuthenticationStateProvider _authenticationStateProvider
+@using eventTicketPesentation.Shared.Components.PageSwitcher
+@using eventTicketPesentation.Shared.Components.NavMenu
+@using eventTicketPesentation.Shared.Components.Preloader
+@using eventTicketPesentation.Models
+@using eventTicketPesentation.Service
+<NavMenu/>
+
+<section class=" section">
+    <div class="container">
+        <div class="row">
+            <PageSwitcher></PageSwitcher>
+            @if (_creditCards == null)
+            {
+                <Preloader/>
+            }
+            else
+            {
+                <div class="row">
+                    @foreach (var cardItem in _creditCards)
+                    {
+                        <div class="d-flex flex-column">
+                            <h4>Card number: @cardItem.CardNumber</h4>
+                            <p>Card Owner name: @cardItem.CardOwnerName</p>
+                        </div>
+                    }
+                </div>
+            }
+        </div>
+    </div>
+</section>
+
+
+@code {
+
+    private List<CreditCard> _creditCards;
+    private User _user = new User();
+
+    protected override async Task OnInitializedAsync()
+    {
+        _user = ((CustomAuthenticationStateProvider) _authenticationStateProvider).LoggedInUser;
+
+        _creditCards = await _cardService.GetCreditCardsForUserAsync(_user.Id);
+    }
+
+}
