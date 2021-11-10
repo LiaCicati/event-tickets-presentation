@@ -49,7 +49,8 @@ namespace eventTicketPesentation.Service
                 Console.WriteLine("is admin? " + result.admin.ToString());
                 var claimIdentity = new ClaimsIdentity(claims, "apiauth_type");
                 var principal = new ClaimsPrincipal(claimIdentity);
-                _authenticationStateProvider.LoggedInUser = principal;
+                _authenticationStateProvider.Claims = principal;
+                _authenticationStateProvider.LoggedInUser = result;
                 return result;
             }
             catch (Exception e)
@@ -60,7 +61,7 @@ namespace eventTicketPesentation.Service
 
         public void Logout()
         {
-            _authenticationStateProvider.LoggedInUser = new ClaimsPrincipal();
+            _authenticationStateProvider.Claims = new ClaimsPrincipal();
         }
 
         public User UpdateUser(User user)

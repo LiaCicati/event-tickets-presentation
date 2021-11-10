@@ -8,5 +8,6 @@ namespace eventTicketPesentation.Service
         List<Event> GetAllEvents();
 
         Event AddEvent(Event e);
+        Event GetEventById(long id);
     }
 }

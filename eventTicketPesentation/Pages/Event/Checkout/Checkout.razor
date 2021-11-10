@@ -1,19 +1,23 @@
-﻿@page "/event/{id:int}/checkout"
-@inject IEventService _service
+﻿@page "/events/{id:long}/checkout"
+@inject IEventService _eventService
+@inject ITicketService _ticketService
+@inject NavigationManager _navigationManager
+@inject AuthenticationStateProvider _authenticationStateProvider
 @* @using BlazorWizard *@
 @using eventTicketPesentation.Shared.Components.NavMenu
 @using eventTicketPesentation.Shared.Components.Wizard
 @using eventTicketPesentation.Service
 @using eventTicketPesentation.Models
+@using eventTicketPesentation.Service.dto
 <NavMenu/>
 <section class="section">
-    <h1 class="text-center">@_e.name</h1>
+    <h1 class="text-center">@_event.name</h1>
     <div class="container">
-        
-        <Wizard Id="Checkout">
+
+        <Wizard Id="Checkout" Submit="@Submit">
             <WizardStep Name="1. Nr. of tickets">
-        
-                <p class="text-center text-black-50 font-weight-bold">@_e.dateTime.Date.ToShortDateString() | @_e.dateTime.TimeOfDay.Hours pm</p>
+
+                <p class="text-center text-black-50 font-weight-bold">@_event.dateTime.Date.ToShortDateString() | @_event.dateTime.TimeOfDay.Hours pm</p>
                 <div class="row justify-content-center" style="padding-top: 20px">
                     <div class="col-md-10 col-md-offset-1">
                         <table class="step1-table">
@@ -26,16 +30,16 @@
                             </thead>
                             <tbody>
                             <tr>
-                                <td>200</td>
-        
+                                <td>@_event.nrOfTickets</td>
+
                                 <td>
-                                    <div>2050 lei</div>
+                                    <div>@_event.price</div>
                                 </td>
                                 <td>
                                     @* <input class="ticket-quantity" type="number" min="1" max="5"/> *@
                                     <div class="ticket_counter clearfix">
                                         <div class="spinner">
-                                            <button class="decrease" @onclick="DecrementCount">-</button><input type="text" min="1" value="@_currentCount" class="count_ticket value"><button @onclick="IncrementCount" class="increase">+</button>
+                                            <button class="decrease" @onclick="DecrementCount">-</button><input type="text" min="1" value="@_ticketDto.nrOfTickets" class="count_ticket value"><button @onclick="IncrementCount" class="increase">+</button>
                                         </div>
                                     </div>
                                 </td>
@@ -52,15 +56,15 @@
                 </div>
             </WizardStep>
             <WizardStep Name="2. Personal Data">
-        
+
                 <EditForm Model="@_user">
-        
+
                     <div class="form__group">
-        
+
                         <label >Email address</label>
                         <InputText type="email" placeholder="email" @bind-Value="@_user.email"/>
                     </div>
-        
+
                     <div class="form__group">
                         <label >Full Name</label>
                         <InputText type="text" placeholder="full name" @bind-Value="@_user.fullName"/>
@@ -68,35 +72,35 @@
                     <DataAnnotationsValidator/>
                     <ValidationSummary/>
                 </EditForm>
-        
+
             </WizardStep>
-        
-        
+
+
             <WizardStep Name="3. Payment">
-        
+
                 <div class="col-md-10 mx-auto">
                     <div class="row justify-content-around">
                         <div class="col-md-4">
                             <h2 class="mb-4">Your booking:</h2>
-                            <p> Nr. of tickets: <span>@_currentCount</span></p>
+                            <p> Nr. of tickets: <span>@_ticketDto.nrOfTickets</span></p>
                             <p>Final price: <span>@TotalPrice()</span> </p>
                         </div>
                         <div class="col-md-6">
                             <h2 class="mb-4">Card Details</h2>
                             <form>
                                 <div class="form__group">
-        
+
                                     <label >Card Owner</label>
                                     <input type="text" placeholder="Name Surname"/>
                                 </div>
                                 <div class="form__group">
-        
+
                                     <label >Card Number</label>
                                     <input type="text" maxlength="16" minlength="16" placeholder="1234 1234 1234 1234"/>
                                 </div>
                                 <div class="form__inputs">
                                     <div class="form__group form__group_half">
-        
+
                                         <label >Expiry Date(MM)</label>
                                         <input type="number" placeholder="MM"/>
                                     </div>
@@ -106,7 +110,7 @@
                                     </div>
                                 </div>
                                 <div class="form__group">
-        
+
                                     <label >Card Security Code</label>
                                     <input type="text" minlength="3" maxlength="3" placeholder="123"/>
                                 </div>
@@ -114,11 +118,11 @@
                         </div>
                     </div>
                 </div>
-        
-        
+
+
             </WizardStep>
-        
-        
+
+
             @* <WizardStep Name="4. Done"> *@
             @*     <div class="row"> *@
             @*         <p>The final step has been reached. Thank you \o/</p> *@
@@ -131,34 +135,56 @@
 @code
 {
     private User _user = new User();
+    private Event _event = new Event();
+    private BookTicketDTO _ticketDto = new BookTicketDTO();
+    
+    
 
     [Parameter]
-    public int Id { get; set; }
+    public long Id { get; set; }
 
-    private Models.Event _e;
-
-    private int _currentCount = 0;
-        private const int Price = 475;
+    // private Models.Event _e;
+    //
+        
 
     private void IncrementCount()
     {
-        _currentCount++;
+        _ticketDto.nrOfTickets++;
+        StateHasChanged();
     }
 
     private void DecrementCount()
     {
-        if (_currentCount != 0)
-            _currentCount--;
+        if (_ticketDto.nrOfTickets != 0)
+        _ticketDto.nrOfTickets--;
+        StateHasChanged();
     }
 
-    private int TotalPrice()
+    private double TotalPrice()
     {
-        return Price * _currentCount;
+        return _event.price * _ticketDto.nrOfTickets;
     }
 
     protected override async Task OnInitializedAsync()
     {
-        var events = _service.GetAllEvents();
-        _e = events.FirstOrDefault(x => x.id == Id);
+        _event = _eventService.GetEventById(Id);
+
+        var authState = ((CustomAuthenticationStateProvider) _authenticationStateProvider);
+        _ticketDto.BuyerId = authState.LoggedInUser.id;
+        _ticketDto.EventId = _event.id;
+    }
+    
+    private void Submit()
+    {
+        try
+        {
+            _ticketService.BookTicket(_ticketDto);
+            _navigationManager.NavigateTo("/thank-you");
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e.Message);
+        }
+           
     }
 }

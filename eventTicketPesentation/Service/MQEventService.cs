@@ -27,5 +27,11 @@ namespace eventTicketPesentation.Service
                 JsonSerializer.Serialize(e));
             return sendRequest<Event>("addEvent", msg);
         }
+
+        public Event GetEventById(long id)
+        {
+            return sendRequest<Event>("getEventById", BitConverter.GetBytes(id));
+            
+        }
     }
 }

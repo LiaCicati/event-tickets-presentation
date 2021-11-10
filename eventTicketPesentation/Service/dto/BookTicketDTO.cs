@@ -1,15 +1,13 @@
 using System.Text.Json.Serialization;
 
-namespace eventTicketPesentation.Models
+namespace eventTicketPesentation.Service.dto
 {
-    public class Ticket
+    public class BookTicketDTO
     {
         [JsonPropertyName("buyerId")]
         public long BuyerId { get; set; }
         [JsonPropertyName("eventId")]
         public long EventId { get; set; }
-        
-        public string ticketNr { get; set; }
         public double price { get; set; }
         public int nrOfTickets { get; set; }
     }

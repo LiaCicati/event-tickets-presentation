@@ -71,6 +71,11 @@
             </div>
         </div>
 
+        <div class="form__group">
+            <label >Price of a ticket</label>
+            <InputNumber type="number" placeholder="price" @bind-Value="newEvent.price"></InputNumber>
+        </div>
+
         <DataAnnotationsValidator/>
         <ValidationSummary/>
         <button class="form__button-create">Create</button>

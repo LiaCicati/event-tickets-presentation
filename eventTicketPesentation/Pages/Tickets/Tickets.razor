@@ -1,24 +1,65 @@
 @page "/tickets"
 @using eventTicketPesentation.Shared.Components.PageSwitcher
 @using eventTicketPesentation.Shared.Components.NavMenu
+@using eventTicketPesentation.Shared.Components.Preloader
 @using eventTicketPesentation.Shared.Components.TicketCard
+@using eventTicketPesentation.Models
+@using eventTicketPesentation.Service
+@inject ITicketService _service
+@inject AuthenticationStateProvider _authenticationStateProvider
 <NavMenu></NavMenu>
 <section class=" section">
     <div class="container">
         <div class="row">
             <PageSwitcher></PageSwitcher>
-            <div class="col-xs-12 col-sm-7 col-md-9 col-lg-8">
-                <div class="row">
-                <TicketCard/>
-                <TicketCard/>
-                <TicketCard/>
-                <TicketCard/>
+
+            @if (_tickets == null)
+            {
+                <Preloader/>
+            }
+            else
+            {
+                <div class="col-xs-12 col-sm-7 col-md-9 col-lg-8">
+                    <div class="row">
+                        @foreach (var ticketItem in _tickets)
+                        {
+                            <TicketCard Ticket="@ticketItem">
+                            </TicketCard>
+                        }
+                    </div>
                 </div>
-            </div>
+            }
+            @* <div class="col-xs-12 col-sm-7 col-md-9 col-lg-8"> *@
+            @*     <div class="row"> *@
+            @*     <TicketCard/> *@
+            @*     <TicketCard/> *@
+            @*     <TicketCard/> *@
+            @*     <TicketCard/> *@
+            @*     </div> *@
+            @* </div> *@
         </div>
     </div>
 </section>
 
 @code {
+    private List<Ticket> _tickets;
+    private User _user = new User();
+
+    protected override async Task OnInitializedAsync()
+    {
+        // base.OnInitialized();
+      
+        var authState = _authenticationStateProvider.GetAuthenticationStateAsync().Result;
+        foreach (var claim in authState.User.Claims)
+        {
+            if (claim.Type.Equals("id"))
+            {
+                _user.id = Convert.ToInt64(claim.Value);
+                break;
+            }
+        }
     
+        _tickets = _service.GetTicketsForUser(_user.id);
+    }
+
 }

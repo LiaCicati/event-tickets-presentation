@@ -30,18 +30,19 @@
 
 @code
 {
-    
-    private void Submit()
-    {
-        try
-        {
-              
-            _navigationManager.NavigateTo("/thank-you");
-        }
-        catch (Exception e)
-        {
-            Console.WriteLine(e.Message);
-        }
-           
-    }
+    [Parameter] public Action Submit { get; set; }
+
+    // private void Submit()
+    // {
+    //     try
+    //     {
+    //           
+    //         _navigationManager.NavigateTo("/thank-you");
+    //     }
+    //     catch (Exception e)
+    //     {
+    //         Console.WriteLine(e.Message);
+    //     }
+    //        
+    // }
 }

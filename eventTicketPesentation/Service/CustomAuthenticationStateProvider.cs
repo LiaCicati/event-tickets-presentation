@@ -8,21 +8,23 @@ namespace eventTicketPesentation.Service
 {
     public class CustomAuthenticationStateProvider : AuthenticationStateProvider
     {
-        private ClaimsPrincipal _loggedInUser = new ClaimsPrincipal();
+        private ClaimsPrincipal _claims = new ClaimsPrincipal();
+        public User LoggedInUser { get; set; }
+      
 
-        public ClaimsPrincipal LoggedInUser
+        public ClaimsPrincipal Claims
         {
-            get => _loggedInUser;
+            get => _claims;
             set
             {
-                _loggedInUser = value;
+                _claims = value;
                 NotifyAuthenticationStateChanged(Task.FromResult(new AuthenticationState(value)));
             }
         }
 
         public override async Task<AuthenticationState> GetAuthenticationStateAsync()
         {
-            return await Task.FromResult(new AuthenticationState(LoggedInUser));
+            return await Task.FromResult(new AuthenticationState(Claims));
         }
     }
 }

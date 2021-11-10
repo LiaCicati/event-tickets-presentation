@@ -49,6 +49,11 @@ namespace eventTicketPesentation.Service
 
             return JsonSerializer.Deserialize<T>(respQueue.Take());
         }
+
+        public byte[] Serialize(Object obj)
+        {
+            return Encoding.UTF8.GetBytes(JsonSerializer.Serialize(obj));
+        }
         
         protected T sendRequest<T>(string queue)
         {
