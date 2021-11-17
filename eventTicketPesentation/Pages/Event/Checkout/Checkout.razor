@@ -1,9 +1,12 @@
-﻿@page "/events/{id:long}/checkout"
+﻿@page "/events/{eventId:long}/checkout"
 @inject IEventService _eventService
 @inject ITicketService _ticketService
 @inject ICreditCardService _creditCardService
+@inject IPaymentService _paymentService
 @inject NavigationManager _navigationManager
 @inject AuthenticationStateProvider _authenticationStateProvider
+@using eventTicketPesentation.Shared.Components.Preloader
+
 @* @using BlazorWizard *@
 @using eventTicketPesentation.Shared.Components.NavMenu
 @using eventTicketPesentation.Shared.Components.Wizard
@@ -49,9 +52,9 @@
                         </table>
                     </div>
                     <div class="container">
-                        -\
+
                         <div class="total">
-                            7
+
                             <div class="left">Total</div>
                             <div class="right">@TotalPrice()</div>
                         </div>
@@ -87,13 +90,29 @@
                             <p> Nr. of tickets: <span>@_ticketDto.nrOfTickets</span></p>
                             <p>Final price: <span>@TotalPrice()</span> </p>
                         </div>
+
+                        @if (_rememberedCreditCards == null)
+                        {
+                            <Preloader/>
+                        }
+                        else
+                        {
+                            <div>
+                                <select value="..." @onchange="@ChangeCreditCard">
+                                    @foreach (var card in _rememberedCreditCards)
+                                    {
+                                        <option value="@card.CardNumber">@card.CardNumber</option>
+                                    }
+                                </select>
+                            </div>
+                        }
                         <div class="col-md-6">
                             <h2 class="mb-4">Card Details</h2>
                             <EditForm Model="_creditCard">
                                 <div class="form__group">
 
                                     <label >Card Owner</label>
-                                    <InputText Value="@_user.FullName" type="text" placeholder="Name Surname" @bind-Value="@_creditCard.CardOwnerName"/>
+                                    <InputText type="text" placeholder="Name Surname" @bind-Value="@_creditCard.CardOwnerName"/>
                                 </div>
                                 <div class="form__group">
 
@@ -133,10 +152,18 @@
     private Event _event = new Event();
     private BookTicketDTO _ticketDto = new BookTicketDTO();
     private CreditCard _creditCard = new CreditCard();
-
-
+    private List<CreditCard> _rememberedCreditCards = null;
+    
     [Parameter]
-    public long Id { get; set; }
+    public long eventId { get; set; }
+
+    private void ChangeCreditCard(ChangeEventArgs args)
+    {
+        _creditCard = _rememberedCreditCards.Find(c => c.CardNumber == args.Value?.ToString());
+        Console.WriteLine("###################");
+        StateHasChanged();
+        
+    }
 
     private void IncrementCount()
     {
@@ -158,24 +185,39 @@
 
     protected override async Task OnInitializedAsync()
     {
-        _event = await _eventService.GetEventByIdAsync(Id);
+        _event = await _eventService.GetEventByIdAsync(eventId);
 
         var authState = ((CustomAuthenticationStateProvider) _authenticationStateProvider);
         _ticketDto.BuyerId = authState.LoggedInUser.Id;
         _ticketDto.EventId = _event.Id;
+
+        _rememberedCreditCards = await _creditCardService.GetCreditCardsForUserAsync(authState.LoggedInUser.Id);
     }
 
     private async void Submit()
     {
         try
         {
-            if (_creditCard.OwnerId == null)
+            if (_creditCard.OwnerId == null) // if the owner id is null
             {
-                await _creditCardService.AddCreditCardAsync(_creditCard);
+                _creditCard.OwnerId = ((CustomAuthenticationStateProvider) _authenticationStateProvider).LoggedInUser.Id;
+                _creditCard = await _creditCardService.AddCreditCardAsync(_creditCard); // make sure owner id is initialized
             }
     //TODO Add payment
+            Console.WriteLine("Ticket DTO: " + _ticketDto.nrOfTickets);
 
-            await _ticketService.BookTicketAsync(_ticketDto);
+            var ticket = await _ticketService.BookTicketAsync(_ticketDto);
+
+            MakePaymentDTO makePaymentDto = new MakePaymentDTO()
+            {
+                Buyer = _creditCard.OwnerId ?? throw new ArgumentException("Owner ID is null"),
+                CreditCardNumber = _creditCard.CardNumber,
+                Event = eventId
+            };
+
+            await _paymentService.MakePaymentAsync(makePaymentDto);
+
+
             _navigationManager.NavigateTo("/thank-you");
         }
         catch (Exception e)

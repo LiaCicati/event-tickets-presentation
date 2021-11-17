@@ -40,6 +40,7 @@ namespace eventTicketPesentation
             services.AddSingleton<IEventService, MQEventService>();
             services.AddSingleton<IUserService, MQUserService>();
             services.AddSingleton<ITicketService, MQTicketService>();
+            services.AddSingleton<IPaymentService, MQPaymentService>();
             services.AddScoped<AuthenticationStateProvider, CustomAuthenticationStateProvider>();
             services.AddSingleton<ExportService>();
             services.AddSingleton<ICreditCardService, MQCreditCardService>();

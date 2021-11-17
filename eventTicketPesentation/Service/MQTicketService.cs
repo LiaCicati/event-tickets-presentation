@@ -18,9 +18,9 @@ namespace eventTicketPesentation.Service
             return SendAndConvertAsync<Ticket, BookTicketDTO>("bookTicket", ticketDto);
         }
 
-        public Task<List<Ticket>> GetTicketsForUserAsync(long userId)
+        public Task<List<TicketWithEventDTO>> GetTicketsForUserAsync(long userId)
         {
-            var res = SendAndConvertAsync<List<Ticket>, long>("getTicketsForUser", userId);
+            var res = SendAndConvertAsync<List<TicketWithEventDTO>, long>("getTicketsForUser", userId);
             return res;
         }
     }

@@ -5,6 +5,7 @@
 @using eventTicketPesentation.Shared.Components.TicketCard
 @using eventTicketPesentation.Models
 @using eventTicketPesentation.Service
+@using eventTicketPesentation.Service.dto
 @inject ITicketService _service
 @inject AuthenticationStateProvider _authenticationStateProvider
 <NavMenu></NavMenu>
@@ -34,7 +35,7 @@
 </section>
 
 @code {
-    private List<Ticket> _tickets;
+    private List<TicketWithEventDTO> _tickets;
     private User _user = new User();
 
     protected override async Task OnInitializedAsync()

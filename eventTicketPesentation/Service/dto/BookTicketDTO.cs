@@ -8,7 +8,6 @@ namespace eventTicketPesentation.Service.dto
         public long BuyerId { get; set; }
         [JsonPropertyName("eventId")]
         public long EventId { get; set; }
-        public double price { get; set; }
         public int nrOfTickets { get; set; }
     }
 }
