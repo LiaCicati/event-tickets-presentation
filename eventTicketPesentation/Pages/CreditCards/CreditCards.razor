@@ -18,14 +18,28 @@
             }
             else
             {
-                <div class="row">
-                    @foreach (var cardItem in _creditCards)
-                    {
-                        <div class="d-flex flex-column">
-                            <h4>Card number: @cardItem.CardNumber</h4>
-                            <p>Card Owner name: @cardItem.CardOwnerName</p>
-                        </div>
-                    }
+                <div class="col-xs-12 col-sm-7 col-md-9 col-lg-8">
+                    <div class="row">
+
+                        @foreach (var cardItem in _creditCards)
+                        {
+                            <div class="col-md-6">
+                                <div class="creditCard">
+                                    <img src="images/credit-card-chip.svg" class="creditCard__chip" alt="Credit card chip"/>
+                                    <h3 class="creditCard__number text-white">@cardItem.CardNumber</h3>
+                                    <div class="creditCard__data-wrapper">
+                                        <h4 class="creditCard__owner text-white">@cardItem.CardOwnerName</h4>
+                                        <div>
+                                            <p class="m-0 text-white">valid thru</p>
+                                            <h5 class="m-0 text-white">@cardItem.ExpiryMonth/@cardItem.ExpiryYear</h5>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                </div>
+                        }
+
+                    </div>
                 </div>
             }
         </div>

@@ -6,15 +6,13 @@
 @inject NavigationManager _navigationManager
 @inject AuthenticationStateProvider _authenticationStateProvider
 @using eventTicketPesentation.Shared.Components.Preloader
-
-@* @using BlazorWizard *@
 @using eventTicketPesentation.Shared.Components.NavMenu
 @using eventTicketPesentation.Shared.Components.Wizard
 @using eventTicketPesentation.Service
 @using eventTicketPesentation.Models
 @using eventTicketPesentation.Service.dto
 <NavMenu/>
-<section class="section">
+<section class="section position-relative">
     <h1 class="text-center">@_event.Name</h1>
     <div class="container">
 
@@ -40,8 +38,7 @@
                                     <div>@_event.Price</div>
                                 </td>
                                 <td>
-                                    @* <input class="ticket-quantity" type="number" min="1" max="5"/> *@
-                                    <div class="ticket_counter clearfix">
+                                    <div class="ticket_counter">
                                         <div class="spinner">
                                             <button class="decrease" @onclick="DecrementCount">-</button><input type="text" min="1" value="@_ticketDto.nrOfTickets" class="count_ticket value"><button @onclick="IncrementCount" class="increase">+</button>
                                         </div>
@@ -54,58 +51,40 @@
                     <div class="container">
 
                         <div class="total">
-
                             <div class="left">Total</div>
                             <div class="right">@TotalPrice()</div>
                         </div>
                     </div>
                 </div>
             </WizardStep>
-            @* <WizardStep Name="2. Personal Data"> *@
-            @* *@
-            @*     <EditForm Model="@_user"> *@
-            @* *@
-            @*         <div class="form__group"> *@
-            @* *@
-            @*             <label >Email address</label> *@
-            @*             <InputText type="email" placeholder="email" @bind-Value="@_user.email"/> *@
-            @*         </div> *@
-            @* *@
-            @*         <div class="form__group"> *@
-            @*             <label >Full Name</label> *@
-            @*             <InputText type="text" placeholder="full name" @bind-Value="@_user.fullName"/> *@
-            @*         </div> *@
-            @*         <DataAnnotationsValidator/> *@
-            @*         <ValidationSummary/> *@
-            @*     </EditForm> *@
-            @* *@
-            @* </WizardStep> *@
-
 
             <WizardStep Name="2. Payment">
                 <div class="col-md-10 mx-auto">
                     <div class="row justify-content-around">
-                        <div class="col-md-4">
-                            <h2 class="mb-4">Your booking:</h2>
-                            <p> Nr. of tickets: <span>@_ticketDto.nrOfTickets</span></p>
-                            <p>Final price: <span>@TotalPrice()</span> </p>
-                        </div>
-
-                        @if (_rememberedCreditCards == null)
-                        {
-                            <Preloader/>
-                        }
-                        else
-                        {
+                        <div>
                             <div>
-                                <select value="..." @onchange="@ChangeCreditCard">
-                                    @foreach (var card in _rememberedCreditCards)
-                                    {
-                                        <option value="@card.CardNumber">@card.CardNumber</option>
-                                    }
-                                </select>
+                                <h2 class="mb-4">Your booking:</h2>
+                                <p> Nr. of tickets: <span>@_ticketDto.nrOfTickets</span></p>
+                                <p>Final price: <span>@TotalPrice()</span> </p>
                             </div>
-                        }
+
+                            @if (_rememberedCreditCards == null)
+                            {
+                                <Preloader/>
+                            }
+                            else
+                            {
+                                <div class="mt-5">
+                                    <select @onchange="@ChangeCreditCard">
+                                        <option value="" selected>Select Credit Card</option>
+                                        @foreach (var card in _rememberedCreditCards)
+                                        {
+                                            <option value="@card.CardNumber">@card.CardNumber</option>
+                                        }
+                                    </select>
+                                </div>
+                            }
+                        </div>
                         <div class="col-md-6">
                             <h2 class="mb-4">Card Details</h2>
                             <EditForm Model="_creditCard">
@@ -153,16 +132,14 @@
     private BookTicketDTO _ticketDto = new BookTicketDTO();
     private CreditCard _creditCard = new CreditCard();
     private List<CreditCard> _rememberedCreditCards = null;
-    
+
     [Parameter]
-    public long eventId { get; set; }
+    public long EventId { get; set; }
 
     private void ChangeCreditCard(ChangeEventArgs args)
     {
         _creditCard = _rememberedCreditCards.Find(c => c.CardNumber == args.Value?.ToString());
-        Console.WriteLine("###################");
         StateHasChanged();
-        
     }
 
     private void IncrementCount()
@@ -185,7 +162,7 @@
 
     protected override async Task OnInitializedAsync()
     {
-        _event = await _eventService.GetEventByIdAsync(eventId);
+        _event = await _eventService.GetEventByIdAsync(EventId);
 
         var authState = ((CustomAuthenticationStateProvider) _authenticationStateProvider);
         _ticketDto.BuyerId = authState.LoggedInUser.Id;
@@ -203,8 +180,6 @@
                 _creditCard.OwnerId = ((CustomAuthenticationStateProvider) _authenticationStateProvider).LoggedInUser.Id;
                 _creditCard = await _creditCardService.AddCreditCardAsync(_creditCard); // make sure owner id is initialized
             }
-    //TODO Add payment
-            Console.WriteLine("Ticket DTO: " + _ticketDto.nrOfTickets);
 
             var ticket = await _ticketService.BookTicketAsync(_ticketDto);
 
@@ -212,7 +187,7 @@
             {
                 Buyer = _creditCard.OwnerId ?? throw new ArgumentException("Owner ID is null"),
                 CreditCardNumber = _creditCard.CardNumber,
-                Event = eventId
+                Event = EventId
             };
 
             await _paymentService.MakePaymentAsync(makePaymentDto);
@@ -225,4 +200,5 @@
             Console.WriteLine(e.Message);
         }
     }
+
 }

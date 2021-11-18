@@ -1,0 +1,24 @@
+.creditCard {
+    min-width: 400px;
+    display: flex;
+    flex-direction: column;
+    height: 260px;
+    background: #3DDC84;
+    border-radius: 30px;
+    padding: 0 67px;
+}
+
+.creditCard__chip {
+    width: fit-content;
+    margin-top: 20px;
+}
+
+.creditCard__number {
+    padding: 32px 0;
+}
+
+.creditCard__data-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+}
