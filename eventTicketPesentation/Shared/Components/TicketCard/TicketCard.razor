@@ -8,7 +8,7 @@
 <div class="col-md-6">
     <div class="ticket__item">
         <div class="ticket__event-image">
-            <a href="/">
+            <a href="/events/@Ticket.EventId">
                 <img class="img-fluid"
                      src="@Ticket.Thumbnail"
                      alt="Thumbnail">
@@ -20,7 +20,7 @@
                 <span >@Ticket.TicketNumber</span>
             </div>
             <h4 class="ticket__title">
-                <a href="/">@Ticket.NameOfEvent</a>
+                <a href="/events/@Ticket.EventId">@Ticket.NameOfEvent</a>
             </h4>
             <div class="ticket__info">
                 <ul class="ticket__time-location p-0">
@@ -60,10 +60,10 @@
     public Event Event { get; set; }
     protected async Task ExportToPdf()
     {
-        // await using (MemoryStream memoryStream = _exportService.CreatePdf(Ticket))
-        // {
-        //     await _jsRuntime.SaveAs("Ticket.pdf", memoryStream.ToArray());
-        // }
+        await using (MemoryStream memoryStream = _exportService.CreatePdf(Ticket))
+        {
+            await _jsRuntime.SaveAs("Ticket.pdf", memoryStream.ToArray());
+        }
     }
 
 }

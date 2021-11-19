@@ -1,6 +1,7 @@
 using System;
 using System.IO;
 using eventTicketPesentation.Models;
+using eventTicketPesentation.Service.dto;
 using Syncfusion.Drawing;
 using Syncfusion.Pdf.Graphics;
 using Syncfusion.Pdf.Grid;
@@ -11,7 +12,7 @@ namespace eventTicketPesentation.Service
 {
     public class ExportService
     {
-        public MemoryStream CreatePdf(Ticket ticket)
+        public MemoryStream CreatePdf(TicketWithEventDTO ticket)
         {
             if (ticket == null)
             {
@@ -31,24 +32,45 @@ namespace eventTicketPesentation.Service
                 PdfLayoutResult result = title.Draw(page, new PointF(0, 0));
 
                 PdfStandardFont contentFont = new PdfStandardFont(PdfFontFamily.Helvetica, 16);
-                
+
                 PdfLayoutFormat format = new PdfLayoutFormat();
                 format.Layout = PdfLayoutType.Paginate;
-                PdfTextElement TicketName = new PdfTextElement("Event: " + ticket.EventId, contentFont, PdfBrushes.Black);
-                PdfTextElement TicketNumber = new PdfTextElement("Nr: " + ticket.TicketNr, contentFont, PdfBrushes.Black);
-                PdfTextElement NumberOfTickets = new PdfTextElement("Nr of purchased tickets: " + ticket.NrOfTickets, contentFont, PdfBrushes.Black);
-                result = TicketName.Draw(page, new RectangleF(0, result.Bounds.Bottom + paragraphAfterSpacing, page.GetClientSize().Width, page.GetClientSize().Height), format);
-                result = TicketNumber.Draw(page, new RectangleF(0, result.Bounds.Bottom + paragraphAfterSpacing, page.GetClientSize().Width, page.GetClientSize().Height), format);
-                result = NumberOfTickets.Draw(page, new RectangleF(0, result.Bounds.Bottom + paragraphAfterSpacing, page.GetClientSize().Width, page.GetClientSize().Height), format);
+                PdfTextElement TicketName =
+                    new PdfTextElement("Event: " + ticket.NameOfEvent, contentFont, PdfBrushes.Black);
+                PdfTextElement TicketEventDate =
+                    new PdfTextElement("Date/Time: " + ticket.DateTimeOfEvent, contentFont, PdfBrushes.Black);
+                PdfTextElement TicketNumber =
+                    new PdfTextElement("Nr: " + ticket.TicketNumber, contentFont, PdfBrushes.Black);
+                PdfTextElement NumberOfTickets =
+                    new PdfTextElement("Nr of purchased tickets: " + ticket.NumberOfTickets, contentFont,
+                        PdfBrushes.Black);
+                PdfTextElement PaidAmount =
+                    new PdfTextElement("Amount: " + ticket.Price, contentFont,
+                        PdfBrushes.Black);
+                result = TicketName.Draw(page,
+                    new RectangleF(0, result.Bounds.Bottom + paragraphAfterSpacing, page.GetClientSize().Width,
+                        page.GetClientSize().Height), format);
+                result = TicketNumber.Draw(page,
+                    new RectangleF(0, result.Bounds.Bottom + paragraphAfterSpacing, page.GetClientSize().Width,
+                        page.GetClientSize().Height), format);
+                result = NumberOfTickets.Draw(page,
+                    new RectangleF(0, result.Bounds.Bottom + paragraphAfterSpacing, page.GetClientSize().Width,
+                        page.GetClientSize().Height), format);
+                result = TicketEventDate.Draw(page,
+                    new RectangleF(0, result.Bounds.Bottom + paragraphAfterSpacing, page.GetClientSize().Width,
+                        page.GetClientSize().Height), format);
+                result = PaidAmount.Draw(page,
+                    new RectangleF(0, result.Bounds.Bottom + paragraphAfterSpacing, page.GetClientSize().Width,
+                        page.GetClientSize().Height), format);
 
-                
+
                 // PdfGrid pdfGrid = new PdfGrid();
                 // pdfGrid.Style.CellPadding.Left = cellMargin;
                 // pdfGrid.Style.CellPadding.Right = cellMargin;
                 //
                 // pdfGrid.ApplyBuiltinStyle(PdfGridBuiltinStyle.ListTable4Accent1);
 
-                
+
                 using (MemoryStream stream = new MemoryStream())
                 {
                     pdfDocument.Save(stream);

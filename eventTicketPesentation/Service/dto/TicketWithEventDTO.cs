@@ -5,6 +5,7 @@ namespace eventTicketPesentation.Service.dto
 {
     public class TicketWithEventDTO
     {
+        [JsonPropertyName("eventId")] public long EventId { get; set; }
         [JsonPropertyName("ticketNumber")] public string TicketNumber { get; set; }
         [JsonPropertyName("nameOfEvent")] public string NameOfEvent { get; set; }
         [JsonPropertyName("dateTimeOfEvent")] public DateTime DateTimeOfEvent { get; set; }
