@@ -1,16 +1,15 @@
-using System.Text.Json.Serialization;
+﻿using System.Text.Json.Serialization;
 
-namespace eventTicketPesentation.Models
+namespace eventTicketPesentation.Service.dto
 {
-    public class CreditCard
+    public class CreateCreditCardDTO
     {
-        [JsonPropertyName("id")]
-        public long? Id { get; set; }
-        
         [JsonPropertyName("cardNumber")] public string CardNumber { get; set; }
         [JsonPropertyName("expiryMonth")] public int ExpiryMonth { get; set; }
         [JsonPropertyName("expiryYear")] public int ExpiryYear { get; set; }
         [JsonPropertyName("cvv")] public int Cvv { get; set; }
         [JsonPropertyName("cardOwnerName")] public string CardOwnerName { get; set; }
+        
+        [JsonPropertyName("ownerId")] public long OwnerId { get; set; }
     }
 }

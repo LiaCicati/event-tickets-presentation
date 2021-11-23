@@ -6,7 +6,7 @@ namespace eventTicketPesentation.Service
 {
     public interface IEventService
     {
-        Task<List<Event>> GetAllEventsAsync();
+        Task<List<Event>> GetUpcomingEventsAsync();
 
         Task<Event> AddEventAsync(Event e);
         Task<Event> GetEventByIdAsync(long id);

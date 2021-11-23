@@ -8,19 +8,16 @@
 <div class="col-md-6">
     <div class="ticket__item">
         <div class="ticket__event-image">
-            <a href="/events/@Ticket.EventId">
+            <a href="/events/@TicketGroup.EventId">
                 <img class="img-fluid"
-                     src="@Ticket.Thumbnail"
+                     src="@TicketGroup.Thumbnail"
                      alt="Thumbnail">
             </a>
         </div>
 
         <div class="ticket__details">
-            <div class="ticket__number">
-                <span >@Ticket.TicketNumber</span>
-            </div>
             <h4 class="ticket__title">
-                <a href="/events/@Ticket.EventId">@Ticket.NameOfEvent</a>
+                <a href="/events/@TicketGroup.EventId">@TicketGroup.NameOfEvent</a>
             </h4>
             <div class="ticket__info">
                 <ul class="ticket__time-location p-0">
@@ -30,17 +27,17 @@
                     </li>
                     <li class="list-unstyled d-flex mb-3">
                         <img class="mr-2" src="images/time-icon.svg" alt="Time icon"/>
-                        <p class="m-0">@Ticket.DateTimeOfEvent</p>
+                        <p class="m-0">@TicketGroup.TimeOfTheEvent</p>
                     </li>
                     <li class="list-unstyled d-flex mb-3">
                         <img class="mr-2" src="images/location-icon.svg" alt="Location icon"/>
-                        <p class="m-0">@Ticket.Location</p>
+                        <p class="m-0">@TicketGroup.Location</p>
                     </li>
 
                     <li class="list-unstyled d-flex mb-3">
                         <img class="mr-2" src="images/tickets-icon.svg" alt="Tickets icon"/>
-                        <p class="ticket__count m-0"> @( @Ticket.NumberOfTickets > 1 ? @Ticket.NumberOfTickets + " tickets" :  @Ticket.NumberOfTickets +" ticket" )
-                              at the price of <strong >@Ticket.Price</strong> dkk
+                        <p class="ticket__count m-0"> @( @TicketGroup.NoOfTickets() > 1 ? @TicketGroup.NoOfTickets() + " tickets" :  @TicketGroup.NoOfTickets() +" ticket" )
+                              at the price of <strong >@TicketGroup.TotalPrice()</strong> dkk
                         </p>
                     </li>
 
@@ -55,12 +52,11 @@
 @code {
     
     [Parameter]
-    public TicketWithEventDTO Ticket { get; set; }
-    [Parameter]
-    public Event Event { get; set; }
+    public TicketGroupDTO TicketGroup { get; set; }
+
     protected async Task ExportToPdf()
     {
-        await using (MemoryStream memoryStream = _exportService.CreatePdf(Ticket))
+        await using (MemoryStream memoryStream = _exportService.CreatePdf(TicketGroup))
         {
             await _jsRuntime.SaveAs("Ticket.pdf", memoryStream.ToArray());
         }

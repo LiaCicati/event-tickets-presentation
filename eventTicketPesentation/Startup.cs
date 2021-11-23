@@ -31,16 +31,15 @@ namespace eventTicketPesentation
             services.AddSingleton<IModel>(sp =>
                 new ConnectionFactory()
                 {
-                    // HostName = "25.44.73.109",
-                    // UserName = "full_access",
-                    // Password = "qwerty"
+                     HostName = "25.44.73.109",
+                     UserName = "full_access",
+                     Password = "qwerty"
                     
-                    HostName = "localhost"
+                    //HostName = "localhost"
                 }.CreateConnection().CreateModel());
             services.AddSingleton<IEventService, MQEventService>();
             services.AddSingleton<IUserService, MQUserService>();
             services.AddSingleton<ITicketService, MQTicketService>();
-            services.AddSingleton<IPaymentService, MQPaymentService>();
             services.AddScoped<AuthenticationStateProvider, CustomAuthenticationStateProvider>();
             services.AddSingleton<ExportService>();
             services.AddSingleton<ICreditCardService, MQCreditCardService>();

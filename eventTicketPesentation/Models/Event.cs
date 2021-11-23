@@ -24,9 +24,9 @@ namespace eventTicketPesentation.Models
         [Required]
         public string Thumbnail { get; set; }
 
-        [JsonPropertyName("nrOfTickets")]
+        [JsonPropertyName("availableTickets")]
         [Required]
-        public int NrOfTickets { get; set; }
+        public int AvailableTickets { get; set; }
 
         [JsonPropertyName("category")]
         [Required]
@@ -34,12 +34,15 @@ namespace eventTicketPesentation.Models
 
         [JsonPropertyName("isCancelled")] public bool IsCancelled { get; set; }
 
-        [JsonPropertyName("dateTime")]
+        [JsonPropertyName("timeOfTheEvent")]
         [Required]
         public DateTime DateTime { get; set; }
 
         public Address Address { get; set; }
-        [JsonPropertyName("price")] public double Price { get; set; }
+        [JsonPropertyName("ticketPrice")] public double TicketPrice { get; set; }
+
+        [JsonPropertyName("organizerId")]
+        public long OrganizerId { get; set; }
 
         public override string ToString()
         {

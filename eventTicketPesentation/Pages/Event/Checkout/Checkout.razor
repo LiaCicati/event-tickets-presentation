@@ -2,7 +2,6 @@
 @inject IEventService _eventService
 @inject ITicketService _ticketService
 @inject ICreditCardService _creditCardService
-@inject IPaymentService _paymentService
 @inject NavigationManager _navigationManager
 @inject AuthenticationStateProvider _authenticationStateProvider
 @using eventTicketPesentation.Shared.Components.Preloader
@@ -32,15 +31,15 @@
                             </thead>
                             <tbody>
                             <tr>
-                                <td>@_event.NrOfTickets</td>
+                                <td>@_event.AvailableTickets</td>
 
                                 <td>
-                                    <div>@_event.Price</div>
+                                    <div>@_event.TicketPrice</div>
                                 </td>
                                 <td>
                                     <div class="ticket_counter">
                                         <div class="spinner">
-                                            <button class="decrease" @onclick="DecrementCount">-</button><input type="text" min="1" value="@_ticketDto.nrOfTickets" class="count_ticket value"><button @onclick="IncrementCount" class="increase">+</button>
+                                            <button class="decrease" @onclick="DecrementCount">-</button><input type="text" min="1" value="@numberOfTickets" class="count_ticket value"><button @onclick="IncrementCount" class="increase">+</button>
                                         </div>
                                     </div>
                                 </td>
@@ -64,7 +63,7 @@
                         <div>
                             <div>
                                 <h2 class="mb-4">Your booking:</h2>
-                                <p> Nr. of tickets: <span>@_ticketDto.nrOfTickets</span></p>
+                                <p> Nr. of tickets: <span>@numberOfTickets</span></p>
                                 <p>Final price: <span>@TotalPrice()</span> </p>
                             </div>
 
@@ -127,14 +126,29 @@
 
 @code
 {
-    private User _user = new User();
-    private Event _event = new Event();
-    private BookTicketDTO _ticketDto = new BookTicketDTO();
-    private CreditCard _creditCard = new CreditCard();
-    private List<CreditCard> _rememberedCreditCards = null;
-
     [Parameter]
     public long EventId { get; set; }
+
+    private CreditCard _creditCard = new CreditCard();
+    private int numberOfTickets = 1;
+
+    private Event _event = new Event();
+    private List<CreditCard> _rememberedCreditCards;
+
+    CustomAuthenticationStateProvider authState;
+
+    protected override async Task OnInitializedAsync()
+    {
+        authState = ((CustomAuthenticationStateProvider) _authenticationStateProvider);
+
+        _event = await _eventService.GetEventByIdAsync(EventId);
+
+
+        _rememberedCreditCards = await _creditCardService.GetCreditCardsForUserAsync(authState.LoggedInUser.Id);
+
+        StateHasChanged();
+    }
+
 
     private void ChangeCreditCard(ChangeEventArgs args)
     {
@@ -144,54 +158,50 @@
 
     private void IncrementCount()
     {
-        _ticketDto.nrOfTickets++;
+        numberOfTickets++;
         StateHasChanged();
     }
 
     private void DecrementCount()
     {
-        if (_ticketDto.nrOfTickets != 0)
-            _ticketDto.nrOfTickets--;
+        if (numberOfTickets != 1)
+            numberOfTickets--;
+        
         StateHasChanged();
     }
 
     private double TotalPrice()
     {
-        return _event.Price * _ticketDto.nrOfTickets;
-    }
-
-    protected override async Task OnInitializedAsync()
-    {
-        _event = await _eventService.GetEventByIdAsync(EventId);
-
-        var authState = ((CustomAuthenticationStateProvider) _authenticationStateProvider);
-        _ticketDto.BuyerId = authState.LoggedInUser.Id;
-        _ticketDto.EventId = _event.Id;
-
-        _rememberedCreditCards = await _creditCardService.GetCreditCardsForUserAsync(authState.LoggedInUser.Id);
+        return _event.TicketPrice * numberOfTickets;
     }
 
     private async void Submit()
     {
         try
         {
-            if (_creditCard.OwnerId == null) // if the owner id is null
+            if (_creditCard.Id == null)
             {
-                _creditCard.OwnerId = ((CustomAuthenticationStateProvider) _authenticationStateProvider).LoggedInUser.Id;
-                _creditCard = await _creditCardService.AddCreditCardAsync(_creditCard); // make sure owner id is initialized
+                var createCreditCardDto = new CreateCreditCardDTO()
+                {
+                    CardNumber = _creditCard.CardNumber,
+                    ExpiryMonth = _creditCard.ExpiryMonth,
+                    ExpiryYear = _creditCard.ExpiryYear,
+                    Cvv = _creditCard.Cvv,
+                    CardOwnerName = _creditCard.CardOwnerName,
+                    OwnerId = authState.LoggedInUser.Id
+                };
+                _creditCard = await _creditCardService.AddCreditCardAsync(createCreditCardDto);
             }
 
-            var ticket = await _ticketService.BookTicketAsync(_ticketDto);
-
-            MakePaymentDTO makePaymentDto = new MakePaymentDTO()
+            BookTicketDTO ticketDto = new BookTicketDTO()
             {
-                Buyer = _creditCard.OwnerId ?? throw new ArgumentException("Owner ID is null"),
-                CreditCardNumber = _creditCard.CardNumber,
-                Event = EventId
+                EventId = EventId,
+                PaymentId = _creditCard.Id ?? throw new ArgumentException(),
+                BuyerId = authState.LoggedInUser.Id,
+                NoOfTickets = numberOfTickets
             };
 
-            await _paymentService.MakePaymentAsync(makePaymentDto);
-
+            await _ticketService.BookTicketsAsync(ticketDto);
 
             _navigationManager.NavigateTo("/thank-you");
         }

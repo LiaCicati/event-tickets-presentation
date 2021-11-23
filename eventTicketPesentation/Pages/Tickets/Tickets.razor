@@ -24,8 +24,7 @@
                     <div class="row">
                         @foreach (var ticketItem in _tickets)
                         {
-                            <TicketCard Ticket="@ticketItem">
-                            </TicketCard>
+                            <TicketCard TicketGroup="@ticketItem" />
                         }
                     </div>
                 </div>
@@ -35,7 +34,7 @@
 </section>
 
 @code {
-    private List<TicketWithEventDTO> _tickets;
+    private List<TicketGroupDTO> _tickets;
     private User _user = new User();
 
     protected override async Task OnInitializedAsync()

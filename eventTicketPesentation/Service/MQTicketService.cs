@@ -13,15 +13,14 @@ namespace eventTicketPesentation.Service
         {
         }
 
-        public Task<Ticket> BookTicketAsync(BookTicketDTO ticketDto)
+        public Task<List<Ticket>> BookTicketsAsync(BookTicketDTO ticketDto)
         {
-            return SendAndConvertAsync<Ticket, BookTicketDTO>("bookTicket", ticketDto);
+            return SendAndConvertAsync<List<Ticket>, BookTicketDTO>("bookTicket", ticketDto);
         }
 
-        public Task<List<TicketWithEventDTO>> GetTicketsForUserAsync(long userId)
+        public Task<List<TicketGroupDTO>> GetTicketsForUserAsync(long userId)
         {
-            var res = SendAndConvertAsync<List<TicketWithEventDTO>, long>("getTicketsForUser", userId);
-            return res;
+            return SendAndConvertAsync<List<TicketGroupDTO>, long>("getTicketsForUser", userId);
         }
     }
 }

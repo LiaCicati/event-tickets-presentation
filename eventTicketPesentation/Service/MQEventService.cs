@@ -17,9 +17,9 @@ namespace eventTicketPesentation.Service
         }
 
 
-        public Task<List<Event>> GetAllEventsAsync()
+        public Task<List<Event>> GetUpcomingEventsAsync()
         {
-            return SendAndConvertAsync<List<Event>>("getAllEvents");
+            return SendAndConvertAsync<List<Event>>("getUpcomingEvents");
         }
 
         public Task<Event> AddEventAsync(Event e)

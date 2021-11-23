@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using eventTicketPesentation.Models;
+using eventTicketPesentation.Service.dto;
 using RabbitMQ.Client;
 
 namespace eventTicketPesentation.Service
@@ -11,9 +12,9 @@ namespace eventTicketPesentation.Service
         {
         }
 
-        public Task<CreditCard> AddCreditCardAsync(CreditCard creditCard)
+        public Task<CreditCard> AddCreditCardAsync(CreateCreditCardDTO creditCardDto)
         {
-            return SendAndConvertAsync<CreditCard, CreditCard>("addCreditCard", creditCard);
+            return SendAndConvertAsync<CreditCard, CreateCreditCardDTO>("addCreditCard", creditCardDto);
         }
 
         public Task RemoveCreditCardAsync(CreditCard creditCard)

@@ -30,7 +30,7 @@
     <div class="event__payment">
         <div class="event__payment-price">
             <img class="event__icon" src="images/tickets-icon.svg" alt="Tickets icon"/>
-            <h5 class="event__text">@_event.Price dkk</h5>
+            <h5 class="event__text">@_event.TicketPrice dkk</h5>
         </div>
         @* <button class="event__buy-button" @onclick="BuyTicket">Buy ticket</button> *@
         <a class="event__buy-link main-link" href="@($"/events/{_event.Id}/checkout")">Buy ticket</a>

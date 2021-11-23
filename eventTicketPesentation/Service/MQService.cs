@@ -33,6 +33,8 @@ namespace eventTicketPesentation.Service
             props.CorrelationId = Guid.NewGuid().ToString();
             props.ReplyTo = replyQueueName;
 
+            Console.WriteLine("SENDING " + Encoding.UTF8.GetString(msg));
+
             channel.BasicPublish(logicTierExchange, queue, props, msg);
 
             var completionSource = new TaskCompletionSource<byte[]>();
@@ -40,6 +42,8 @@ namespace eventTicketPesentation.Service
             EventHandler<BasicDeliverEventArgs> handler = null;
             handler = (model, ea) =>
             {
+                Console.WriteLine("RECEIVED REQUEST: " + Encoding.UTF8.GetString(ea.Body.ToArray()));
+                
                 if (ea.BasicProperties.CorrelationId == props.CorrelationId)
                 {
                     consumer.Received -= handler;

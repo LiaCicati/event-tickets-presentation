@@ -7,7 +7,7 @@ namespace eventTicketPesentation.Service
 {
     public interface ITicketService
     {
-        Task<Ticket> BookTicketAsync(BookTicketDTO ticketDto);
-        Task<List<TicketWithEventDTO>> GetTicketsForUserAsync(long userId);
+        Task<List<Ticket>> BookTicketsAsync(BookTicketDTO ticketDto);
+        Task<List<TicketGroupDTO>> GetTicketsForUserAsync(long userId);
     }
 }

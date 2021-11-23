@@ -12,9 +12,9 @@ namespace eventTicketPesentation.Service
 {
     public class ExportService
     {
-        public MemoryStream CreatePdf(TicketWithEventDTO ticket)
+        public MemoryStream CreatePdf(TicketGroupDTO tgroup)
         {
-            if (ticket == null)
+            if (tgroup == null)
             {
                 throw new ArgumentNullException("Data cannot be null");
             }
@@ -24,45 +24,43 @@ namespace eventTicketPesentation.Service
                 int paragraphAfterSpacing = 0;
                 int cellMargin = 0;
 
-                PdfPage page = pdfDocument.Pages.Add();
-
                 PdfStandardFont font = new PdfStandardFont(PdfFontFamily.Helvetica, 20);
 
                 PdfTextElement title = new PdfTextElement("Electronic Ticket", font, PdfBrushes.Black);
-                PdfLayoutResult result = title.Draw(page, new PointF(0, 0));
 
                 PdfStandardFont contentFont = new PdfStandardFont(PdfFontFamily.Helvetica, 16);
 
                 PdfLayoutFormat format = new PdfLayoutFormat();
                 format.Layout = PdfLayoutType.Paginate;
-                PdfTextElement TicketName =
-                    new PdfTextElement("Event: " + ticket.NameOfEvent, contentFont, PdfBrushes.Black);
-                PdfTextElement TicketEventDate =
-                    new PdfTextElement("Date/Time: " + ticket.DateTimeOfEvent, contentFont, PdfBrushes.Black);
-                PdfTextElement TicketNumber =
-                    new PdfTextElement("Nr: " + ticket.TicketNumber, contentFont, PdfBrushes.Black);
-                PdfTextElement NumberOfTickets =
-                    new PdfTextElement("Nr of purchased tickets: " + ticket.NumberOfTickets, contentFont,
-                        PdfBrushes.Black);
-                PdfTextElement PaidAmount =
-                    new PdfTextElement("Amount: " + ticket.Price, contentFont,
-                        PdfBrushes.Black);
-                result = TicketName.Draw(page,
-                    new RectangleF(0, result.Bounds.Bottom + paragraphAfterSpacing, page.GetClientSize().Width,
-                        page.GetClientSize().Height), format);
-                result = TicketNumber.Draw(page,
-                    new RectangleF(0, result.Bounds.Bottom + paragraphAfterSpacing, page.GetClientSize().Width,
-                        page.GetClientSize().Height), format);
-                result = NumberOfTickets.Draw(page,
-                    new RectangleF(0, result.Bounds.Bottom + paragraphAfterSpacing, page.GetClientSize().Width,
-                        page.GetClientSize().Height), format);
-                result = TicketEventDate.Draw(page,
-                    new RectangleF(0, result.Bounds.Bottom + paragraphAfterSpacing, page.GetClientSize().Width,
-                        page.GetClientSize().Height), format);
-                result = PaidAmount.Draw(page,
-                    new RectangleF(0, result.Bounds.Bottom + paragraphAfterSpacing, page.GetClientSize().Width,
-                        page.GetClientSize().Height), format);
 
+                foreach (var ticket in tgroup.Tickets)
+                {
+                    PdfPage page = pdfDocument.Pages.Add();
+                    PdfLayoutResult result = title.Draw(page, new PointF(0, 0));
+
+                    PdfTextElement TicketName =
+                        new PdfTextElement("Event: " + tgroup.NameOfEvent, contentFont, PdfBrushes.Black);
+                    PdfTextElement TicketEventDate =
+                        new PdfTextElement("Date/Time: " + tgroup.TimeOfTheEvent, contentFont, PdfBrushes.Black);
+                    PdfTextElement TicketNumber =
+                        new PdfTextElement("Nr: " + ticket.TicketNr, contentFont, PdfBrushes.Black);
+                    PdfTextElement PaidAmount =
+                        new PdfTextElement("Amount: " + tgroup.TicketPrice, contentFont,
+                            PdfBrushes.Black);
+
+                    result = TicketName.Draw(page,
+                        new RectangleF(0, result.Bounds.Bottom + paragraphAfterSpacing, page.GetClientSize().Width,
+                            page.GetClientSize().Height), format);
+                    result = TicketNumber.Draw(page,
+                        new RectangleF(0, result.Bounds.Bottom + paragraphAfterSpacing, page.GetClientSize().Width,
+                            page.GetClientSize().Height), format);
+                    result = TicketEventDate.Draw(page,
+                        new RectangleF(0, result.Bounds.Bottom + paragraphAfterSpacing, page.GetClientSize().Width,
+                            page.GetClientSize().Height), format);
+                    PaidAmount.Draw(page,
+                        new RectangleF(0, result.Bounds.Bottom + paragraphAfterSpacing, page.GetClientSize().Width,
+                            page.GetClientSize().Height), format);
+                }
 
                 // PdfGrid pdfGrid = new PdfGrid();
                 // pdfGrid.Style.CellPadding.Left = cellMargin;
