@@ -114,6 +114,13 @@
                                     <InputNumber @bind-Value="@_creditCard.Cvv" type="number" minlength="3" maxlength="3" placeholder="123"/>
                                 </div>
                             </EditForm>
+                            @if (_errorMessage != null)
+                            {
+                                <div>
+                                    @_errorMessage
+                                </div>
+                            }
+
                         </div>
                     </div>
                 </div>
@@ -129,24 +136,34 @@
     [Parameter]
     public long EventId { get; set; }
 
+    private string _errorMessage;
+
     private CreditCard _creditCard = new CreditCard();
     private int numberOfTickets = 1;
 
     private Event _event = new Event();
     private List<CreditCard> _rememberedCreditCards;
 
-    CustomAuthenticationStateProvider authState;
+    private CustomAuthenticationStateProvider authState;
 
     protected override async Task OnInitializedAsync()
     {
         authState = ((CustomAuthenticationStateProvider) _authenticationStateProvider);
+        try
+        {
 
-        _event = await _eventService.GetEventByIdAsync(EventId);
+            _event = await _eventService.GetEventByIdAsync(EventId);
 
 
-        _rememberedCreditCards = await _creditCardService.GetCreditCardsForUserAsync(authState.LoggedInUser.Id);
+            _rememberedCreditCards = await _creditCardService.GetCreditCardsForUserAsync(authState.LoggedInUser.Id);
+        }
+        catch(Exception e)
+        {
+            _errorMessage = e.Message;
+        }
 
         StateHasChanged();
+        
     }
 
 
@@ -166,7 +183,7 @@
     {
         if (numberOfTickets != 1)
             numberOfTickets--;
-        
+
         StateHasChanged();
     }
 
@@ -207,8 +224,11 @@
         }
         catch (Exception e)
         {
-            Console.WriteLine(e.Message);
+            _errorMessage= e.Message;
+            StateHasChanged();
+            
         }
+        
     }
 
 }

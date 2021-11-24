@@ -68,17 +68,19 @@
     private User newUser = new User();
     private string errorMessage;
 
-    public void Submit()
+    public async void Submit()
     {
         try
         {
-            _userService.RegisterUserAsync(newUser);
+            await _userService.RegisterUserAsync(newUser);
             _navigationManager.NavigateTo("/login");
         }
         catch (Exception e)
         {
             errorMessage = e.Message;
+            StateHasChanged();
         }
+        
     }
 
 }

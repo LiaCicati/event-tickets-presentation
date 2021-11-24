@@ -10,5 +10,6 @@ namespace eventTicketPesentation.Service
         Task<CreditCard> AddCreditCardAsync(CreateCreditCardDTO creditCardDto);
         Task RemoveCreditCardAsync(CreditCard creditCard);
         Task<List<CreditCard>> GetCreditCardsForUserAsync(long ownerId);
+        
     }
 }

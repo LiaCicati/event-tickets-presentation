@@ -37,6 +37,7 @@
         try
         {
             await ((CustomAuthenticationStateProvider) _authenticationStateProvider).Login(_loginUserDto);
+            
             _navigationManager.NavigateTo("/account");
         }
         catch (Exception e)

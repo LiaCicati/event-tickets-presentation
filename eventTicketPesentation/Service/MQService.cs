@@ -11,33 +11,54 @@ namespace eventTicketPesentation.Service
 {
     public class MQService
     {
-        private IModel
-            channel; // represents an AMQP 0-9-1 channel, and provides most of the operations (protocol methods)
+        private static readonly string logicTierExchange = "eventTicketsLogicTier";
+        private static readonly string dlx = "deadLetterExchange";
+        
+        
+        private IModel channel; // represents an AMQP 0-9-1 channel, and provides most of the operations (protocol methods)
 
         private string replyQueueName;
-        private EventingBasicConsumer consumer; // a consumer implementation built around C# event handlers.
-        private string logicTierExchange;
 
         private Dictionary<string, TaskCompletionSource<byte[]>> _completionSources;
 
         protected MQService(IModel channel)
         {
             this.channel = channel;
-            var queue = channel.QueueDeclare("", false, false, false, null);
-            this.replyQueueName = queue.QueueName;
-            this.consumer = new EventingBasicConsumer(channel); // sets the Model property to the given value.
-            this.logicTierExchange = "eventTicketsLogicTier";
-            channel.ExchangeDeclare(logicTierExchange, "direct", true);
-
             _completionSources = new Dictionary<string, TaskCompletionSource<byte[]>>();
-      
-            consumer.Received += (model, ea) =>
+            
+            channel.ExchangeDeclare(logicTierExchange, "direct", true);
+            channel.ExchangeDeclare(dlx, "fanout", true);
+            
+            this.replyQueueName = SetupQueue((model, ea) =>
             {
                 Console.WriteLine("RECEIVED REQUEST: " + Encoding.UTF8.GetString(ea.Body.ToArray()));
                 
-                _completionSources[ea.BasicProperties.CorrelationId].SetResult(ea.Body.ToArray());
+                _completionSources[ea.BasicProperties.CorrelationId]
+                    .SetResult(ea.Body.ToArray());
                 _completionSources.Remove(ea.BasicProperties.CorrelationId);
-            };
+            });
+
+            var dlqName = SetupQueue((model, ea) =>
+            {
+                var msg = Deserialize<String>(ea.Body.ToArray());
+
+                Console.WriteLine("RECEIVED DEAD LETTER: " + msg);
+
+                _completionSources[ea.BasicProperties.CorrelationId]
+                    .SetException(new Exception(msg));
+                _completionSources.Remove(ea.BasicProperties.CorrelationId);
+            });
+            channel.QueueBind(dlqName, dlx, "");
+        }
+
+        private string SetupQueue(EventHandler<BasicDeliverEventArgs> messageHandler)
+        {
+            var queue = channel.QueueDeclare("", false, false, false, null);
+            var consumer = new EventingBasicConsumer(channel); // sets the Model property to the given value.
+            consumer.Received += messageHandler;
+            channel.BasicConsume(queue.QueueName, true, consumer);
+
+            return queue.QueueName;
         }
 
         protected Task<byte[]> SendRequestAsync(string queue, byte[] msg)
@@ -52,8 +73,6 @@ namespace eventTicketPesentation.Service
             _completionSources[props.CorrelationId] = completionSource;
 
             channel.BasicPublish(logicTierExchange, queue, props, msg);
-            
-            channel.BasicConsume(replyQueueName, true, consumer);
 
             return completionSource.Task;
         }
@@ -63,6 +82,12 @@ namespace eventTicketPesentation.Service
             return SendRequestAsync(queue, new byte[] { });
         }
 
+        private T Deserialize<T>(byte[] arr)
+        {
+            return JsonSerializer.Deserialize<T>(
+                Encoding.UTF8.GetString(arr));
+        }
+
         protected async Task<TR> SendAndConvertAsync<TR, TP>(string queue, TP arg)
         {
             var req = Encoding.UTF8.GetBytes(
@@ -70,8 +95,7 @@ namespace eventTicketPesentation.Service
 
             var resp = await SendRequestAsync(queue, req);
 
-            return JsonSerializer.Deserialize<TR>(
-                Encoding.UTF8.GetString(resp));
+            return Deserialize<TR>(resp);
         }
 
         protected async Task<TR> SendAndConvertAsync<TR>(string queue)

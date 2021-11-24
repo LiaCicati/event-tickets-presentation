@@ -56,7 +56,14 @@
             _errorMessage = "Password does not match";
             return;
         }
-        _userService.UpdateUserAsync(user);
+        try
+        {
+            _userService.UpdateUserAsync(user);
+        }
+        catch (Exception e)
+        {
+            _errorMessage = e.Message;
+        }
     }
 
     protected override void OnInitialized()

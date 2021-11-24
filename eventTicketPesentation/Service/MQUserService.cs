@@ -13,36 +13,19 @@ namespace eventTicketPesentation.Service
 {
     public class MQUserService : MQService, IUserService
     {
-      
-
         public MQUserService(IModel channel) :
             base(channel)
         {
-           
         }
 
         public async Task<User> RegisterUserAsync(User user)
         {
-            try
-            {
-                return await SendAndConvertAsync<User, User>("registerUser", user);
-            }
-            catch (Exception e)
-            {
-                throw new ArgumentException("Same email provided");
-            }
+            return await SendAndConvertAsync<User, User>("registerUser", user);
         }
 
         public async Task<User> LoginAsync(LoginUserDTO loginUserDto)
         {
-            try
-            {
-                return await SendAndConvertAsync<User, LoginUserDTO>("loginUser", loginUserDto);
-            }
-            catch (Exception e)
-            {
-                throw new ArgumentException("Failed to login");
-            }
+            return await SendAndConvertAsync<User, LoginUserDTO>("loginUser", loginUserDto);
         }
 
         public Task<User> UpdateUserAsync(User user)

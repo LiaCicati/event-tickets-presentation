@@ -79,19 +79,33 @@
 
         <DataAnnotationsValidator/>
         <ValidationSummary/>
+        @if (_errorMessage != null)
+        {
+            <div class="error">@_errorMessage</div>
+        }
         <button class="form__button-create">Create</button>
     </EditForm>
 </section>
 
 @code {
     private Event newEvent = new Event();
+    private string _errorMessage;
 
     public async void Submit()
     {
         newEvent.OrganizerId = ((CustomAuthenticationStateProvider) _auth).LoggedInUser.Id;
-    
-       await _service.AddEventAsync(newEvent);
-        _navigationManager.NavigateTo("/events");
+
+        try
+        {
+            await _service.AddEventAsync(newEvent);
+
+            _navigationManager.NavigateTo("/events");
+        }
+        catch (Exception e)
+        {
+            _errorMessage = e.Message;
+            StateHasChanged();
+        }
     }
 
 }
