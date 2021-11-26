@@ -23,7 +23,16 @@
         <div class="form__inputs">
             <div class="form__group form__group_half">
                 <label >Location</label>
-                <InputText type="text" placeholder="location" @bind-Value="newEvent.Location"/>
+                <InputSelect class="input" id="location" @bind-Value="newEvent.Location">
+                    <option value="">Select location</option>
+                    <option value="Copenhagen">Copenhagen</option>
+                    <option value="Horsens">Horsens</option>
+                    <option value="Aarhus">Aarhus</option>
+                    <option value="Odense">Odense</option>
+                    <option value="Aalborg">Aalborg</option>
+                    <option value="Kolding">Kolding</option>
+                    <option value="Esbjerg">Esbjerg</option>
+                </InputSelect>
             </div>
             <div class="form__group form__group_half">
                 <label >Category</label>
@@ -88,18 +97,21 @@
 </section>
 
 @code {
-    private Event newEvent = new Event() {
+
+    private Event newEvent = new Event()
+    {
         DateTime = DateTime.Now,
     };
+
     private DateTime _date = DateTime.Today;
     private DateTime _time = DateTime.Now;
-    
+
     private string _errorMessage;
 
     public async void Submit()
     {
         newEvent.OrganizerId = ((CustomAuthenticationStateProvider) _auth).LoggedInUser.Id;
-        
+
         newEvent.DateTime = new DateTime(
             _date.Year, _date.Month, _date.Day,
             _time.Hour, _time.Minute, 0);

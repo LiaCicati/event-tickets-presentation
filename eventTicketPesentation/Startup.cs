@@ -35,7 +35,7 @@ namespace eventTicketPesentation
                      UserName = "full_access",
                      Password = "qwerty"
                     
-                    //HostName = "localhost"
+                    // HostName = "localhost"
                 }.CreateConnection().CreateModel());
             services.AddSingleton<IEventService, MQEventService>();
             services.AddSingleton<IUserService, MQUserService>();

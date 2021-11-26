@@ -18,4 +18,14 @@
     text-transform: uppercase;
 }
 
+.ticket__image-container {
+    width: fit-content;
+}
+
+.ticket__event-image {
+    object-position: center;
+    object-fit: cover;
+    width: 424px;
+    height: 450px;
+}
 
