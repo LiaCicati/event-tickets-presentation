@@ -31,7 +31,10 @@
             </div>
             <a class="card__link mt-3" href="@($"/events/{@Event.Id}")">
                 <h4 class="card__title">@Event.Name</h4>
-                <span class="card__soldOut-mark ">sold out</span>
+                @if (Event.AvailableTickets == 0)
+                {
+                    <span class="card__soldOut-mark ">sold out</span>
+                }
             </a>
         </div>
 

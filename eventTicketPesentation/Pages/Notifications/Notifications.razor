@@ -1,0 +1,31 @@
+@page "/notifications"
+@using eventTicketPesentation.Shared.Components.PageSwitcher
+@using eventTicketPesentation.Shared.Components.NavMenu
+@using eventTicketPesentation.Shared.Components.Preloader
+@using eventTicketPesentation.Shared.Components.NotificationItem
+
+
+<NavMenu />
+
+<section class=" section">
+    <div class="container">
+        <div class="row">
+            <PageSwitcher></PageSwitcher>
+
+          
+                <div class="col-xs-12 col-sm-7 col-md-9 col-lg-8">
+                    <div class="row">
+                        <NotificationItem />
+                        <NotificationItem />
+                         <NotificationItem />
+                    </div>
+                </div>
+            
+        </div>
+    </div>
+</section>
+
+@code {
+
+
+}
