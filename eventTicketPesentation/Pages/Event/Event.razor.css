@@ -26,11 +26,18 @@
 
 }
 
-.card__cancelled-mark {
+.event__cancelled-mark {
     position: absolute;
     right: 30px;
     top: 20px;
     width: 30%;
+}
+
+.event__edit-button {
+    position: absolute;
+    left: 40px;
+    top: 14px;
+    cursor: pointer;
 }
 
 .event__details {

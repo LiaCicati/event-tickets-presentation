@@ -27,7 +27,7 @@
                 Cancel
             </button>
             </div>
-        <button
+        <button class="button-green"
             type="@(IsLastStep ? "submit" : "button")" @onclick="@(IsLastStep ? Submit : GoNext)">
             @(IsLastStep ? "Buy" : "Next")
         </button>

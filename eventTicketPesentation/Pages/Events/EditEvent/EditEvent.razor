@@ -1,0 +1,113 @@
+@page "/events/{eventId:long}/editEvent"
+@attribute [Authorize(Policy = "isAdmin")]
+@using eventTicketPesentation.Models
+@using eventTicketPesentation.Service
+@inject IEventService _eventService
+@using eventTicketPesentation.Shared.Components.NavMenu
+<NavMenu/>
+<section class="section">
+    <EditForm Model="@_event" OnValidSubmit="@Save">
+        <h1>Edit Event</h1>
+        <div class="form__group">
+            <label >Name</label>
+            <InputText type="text" placeholder="name" @bind-Value="_event.Name"/>
+        </div>
+        <div class="form__group">
+            <label >Description</label>
+            <InputTextArea type="text" placeholder="description" @bind-Value="_event.Description"></InputTextArea>
+        </div>
+        <div class="form__inputs">
+            <div class="form__group form__group_half">
+                <label >Location</label>
+                <InputSelect class="input" id="location" @bind-Value="_event.Location">
+                    <option value="">Select location</option>
+                    <option value="Copenhagen">Copenhagen</option>
+                    <option value="Horsens">Horsens</option>
+                    <option value="Aarhus">Aarhus</option>
+                    <option value="Odense">Odense</option>
+                    <option value="Aalborg">Aalborg</option>
+                    <option value="Kolding">Kolding</option>
+                    <option value="Esbjerg">Esbjerg</option>
+                </InputSelect>
+            </div>
+            <div class="form__group form__group_half">
+                <label >Category</label>
+                <InputSelect class="input" id="category" @bind-Value="_event.Category">
+                    <option value="">
+                        Select category
+                    </option>
+                    <option value="Concert">
+                        Concert
+                    </option>
+                    <option value="Workshop">
+                        Workshop
+                    </option>
+                    <option value="Art Exhibition">
+                        Art Exhibition
+                    </option>
+                    <option value="Public Speaking">
+                        Public Speaking
+                    </option>
+
+                </InputSelect>
+            </div>
+        </div>
+
+        <div class="form__inputs">
+            <div class="form__group form__group_half">
+                <label >Date</label>
+                <input type="date"/>
+            </div>
+
+            <div class="form__group form__group_half">
+                <label >Time</label>
+                <input type="time"/>
+            </div>
+        </div>
+
+        <div class="form__inputs">
+            <div class="form__group form__group_half">
+                <label >Thumbnail</label>
+                <InputText type="url" placeholder="url" @bind-Value="_event.Thumbnail"/>
+            </div>
+
+            <div class="form__group form__group_half">
+                <label >Nr. of tickets</label>
+                <InputNumber type="number" placeholder="number of tickets" @bind-Value="_event.AvailableTickets"/>
+            </div>
+        </div>
+
+        <div class="form__group">
+            <label >Price of a ticket</label>
+            <InputNumber type="number" placeholder="price" @bind-Value="_event.TicketPrice"></InputNumber>
+        </div>
+
+        <DataAnnotationsValidator/>
+        <ValidationSummary/>
+        @* @if (_errorMessage != null) *@
+        @* { *@
+        @*     <div class="error">@_errorMessage</div> *@
+        @* } *@
+        <button class="button button-green">Save</button>
+    </EditForm>
+</section>
+
+@code {
+
+    [Parameter]
+    public long EventId { get; set; }
+
+    private Event _event = new Event();
+
+    private void Save()
+    {
+        Console.WriteLine("save");
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        _event = await _eventService.GetEventByIdAsync(EventId);
+    }
+
+
+}

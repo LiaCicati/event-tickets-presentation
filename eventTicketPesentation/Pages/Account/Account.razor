@@ -84,11 +84,11 @@
                 return;
             }
             
-            // if (claim.Type.Equals("Name"))
-            // {
-            //     user.fullName = claim.Value;
-            //     return;
-            // }
+            if (claim.Type.Equals("Name"))
+            {
+                user.FullName = claim.Value;
+                return;
+            }
             
             
         }

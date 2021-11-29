@@ -41,7 +41,7 @@
     </div>
 
 </div>
-<ConfirmModal @ref="DeleteConfirmation" ConfirmationChanged="ConfirmDelete_Click"></ConfirmModal>
+<ConfirmModal @ref="DeleteConfirmation" ConfirmationChanged="ConfirmCancel_Click"></ConfirmModal>
 @code {
 
     [Parameter]
@@ -53,7 +53,7 @@
         DeleteConfirmation.Show();
     }
 
-    protected async Task ConfirmDelete_Click(bool deleteConfirmed)
+    protected async Task ConfirmCancel_Click(bool deleteConfirmed)
     {
         if(deleteConfirmed)
         {

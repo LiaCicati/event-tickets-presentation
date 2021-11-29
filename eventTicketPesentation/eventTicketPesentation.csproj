@@ -8,6 +8,8 @@
       <_ContentIncludedByDefault Remove="Shared\Components\Header\Header.razor" />
       <_ContentIncludedByDefault Remove="Pages\Event\Checkout\Checkout.razor" />
       <_ContentIncludedByDefault Remove="Pages\Checkout\Checkout.razor" />
+      <_ContentIncludedByDefault Remove="Pages\Event\EditEvent\EditEvent.razor" />
+      <_ContentIncludedByDefault Remove="Shared\Components\EditEventModal\EditEventModal.razor" />
     </ItemGroup>
 
     <ItemGroup>

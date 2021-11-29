@@ -7,11 +7,10 @@ namespace eventTicketPesentation.Shared.Components
     {
         protected bool ShowConfirmation { get; set; }
 
-        [Parameter]
-        public string ConfirmationTitle { get; set; } = "Confirm Action";
+        [Parameter] public string ConfirmationTitle { get; set; } = "Confirm Action";
 
-        [Parameter]
-        public string ConfirmationMessage { get; set; } = "Are you sure you want to cancel the event?";
+        [Parameter] public string ConfirmationMessage { get; set; } = "Are you sure you want to cancel this event?";
+
 
         public void Show()
         {
@@ -19,8 +18,7 @@ namespace eventTicketPesentation.Shared.Components
             StateHasChanged();
         }
 
-        [Parameter]
-        public EventCallback<bool> ConfirmationChanged { get; set; }
+        [Parameter] public EventCallback<bool> ConfirmationChanged { get; set; }
 
         protected async Task OnConfirmationChange(bool value)
         {
