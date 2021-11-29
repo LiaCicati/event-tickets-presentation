@@ -1,4 +1,5 @@
 @using eventTicketPesentation.Models
+@using eventTicketPesentation.Shared.Components.ConfirmModal
 
 <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 my-2">
 
@@ -7,7 +8,7 @@
         <div class="card__image-container">
             <AuthorizeView Policy="isAdmin">
                 <Authorized>
-                    <img class="card__cancel-button" alt="Icon Cancel" src="images/cancel-button.svg"/>
+                    <img class="card__cancel-button" alt="Icon Cancel" src="images/cancel-button.svg" @onclick="CancelEvent"/>
                 </Authorized>
             </AuthorizeView>
             @if (Event.IsCancelled)
@@ -28,19 +29,32 @@
                 <p class="card__category">@Event.Category</p>
                 <span class="card__date">@Event.DateTime.ToShortDateString()</span>
             </div>
-            <a class="card__link mt-1" href="@($"/events/{@Event.Id}")">
+            <a class="card__link mt-3" href="@($"/events/{@Event.Id}")">
                 <h4 class="card__title">@Event.Name</h4>
-                 <span class="card__soldOut-mark ">sold out</span>
+                <span class="card__soldOut-mark ">sold out</span>
             </a>
         </div>
 
     </div>
 
 </div>
-
+<ConfirmModal @ref="DeleteConfirmation" ConfirmationChanged="ConfirmDelete_Click"></ConfirmModal>
 @code {
 
     [Parameter]
     public Event Event { get; set; }
+    protected ConfirmBase DeleteConfirmation { get; set; }
 
+    protected void CancelEvent()
+    {
+        DeleteConfirmation.Show();
+    }
+
+    protected async Task ConfirmDelete_Click(bool deleteConfirmed)
+    {
+        if(deleteConfirmed)
+        {
+           Console.WriteLine("event" + Event.Id + " deleted");
+        }
+    }
 }
