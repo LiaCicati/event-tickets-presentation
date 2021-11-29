@@ -7,6 +7,11 @@
 <NavMenu ShowLogin="true" ShowRegister="true"></NavMenu>
 <section class="event">
     <div class="container image__container">
+        @if (_event.IsCancelled)
+        {
+            <img class="card__cancelled-mark" alt="Event Cancelled Mark" src="images/cancelled-mark.svg"/>
+        }
+        @* <img class="card__cancelled-mark" alt="Event Cancelled Mark" src="images/cancelled-mark.svg"/> *@
         <img class="img-fluid event__thumbnail" src="@_event.Thumbnail" alt="Thumbnail"/>
     </div>
     <h3 class="event__title">@_event.Name</h3>
@@ -29,13 +34,27 @@
     </div>
     <div class="event__payment">
         <div class="event__payment-price">
+            @if (_event.AvailableTickets == 0)
+            {
+                <span class="card__soldOut-mark ">sold out</span>
+            }
+            <span class="card__soldOut-mark ">sold out</span>
             <img class="event__icon" src="images/tickets-icon.svg" alt="Tickets icon"/>
             <h5 class="event__text">@_event.TicketPrice dkk</h5>
         </div>
         @* <button class="event__buy-button" @onclick="BuyTicket">Buy ticket</button> *@
-        <a class="event__buy-link main-link" href="@($"/events/{_event.Id}/checkout")">Buy ticket</a>
-    </div>
 
+    </div>
+    
+    @if (_event.AvailableTickets != 0)
+    {
+        <a class="event__buy-link main-link" href="@($"/events/{_event.Id}/checkout")">Buy ticket</a>
+    }
+    else
+    {
+        <button class="event__soldOut-button" disabled="disabled">Sold Out</button>
+    }
+    
     <div class="event__description">
         <p class="event__paragraph">@_event.Description</p>
     </div>
@@ -47,17 +66,16 @@
     public long Id { get; set; }
 
     private Models.Event _event = new Models.Event();
-    
+
 
     protected override async Task OnInitializedAsync()
     {
-        Console.WriteLine("Id: " +Id);
+        Console.WriteLine("Id: " + Id);
         _event = await _service.GetEventByIdAsync(Id);
         Console.WriteLine(_event);
         StateHasChanged();
-
     }
 
-   
+
 
 }

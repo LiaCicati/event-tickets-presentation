@@ -12,6 +12,7 @@
 }
 
 .image__container {
+    position: relative;
     display: flex;
     justify-content: center;
     margin-bottom: 30px;
@@ -23,6 +24,13 @@
     width: 100%;
     object-fit: cover;
 
+}
+
+.card__cancelled-mark {
+    position: absolute;
+    right: 30px;
+    top: 20px;
+    width: 30%;
 }
 
 .event__details {
@@ -90,6 +98,27 @@
 .event__payment-price {
     display: flex;
     align-items: center;
+}
+
+.card__soldOut-mark {
+    display: flex;
+    align-items: center;
+    color: white;
+    font-size: 10px;
+    line-height: 15px;
+    padding: 2px 6px;
+    margin-right: 10px;
+    text-transform: uppercase;
+    background-color: #FF0032;
+    border-radius: 2px;
+}
+
+.event__soldOut-button {
+    display: flex;
+    margin: 0 auto;
+    background: #C3C3C3;
+    cursor: none;
+    pointer-events: none;
 }
 
 @media (max-width: 1160px) {

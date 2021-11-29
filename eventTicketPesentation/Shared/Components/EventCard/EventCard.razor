@@ -1,22 +1,41 @@
 @using eventTicketPesentation.Models
 
 <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 my-2">
-     <a class="card__link" href="@($"/events/{@Event.Id}")">
-     <div class="card">
 
-         <div class="card__image-container">
-             <img class="card__image img-fluid" alt="Event image" src="@Event.Thumbnail"/>
-         </div>
-         <div class="card__data">
-             <div class="card__info">
-                 <p class="card__category">@Event.Category</p>
-                 <span class="card__date">@Event.DateTime.ToShortDateString()</span>
-             </div>
-             <h4 class="card__title">@Event.Name</h4>
-         </div>
+    <div class="card">
 
-     </div>
-     </a>
+        <div class="card__image-container">
+            <AuthorizeView Policy="isAdmin">
+                <Authorized>
+                    <img class="card__cancel-button" alt="Icon Cancel" src="images/cancel-button.svg"/>
+                </Authorized>
+            </AuthorizeView>
+            @if (Event.IsCancelled)
+            {
+                <img class="card__cancelled-mark" alt="Event Cancelled Mark" src="images/cancelled-mark.svg"/>
+            }
+            @* <img class="card__cancelled-mark" alt="Event Cancelled Mark" src="images/cancelled-mark.svg"/> *@
+            @if (Event.AvailableTickets == 0)
+            {
+                <img class="card__soldOut-mark" alt="Event Sold Out Mark" src="images/sold-out.svg"/>
+            }
+            <a class="card__link" href="@($"/events/{@Event.Id}")">
+                <img class="card__image img-fluid" alt="Event image" src="@Event.Thumbnail"/>
+            </a>
+        </div>
+        <div class="card__data">
+            <div class="card__info">
+                <p class="card__category">@Event.Category</p>
+                <span class="card__date">@Event.DateTime.ToShortDateString()</span>
+            </div>
+            <a class="card__link mt-1" href="@($"/events/{@Event.Id}")">
+                <h4 class="card__title">@Event.Name</h4>
+                 <span class="card__soldOut-mark ">sold out</span>
+            </a>
+        </div>
+
+    </div>
+
 </div>
 
 @code {
