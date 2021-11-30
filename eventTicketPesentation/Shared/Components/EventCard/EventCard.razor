@@ -1,5 +1,7 @@
 @using eventTicketPesentation.Models
+@using eventTicketPesentation.Service
 @using eventTicketPesentation.Shared.Components.ConfirmModal
+@inject IEventService _eventService;
 
 <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 my-2">
 
@@ -15,7 +17,7 @@
             {
                 <img class="card__cancelled-mark" alt="Event Cancelled Mark" src="images/cancelled-mark.svg"/>
             }
-          <img class="card__cancelled-mark" alt="Event Cancelled Mark" src="images/cancelled-mark.svg"/>
+          
             <a class="card__link" href="@($"/events/{@Event.Id}")">
                 <img class="card__image img-fluid" alt="Event image" src="@Event.Thumbnail"/>
             </a>
@@ -54,7 +56,11 @@
     {
         if(deleteConfirmed)
         {
-           Console.WriteLine("event" + Event.Id + " deleted");
+            await _eventService.CancelEventAsync(Event.Id);
+            Event.IsCancelled = true;
+            StateHasChanged();
+           
+
         }
     }
 }

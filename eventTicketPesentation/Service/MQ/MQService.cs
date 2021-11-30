@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 
-namespace eventTicketPesentation.Service
+namespace eventTicketPesentation.Service.MQ
 {
     public class MQService
     {

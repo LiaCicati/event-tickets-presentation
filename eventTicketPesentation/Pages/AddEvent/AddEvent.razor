@@ -7,6 +7,7 @@
 @inject NavigationManager _navigationManager
 @inject IEventService _service;
 @inject AuthenticationStateProvider _auth;
+@inject ICategoryService _categoryService
 
 <NavMenu/>
 <section class="section">
@@ -40,21 +41,23 @@
                     <option value="">
                         Select category
                     </option>
-                    <option value="Concert">
-                        Concert
-                    </option>
-                    <option value="Workshop">
-                        Workshop
-                    </option>
-                    <option value="Art Exhibition">
-                        Art Exhibition
-                    </option>
-                    <option value="Public Speaking">
-                        Public Speaking
-                    </option>
+                    @if (_categories != null)
+                    {
+                        @foreach (var category in _categories)
+                        {
+                            <option value="@category.Name">
+                                @category.Name
+                            </option>
+                        }
+                    }
 
                 </InputSelect>
             </div>
+        </div>
+
+        <div class="form__group">
+            <label >Add New Category</label>
+            <InputText type="text" placeholder="new category" @bind-Value="_newCategory.Name"></InputText>
         </div>
 
         <div class="form__inputs">
@@ -98,15 +101,14 @@
 
 @code {
 
-    private Event newEvent = new Event()
-    {
-        DateTime = DateTime.Now,
-    };
+    private Event newEvent = new Event();
 
     private DateTime _date = DateTime.Today;
     private DateTime _time = DateTime.Now;
 
     private string _errorMessage;
+    private List<Category> _categories;
+    private Category _newCategory = new Category();
 
     public async void Submit()
     {
@@ -118,15 +120,31 @@
 
         try
         {
+            if (newEvent.Category == null)
+            {
+                if (!_newCategory.Name.Equals(""))
+                {
+                    await _categoryService.createCategoryAsync(_newCategory);
+                    newEvent.Category = _newCategory.Name;
+                }
+            }
+
             await _service.AddEventAsync(newEvent);
 
             _navigationManager.NavigateTo("/events");
         }
         catch (Exception e)
         {
+            Console.WriteLine(e.StackTrace);
             _errorMessage = e.Message;
             StateHasChanged();
         }
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        _categories = await _categoryService.getAllCategoriesAsync();
+        StateHasChanged();
     }
 
 }
