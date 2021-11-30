@@ -29,7 +29,7 @@ namespace eventTicketPesentation.Models
         public int AvailableTickets { get; set; }
 
         [JsonPropertyName("category")]
-        [Required]
+       
         public string Category { get; set; }
 
         [JsonPropertyName("isCancelled")] public bool IsCancelled { get; set; }

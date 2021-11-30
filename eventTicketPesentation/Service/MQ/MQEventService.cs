@@ -8,7 +8,7 @@ using eventTicketPesentation.Models;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 
-namespace eventTicketPesentation.Service
+namespace eventTicketPesentation.Service.MQ
 {
     public class MQEventService : MQService, IEventService
     {
@@ -30,6 +30,16 @@ namespace eventTicketPesentation.Service
         public Task<Event> GetEventByIdAsync(long id)
         {
             return SendAndConvertAsync<Event, long>("getEventById", id);
+        }
+
+        public Task<Event> UpdateEventAsync(Event e)
+        {
+            return SendAndConvertAsync<Event, Event>("updateEvent", e);
+        }
+
+        public Task<Event> CancelEventAsync(long id)
+        {
+            return SendAndConvertAsync<Event, long>("cancelEvent", id);
         }
     }
 }

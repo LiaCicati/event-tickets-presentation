@@ -54,13 +54,13 @@
 
     </div>
 
-    @if (_event.RemainingTickets != 0)
+    @if (_event.RemainingTickets != 0 && !_event.IsCancelled)
     {
         <a class="event__buy-link main-link" href="@($"/events/{_event.Id}/checkout")">Buy ticket</a>
     }
     else
     {
-        <button class="event__soldOut-button" disabled="disabled">Sold Out</button>
+        <button class="event__soldOut-button" disabled="disabled">Buy Ticket</button>
     }
 
     <div class="event__description">

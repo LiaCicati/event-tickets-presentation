@@ -10,5 +10,7 @@ namespace eventTicketPesentation.Service
 
         Task<Event> AddEventAsync(Event e);
         Task<Event> GetEventByIdAsync(long id);
+        Task<Event> UpdateEventAsync(Event e);
+        Task<Event> CancelEventAsync(long id);
     }
 }

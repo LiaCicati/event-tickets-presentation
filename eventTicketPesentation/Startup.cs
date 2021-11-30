@@ -1,10 +1,10 @@
-using eventTicketPesentation.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using eventTicketPesentation.Service;
+using eventTicketPesentation.Service.MQ;
 using Microsoft.AspNetCore.Components.Authorization;
 using RabbitMQ.Client;
 
@@ -43,6 +43,7 @@ namespace eventTicketPesentation
             services.AddScoped<AuthenticationStateProvider, CustomAuthenticationStateProvider>();
             services.AddSingleton<ExportService>();
             services.AddSingleton<ICreditCardService, MQCreditCardService>();
+            services.AddSingleton<ICategoryService, MQCategoryService>();
 
             services.AddAuthorization(options =>
             {

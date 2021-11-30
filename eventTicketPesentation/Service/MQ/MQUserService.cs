@@ -9,7 +9,7 @@ using eventTicketPesentation.Service.dto;
 using Microsoft.AspNetCore.Components.Authorization;
 using RabbitMQ.Client;
 
-namespace eventTicketPesentation.Service
+namespace eventTicketPesentation.Service.MQ
 {
     public class MQUserService : MQService, IUserService
     {

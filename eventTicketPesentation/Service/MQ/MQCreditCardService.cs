@@ -4,7 +4,7 @@ using eventTicketPesentation.Models;
 using eventTicketPesentation.Service.dto;
 using RabbitMQ.Client;
 
-namespace eventTicketPesentation.Service
+namespace eventTicketPesentation.Service.MQ
 {
     public class MQCreditCardService : MQService, ICreditCardService
     {

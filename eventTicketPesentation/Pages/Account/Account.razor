@@ -49,7 +49,7 @@
     private string _password;
     private string _errorMessage;
 
-    private void Submit()
+    private async Task Submit()
     {
         if (user.Password != _password)
         {
@@ -58,40 +58,22 @@
         }
         try
         {
-            _userService.UpdateUserAsync(user);
+         await   _userService.UpdateUserAsync(user);
+            _errorMessage = "Data has been successfully updated";
+
         }
         catch (Exception e)
         {
             _errorMessage = e.Message;
+            StateHasChanged();
         }
     }
 
     protected override void OnInitialized()
     {
         base.OnInitialized();
-        var authState = _authenticationStateProvider.GetAuthenticationStateAsync().Result;
-        foreach (var claim in authState.User.Claims)
-        {
-            if (claim.Type.Equals("id"))
-            {
-                user.Id = Convert.ToInt64(claim.Value);
-                return;
-            }
-
-            if (claim.Type.Equals("email"))
-            {
-                user.Email = claim.Value;
-                return;
-            }
-            
-            if (claim.Type.Equals("Name"))
-            {
-                user.FullName = claim.Value;
-                return;
-            }
-            
-            
-        }
+        var authState = ((CustomAuthenticationStateProvider)_authenticationStateProvider);
+        user = authState.LoggedInUser;
     }
 
 }

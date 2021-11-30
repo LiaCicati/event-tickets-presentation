@@ -2,8 +2,9 @@
 @attribute [Authorize(Policy = "isAdmin")]
 @using eventTicketPesentation.Models
 @using eventTicketPesentation.Service
-@inject IEventService _eventService
 @using eventTicketPesentation.Shared.Components.NavMenu
+@inject IEventService _eventService
+@inject NavigationManager _navigationManager
 <NavMenu/>
 <section class="section">
     <EditForm Model="@_event" OnValidSubmit="@Save">
@@ -53,18 +54,17 @@
             </div>
         </div>
 
-        <div class="form__inputs">
-            <div class="form__group form__group_half">
-                <label >Date</label>
-                <input type="date"/>
-            </div>
-
-            <div class="form__group form__group_half">
-                <label >Time</label>
-                <input type="time"/>
-            </div>
-        </div>
-
+   <div class="form__inputs">
+              <div class="form__group form__group_half">
+                  <label >Date</label>
+                  <InputDate @bind-Value="_date"/>
+              </div>
+  
+              <div class="form__group form__group_half">
+                  <label >Time</label>
+                  <input type="time" @bind="_time"/>
+              </div>
+          </div>
         <div class="form__inputs">
             <div class="form__group form__group_half">
                 <label >Thumbnail</label>
@@ -84,24 +84,43 @@
 
         <DataAnnotationsValidator/>
         <ValidationSummary/>
-        @* @if (_errorMessage != null) *@
-        @* { *@
-        @*     <div class="error">@_errorMessage</div> *@
-        @* } *@
+        @if (_errorMessage != null)
+        {
+            <div class="error">@_errorMessage</div>
+        }
         <button class="button button-green">Save</button>
     </EditForm>
 </section>
 
 @code {
 
+    private string _errorMessage;
+    private DateTime _date = DateTime.Today;
+    private DateTime _time = DateTime.Now;
+
     [Parameter]
     public long EventId { get; set; }
 
     private Event _event = new Event();
 
-    private void Save()
+    private async Task Save()
     {
         Console.WriteLine("save");
+        _event.DateTime = new DateTime(
+            _date.Year, _date.Month, _date.Day,
+            _time.Hour, _time.Minute, 0);
+
+        try
+        {
+            await _eventService.UpdateEventAsync(_event);
+            _navigationManager.NavigateTo($"/events/{EventId}");
+        }
+        catch (Exception e)
+        {
+            _errorMessage = e.Message;
+            StateHasChanged();
+        }
+       
     }
 
     protected override async Task OnInitializedAsync()
