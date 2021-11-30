@@ -12,7 +12,7 @@
         {
             <img class="event__cancelled-mark" alt="Event Cancelled Mark" src="images/cancelled-mark.svg"/>
         }
-        @* <img class="event__cancelled-mark" alt="Event Cancelled Mark" src="images/cancelled-mark.svg"/> *@
+        <img class="event__cancelled-mark" alt="Event Cancelled Mark" src="images/cancelled-mark.svg"/>
         <AuthorizeView Policy="isAdmin">
             <Authorized>
                 <a href="@($"/events/{_event.Id}/editEvent")">

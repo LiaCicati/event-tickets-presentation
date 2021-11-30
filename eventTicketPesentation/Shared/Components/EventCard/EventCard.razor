@@ -15,11 +15,7 @@
             {
                 <img class="card__cancelled-mark" alt="Event Cancelled Mark" src="images/cancelled-mark.svg"/>
             }
-            @* <img class="card__cancelled-mark" alt="Event Cancelled Mark" src="images/cancelled-mark.svg"/> *@
-            @if (Event.AvailableTickets == 0)
-            {
-                <img class="card__soldOut-mark" alt="Event Sold Out Mark" src="images/sold-out.svg"/>
-            }
+          <img class="card__cancelled-mark" alt="Event Cancelled Mark" src="images/cancelled-mark.svg"/>
             <a class="card__link" href="@($"/events/{@Event.Id}")">
                 <img class="card__image img-fluid" alt="Event image" src="@Event.Thumbnail"/>
             </a>
@@ -35,6 +31,7 @@
                 {
                     <span class="card__soldOut-mark ">sold out</span>
                 }
+                   <span class="card__soldOut-mark ">sold out</span>
             </a>
         </div>
 

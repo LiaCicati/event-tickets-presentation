@@ -11,42 +11,48 @@
 <section class="section">
     <h1 class="events__title">Events</h1>
     <div class="filters container">
-    <div class="search__container ">
-        <img
-            class="search__icon"
-            src="images/search-icon.svg"
-            alt="Search icon"/>
-        <input placeholder="Search by name" class="search__input" type="text"/>
-    </div>
-    <select class="input filter__location" id="location">
-                        <option value="">Select location</option>
-                        <option value="Copenhagen">Copenhagen</option>
-                        <option value="Horsens">Horsens</option>
-                        <option value="Aarhus">Aarhus</option>
-                        <option value="Odense">Odense</option>
-                        <option value="Aalborg">Aalborg</option>
-                        <option value="Kolding">Kolding</option>
-                        <option value="Esbjerg">Esbjerg</option>
-                   </select>
-    
-      <select class="input filter__category" id="category">
-                        <option value="">
-                            Select category
-                        </option>
-                        <option value="Concert">
-                            Concert
-                        </option>
-                        <option value="Workshop">
-                            Workshop
-                        </option>
-                        <option value="Art Exhibition">
-                            Art Exhibition
-                        </option>
-                        <option value="Public Speaking">
-                            Public Speaking
-                        </option>
-    
-                    </select>
+        <div class="search__container ">
+            <img
+                class="search__icon"
+                src="images/search-icon.svg"
+                alt="Search icon"/>
+            <input placeholder="Search by name" class="search__input" type="text"/>
+        </div>
+        <select class="input filter__location" id="location">
+            <option value="">Select location</option>
+            <option value="">
+                All
+            </option>
+            <option value="Copenhagen">Copenhagen</option>
+            <option value="Horsens">Horsens</option>
+            <option value="Aarhus">Aarhus</option>
+            <option value="Odense">Odense</option>
+            <option value="Aalborg">Aalborg</option>
+            <option value="Kolding">Kolding</option>
+            <option value="Esbjerg">Esbjerg</option>
+        </select>
+
+        <select class="input filter__category" id="category">
+            <option value="">
+                Select category
+            </option>
+            <option value="">
+                All
+            </option>
+            <option value="Concert">
+                Concert
+            </option>
+            <option value="Workshop">
+                Workshop
+            </option>
+            <option value="Art Exhibition">
+                Art Exhibition
+            </option>
+            <option value="Public Speaking">
+                Public Speaking
+            </option>
+
+        </select>
     </div>
 
     @if (_events == null)
