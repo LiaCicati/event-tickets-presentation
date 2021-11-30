@@ -32,7 +32,7 @@
                             </thead>
                             <tbody>
                             <tr>
-                                <td>@_event.AvailableTickets</td>
+                                <td>@_event.RemainingTickets/ @_event.AvailableTickets</td>
 
                                 <td>
                                     <div>@_event.TicketPrice</div>
@@ -176,6 +176,10 @@
 
     private void IncrementCount()
     {
+        if (numberOfTickets==_event.RemainingTickets)
+        {
+            return;
+        }
         numberOfTickets++;
         StateHasChanged();
     }

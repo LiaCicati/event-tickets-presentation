@@ -12,7 +12,7 @@
         {
             <img class="event__cancelled-mark" alt="Event Cancelled Mark" src="images/cancelled-mark.svg"/>
         }
-        <img class="event__cancelled-mark" alt="Event Cancelled Mark" src="images/cancelled-mark.svg"/>
+      
         <AuthorizeView Policy="isAdmin">
             <Authorized>
                 <a href="@($"/events/{_event.Id}/editEvent")">
@@ -42,10 +42,11 @@
     </div>
     <div class="event__payment">
         <div class="event__payment-price">
-            @if (_event.AvailableTickets == 0)
+            @if (_event.RemainingTickets == 0)
             {
                 <span class="card__soldOut-mark ">sold out</span>
             }
+            <div> Tickets Available: @_event.RemainingTickets </div>
             <img class="event__icon" src="images/tickets-icon.svg" alt="Tickets icon"/>
             <h5 class="event__text">@_event.TicketPrice dkk</h5>
         </div>
@@ -53,7 +54,7 @@
 
     </div>
 
-    @if (_event.AvailableTickets != 0)
+    @if (_event.RemainingTickets != 0)
     {
         <a class="event__buy-link main-link" href="@($"/events/{_event.Id}/checkout")">Buy ticket</a>
     }

@@ -42,6 +42,11 @@ namespace eventTicketPesentation.Models
 
         [JsonPropertyName("organizerId")]
         public long OrganizerId { get; set; }
+        
+        [JsonPropertyName("bookedTickets")]
+        public int BookedTickets { get; set; }
+
+       [JsonIgnore] public int RemainingTickets => AvailableTickets - BookedTickets;
 
         public override string ToString()
         {
