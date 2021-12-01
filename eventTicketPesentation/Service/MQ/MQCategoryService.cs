@@ -11,12 +11,12 @@ namespace eventTicketPesentation.Service.MQ
         {
         }
 
-        public Task<Category> createCategoryAsync(Category category)
+        public Task<Category> CreateCategoryAsync(Category category)
         {
             return SendAndConvertAsync<Category, Category>("createCategory", category);
         }
 
-        public Task<List<Category>> getAllCategoriesAsync()
+        public Task<List<Category>> GetAllCategoriesAsync()
         {
             return SendAndConvertAsync<List<Category>>("getAllCategories");
         }

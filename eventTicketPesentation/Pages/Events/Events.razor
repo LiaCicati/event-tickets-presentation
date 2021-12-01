@@ -3,6 +3,7 @@
 @using eventTicketPesentation.Models
 @using eventTicketPesentation.Service
 @inject IEventService _service
+@inject ICategoryService _categoryService
 @using eventTicketPesentation.Shared.Components.EventCard
 @using eventTicketPesentation.Shared.Components.Preloader
 @using eventTicketPesentation.Shared.Components.NavMenu
@@ -32,25 +33,20 @@
             <option value="Esbjerg">Esbjerg</option>
         </select>
 
-        <select class="input filter__category" id="category">
-            <option value="">
-                Select category
-            </option>
+        <select class="input filter__category" id="category" @onchange="FilterEventsByCategory">
             <option value="">
                 All
             </option>
-            <option value="Concert">
-                Concert
-            </option>
-            <option value="Workshop">
-                Workshop
-            </option>
-            <option value="Art Exhibition">
-                Art Exhibition
-            </option>
-            <option value="Public Speaking">
-                Public Speaking
-            </option>
+            @if (_categories != null)
+            {
+                foreach (var category in _categories)
+                {
+                    <option value="@category.Id">
+                        @category.Name
+                    </option>
+                }
+            }
+
 
         </select>
     </div>
@@ -75,10 +71,26 @@
 
 @code {
     private List<Event> _events;
+    private List<Category> _categories;
 
     protected override async Task OnInitializedAsync()
     {
         _events = await _service.GetUpcomingEventsAsync();
+        _categories = await _categoryService.GetAllCategoriesAsync();
+        StateHasChanged();
+    }
+
+    private async Task FilterEventsByCategory(ChangeEventArgs args)
+    {
+        if (args.Value == null || args.Value.ToString().Equals(""))
+        {
+            _events = await _service.GetUpcomingEventsAsync();
+        }
+        else
+        {
+            _events = await _service.GetUpcomingEventsByCategoryAsync(Convert.ToInt64(args.Value)); 
+        }
+        StateHasChanged();
     }
 
 }

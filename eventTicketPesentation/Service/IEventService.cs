@@ -12,5 +12,6 @@ namespace eventTicketPesentation.Service
         Task<Event> GetEventByIdAsync(long id);
         Task<Event> UpdateEventAsync(Event e);
         Task<Event> CancelEventAsync(long id);
+        Task<List<Event>> GetUpcomingEventsByCategoryAsync(long id);
     }
 }

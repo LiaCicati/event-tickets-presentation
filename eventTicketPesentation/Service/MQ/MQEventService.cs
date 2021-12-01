@@ -41,5 +41,10 @@ namespace eventTicketPesentation.Service.MQ
         {
             return SendAndConvertAsync<Event, long>("cancelEvent", id);
         }
+
+        public Task<List<Event>> GetUpcomingEventsByCategoryAsync(long id)
+        {
+            return SendAndConvertAsync<List<Event>,long>("getUpcomingEventsByCategory", id);
+        }
     }
 }

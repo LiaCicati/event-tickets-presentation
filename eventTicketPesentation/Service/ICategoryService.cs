@@ -6,7 +6,7 @@ namespace eventTicketPesentation.Service
 {
     public interface ICategoryService
     {
-        Task<Category> createCategoryAsync(Category category);
-        Task<List<Category>> getAllCategoriesAsync();
+        Task<Category> CreateCategoryAsync(Category category);
+        Task<List<Category>> GetAllCategoriesAsync();
     }
 }

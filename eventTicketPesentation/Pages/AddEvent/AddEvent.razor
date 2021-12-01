@@ -124,7 +124,7 @@
             {
                 if (!_newCategory.Name.Equals(""))
                 {
-                    await _categoryService.createCategoryAsync(_newCategory);
+                    await _categoryService.CreateCategoryAsync(_newCategory);
                     newEvent.Category = _newCategory.Name;
                 }
             }
@@ -143,7 +143,7 @@
 
     protected override async Task OnInitializedAsync()
     {
-        _categories = await _categoryService.getAllCategoriesAsync();
+        _categories = await _categoryService.GetAllCategoriesAsync();
         StateHasChanged();
     }
 
