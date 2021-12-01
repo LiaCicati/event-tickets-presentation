@@ -19,7 +19,7 @@
         <Wizard Id="Checkout" Submit="@Submit">
             <WizardStep Name="1. Nr. of tickets">
 
-                <p class="text-center text-black-50 font-weight-bold">@_event.DateTime.Date.ToShortDateString() | @_event.DateTime.TimeOfDay.Hours pm</p>
+                <p class="text-center text-black-50 font-weight-bold">@_event.TimeOfTheEvent.Date.ToShortDateString() | @_event.TimeOfTheEvent.TimeOfDay.Hours pm</p>
                 <div class="row justify-content-center" style="padding-top: 20px">
                     <div class="col-md-10 col-md-offset-1">
                         <table class="step1-table">

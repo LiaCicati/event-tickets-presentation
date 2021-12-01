@@ -95,7 +95,11 @@ namespace eventTicketPesentation.Service.MQ
 
             var resp = await SendRequestAsync(queue, req);
 
-            return Deserialize<TR>(resp);
+            var respContent = Deserialize<TR>(resp);
+            
+            Console.WriteLine(respContent);
+            
+            return respContent;
         }
 
         protected async Task<TR> SendAndConvertAsync<TR>(string queue)

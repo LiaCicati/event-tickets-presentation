@@ -3,6 +3,10 @@
 @using eventTicketPesentation.Shared.Components.NavMenu
 @using eventTicketPesentation.Shared.Components.Preloader
 @using eventTicketPesentation.Shared.Components.NotificationItem
+@using eventTicketPesentation.Models
+@using eventTicketPesentation.Service
+@inject INotificationService _notificationService
+@inject AuthenticationStateProvider _authenticationStateProvider
 
 
 <NavMenu />
@@ -15,9 +19,18 @@
           
                 <div class="col-xs-12 col-sm-7 col-md-9 col-lg-8">
                     <div class="row">
-                        <NotificationItem />
-                        <NotificationItem />
-                         <NotificationItem />
+                        @if (_notifications != null)
+                        {
+                            foreach (var notification in _notifications)
+                            {
+                                <NotificationItem Notification="notification"/>
+                            }
+                            
+                        }
+                        else
+                        {
+                            <Preloader/>
+                        }
                     </div>
                 </div>
             
@@ -26,6 +39,16 @@
 </section>
 
 @code {
+
+    private List<Notification> _notifications;
+    private CustomAuthenticationStateProvider _stateProvider ;
+
+    protected override async Task OnInitializedAsync()
+    {
+
+        _notifications = await _notificationService.GetNotificationsByUserAsync(((CustomAuthenticationStateProvider) _authenticationStateProvider).LoggedInUser.Id);
+        StateHasChanged();
+    }
 
 
 }

@@ -7,5 +7,6 @@ namespace eventTicketPesentation.Models
         [JsonPropertyName("ticketNr")] public string TicketNr { get; set; }
         [JsonPropertyName("eventId")] public long EventId { get; set; }
         [JsonPropertyName("paymentId")] public long paymentId { get; set; }
+        [JsonPropertyName("buyerId")] public long BuyerId { get; set; }
     }
 }

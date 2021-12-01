@@ -21,5 +21,8 @@ namespace eventTicketPesentation.Models
         public string Password { get; set; }
 
         [JsonPropertyName("admin")] public bool Admin { get; set; }
+    
+       
+        
     }
 }

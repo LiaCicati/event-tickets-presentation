@@ -114,7 +114,7 @@
     {
         newEvent.OrganizerId = ((CustomAuthenticationStateProvider) _auth).LoggedInUser.Id;
 
-        newEvent.DateTime = new DateTime(
+        newEvent.TimeOfTheEvent = new DateTime(
             _date.Year, _date.Month, _date.Day,
             _time.Hour, _time.Minute, 0);
 

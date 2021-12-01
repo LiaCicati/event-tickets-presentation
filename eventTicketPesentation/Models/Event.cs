@@ -36,7 +36,7 @@ namespace eventTicketPesentation.Models
 
         [JsonPropertyName("timeOfTheEvent")]
         [Required]
-        public DateTime DateTime { get; set; }
+        public DateTime TimeOfTheEvent { get; set; }
         
         [JsonPropertyName("ticketPrice")] public double TicketPrice { get; set; }
 

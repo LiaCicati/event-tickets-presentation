@@ -25,7 +25,7 @@
         <div class="card__data">
             <div class="card__info">
                 <p class="card__category">@Event.Category</p>
-                <span class="card__date">@Event.DateTime.ToShortDateString()</span>
+                <span class="card__date">@Event.TimeOfTheEvent.ToShortDateString()</span>
             </div>
             <a class="card__link mt-3" href="@($"/events/{@Event.Id}")">
                 <h4 class="card__title">@Event.Name</h4>

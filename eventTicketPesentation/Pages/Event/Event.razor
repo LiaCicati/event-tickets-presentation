@@ -28,11 +28,11 @@
         <ul class="event__data">
             <li class="event__data-item">
                 <img class="event__icon" src="images/calendar-icon.svg" alt="Calendar icon"/>
-                <h5 class="event__text">@_event.DateTime.ToShortDateString()</h5>
+                <h5 class="event__text">@_event.TimeOfTheEvent.ToShortDateString()</h5>
             </li>
             <li class="event__data-item">
                 <img class="event__icon" src="images/time-icon.svg" alt="Time icon"/>
-                <h5 class="event__text">@_event.DateTime.DayOfWeek, @_event.DateTime.Hour pm</h5>
+                <h5 class="event__text">@_event.TimeOfTheEvent.DayOfWeek, @_event.TimeOfTheEvent.Hour pm</h5>
             </li>
             <li class="event__data-item">
                 <img class="event__icon" src="images/location-icon.svg" alt="Location icon"/>

@@ -44,6 +44,7 @@ namespace eventTicketPesentation
             services.AddSingleton<ExportService>();
             services.AddSingleton<ICreditCardService, MQCreditCardService>();
             services.AddSingleton<ICategoryService, MQCategoryService>();
+            services.AddSingleton<INotificationService, MQNotificationService>();
 
             services.AddAuthorization(options =>
             {
