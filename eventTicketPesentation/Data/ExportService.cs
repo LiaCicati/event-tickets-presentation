@@ -44,14 +44,21 @@ namespace eventTicketPesentation.Service
                         new PdfTextElement("Date/Time: " + tgroup.TimeOfTheEvent, contentFont, PdfBrushes.Black);
                     PdfTextElement TicketNumber =
                         new PdfTextElement("Nr: " + ticket.TicketNr, contentFont, PdfBrushes.Black);
+                    PdfTextElement TimeOfPurchase =
+                        new PdfTextElement("Time of purchase: " + ticket.TimeOfPurchase, contentFont,
+                            PdfBrushes.Black);
                     PdfTextElement PaidAmount =
                         new PdfTextElement("Amount: " + tgroup.TicketPrice, contentFont,
                             PdfBrushes.Black);
+                    
 
                     result = TicketName.Draw(page,
                         new RectangleF(0, result.Bounds.Bottom + paragraphAfterSpacing, page.GetClientSize().Width,
                             page.GetClientSize().Height), format);
                     result = TicketNumber.Draw(page,
+                        new RectangleF(0, result.Bounds.Bottom + paragraphAfterSpacing, page.GetClientSize().Width,
+                            page.GetClientSize().Height), format);
+                    result = TimeOfPurchase.Draw(page,
                         new RectangleF(0, result.Bounds.Bottom + paragraphAfterSpacing, page.GetClientSize().Width,
                             page.GetClientSize().Height), format);
                     result = TicketEventDate.Draw(page,
