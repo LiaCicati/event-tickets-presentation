@@ -4,6 +4,7 @@
 @using eventTicketPesentation.Service
 @using eventTicketPesentation.Shared.Components.NavMenu
 @inject IEventService _eventService
+@inject ICategoryService _categoryService
 @inject NavigationManager _navigationManager
 <NavMenu/>
 <section class="section">
@@ -37,34 +38,35 @@
                     <option value="">
                         Select category
                     </option>
-                    <option value="Concert">
-                        Concert
-                    </option>
-                    <option value="Workshop">
-                        Workshop
-                    </option>
-                    <option value="Art Exhibition">
-                        Art Exhibition
-                    </option>
-                    <option value="Public Speaking">
-                        Public Speaking
-                    </option>
+                    @if (_categories != null)
+                    {
+                        @foreach (var category in _categories)
+                        {
+                            <option value="@category.Name">
+                                @category.Name
+                            </option>
+                        }
+                    }
 
                 </InputSelect>
             </div>
         </div>
+        <div class="form__group">
+            <label >Add New Category</label>
+            <InputText type="text" placeholder="new category" @bind-Value="_newCategory.Name"></InputText>
+        </div>
 
-   <div class="form__inputs">
-              <div class="form__group form__group_half">
-                  <label >Date</label>
-                  <InputDate @bind-Value="_date"/>
-              </div>
-  
-              <div class="form__group form__group_half">
-                  <label >Time</label>
-                  <input type="time" @bind="_time"/>
-              </div>
-          </div>
+        <div class="form__inputs">
+            <div class="form__group form__group_half">
+                <label >Date</label>
+                <InputDate @bind-Value="_date"/>
+            </div>
+
+            <div class="form__group form__group_half">
+                <label >Time</label>
+                <input type="time" @bind="_time"/>
+            </div>
+        </div>
         <div class="form__inputs">
             <div class="form__group form__group_half">
                 <label >Thumbnail</label>
@@ -95,23 +97,43 @@
 @code {
 
     private string _errorMessage;
-    private DateTime _date = DateTime.Today;
-    private DateTime _time = DateTime.Now;
+
 
     [Parameter]
     public long EventId { get; set; }
 
     private Event _event = new Event();
+    private DateTime _date;
+    private DateTime _time;
+    private List<Category> _categories;
+    private Category _newCategory = new Category();
+
+    protected override async Task OnInitializedAsync()
+    {
+        _event = await _eventService.GetEventByIdAsync(EventId);
+        _date = _event.TimeOfTheEvent.Date;
+        _time = _event.TimeOfTheEvent;
+        _categories = await _categoryService.GetAllCategoriesAsync();
+    }
 
     private async Task Save()
     {
-        Console.WriteLine("save");
         _event.TimeOfTheEvent = new DateTime(
             _date.Year, _date.Month, _date.Day,
             _time.Hour, _time.Minute, 0);
 
         try
         {
+            Console.WriteLine(_newCategory.Name);
+            if (_event.Category == null || _event.Category.Equals(""))
+            {
+                if (!_newCategory.Name.Equals(""))
+                {
+                    await _categoryService.CreateCategoryAsync(_newCategory);
+                    _event.Category = _newCategory.Name;
+                }
+            }
+
             await _eventService.UpdateEventAsync(_event);
             _navigationManager.NavigateTo($"/events/{EventId}");
         }
@@ -120,13 +142,9 @@
             _errorMessage = e.Message;
             StateHasChanged();
         }
-       
     }
 
-    protected override async Task OnInitializedAsync()
-    {
-        _event = await _eventService.GetEventByIdAsync(EventId);
-    }
+
 
 
 }
