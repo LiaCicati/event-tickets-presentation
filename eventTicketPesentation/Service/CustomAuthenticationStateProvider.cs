@@ -16,7 +16,7 @@ namespace eventTicketPesentation.Service
         public User LoggedInUser { get; set; }
         private readonly IJSRuntime jsRuntime;
         private IUserService _userService;
-        private User cachedUser;
+
 
         public CustomAuthenticationStateProvider(IJSRuntime jsRuntime, IUserService userService)
         {
@@ -38,40 +38,42 @@ namespace eventTicketPesentation.Service
         public async Task Login(LoginUserDTO loginUserDto)
         {
             var result = await _userService.LoginAsync(loginUserDto);
-            IList<Claim> claims = new List<Claim>();
-            claims.Add(new Claim("email", result.Email));
-            claims.Add(new Claim("id", "" + result.Id));
-            claims.Add(new Claim(ClaimTypes.Name, result.FullName));
-            claims.Add(new Claim("isAdmin", result.Admin.ToString()));
-            var claimIdentity = new ClaimsIdentity(claims, "apiauth_type");
-            var principal = new ClaimsPrincipal(claimIdentity);
+
 
             LoggedInUser = result;
-            Claims = principal;
+            SetUpClaims(result);
+            await jsRuntime.InvokeVoidAsync("sessionStorage.setItem", "currentUser",
+                JsonSerializer.Serialize(LoggedInUser));
+        }
+
+        public void SetUpClaims(User user)
+        {
+            IList<Claim> claims = new List<Claim>();
+            claims.Add(new Claim("email", user.Email));
+            claims.Add(new Claim("id", "" + user.Id));
+            claims.Add(new Claim(ClaimTypes.Name, user.FullName));
+            claims.Add(new Claim("isAdmin", user.Admin.ToString()));
+            var claimIdentity = new ClaimsIdentity(claims, "apiauth_type");
+            Claims = new ClaimsPrincipal(claimIdentity);
         }
 
         public void Logout()
         {
-            cachedUser = null;
-            jsRuntime.InvokeVoidAsync("sessionStorage.setItem", "currentUser", "");
             LoggedInUser = null;
+            jsRuntime.InvokeVoidAsync("sessionStorage.setItem", "currentUser", "");
             Claims = new ClaimsPrincipal();
-        }
-
-        public User GetCachedUser()
-        {
-            return cachedUser;
         }
 
 
         public override async Task<AuthenticationState> GetAuthenticationStateAsync()
         {
-            if (cachedUser == null)
+            if (LoggedInUser == null)
             {
                 string userAsJson = await jsRuntime.InvokeAsync<string>("sessionStorage.getItem", "currentUser");
                 if (!string.IsNullOrEmpty(userAsJson))
                 {
-                    User tmp = JsonSerializer.Deserialize<User>(userAsJson);
+                    LoggedInUser = JsonSerializer.Deserialize<User>(userAsJson);
+                    SetUpClaims(LoggedInUser);
                 }
             }
 
