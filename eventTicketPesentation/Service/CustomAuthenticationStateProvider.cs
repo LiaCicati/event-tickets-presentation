@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Security.Claims;
+using System.Text.Json;
 using System.Threading.Tasks;
 using eventTicketPesentation.Models;
 using eventTicketPesentation.Service.dto;
 using Microsoft.AspNetCore.Components.Authorization;
+using Microsoft.JSInterop;
 
 namespace eventTicketPesentation.Service
 {
@@ -12,10 +14,13 @@ namespace eventTicketPesentation.Service
     {
         private ClaimsPrincipal _claims = new ClaimsPrincipal();
         public User LoggedInUser { get; set; }
+        private readonly IJSRuntime jsRuntime;
         private IUserService _userService;
+        private User cachedUser;
 
-        public CustomAuthenticationStateProvider(IUserService userService)
+        public CustomAuthenticationStateProvider(IJSRuntime jsRuntime, IUserService userService)
         {
+            this.jsRuntime = jsRuntime;
             this._userService = userService;
         }
 
@@ -47,12 +52,29 @@ namespace eventTicketPesentation.Service
 
         public void Logout()
         {
+            cachedUser = null;
+            jsRuntime.InvokeVoidAsync("sessionStorage.setItem", "currentUser", "");
             LoggedInUser = null;
             Claims = new ClaimsPrincipal();
         }
 
+        public User GetCachedUser()
+        {
+            return cachedUser;
+        }
+
+
         public override async Task<AuthenticationState> GetAuthenticationStateAsync()
         {
+            if (cachedUser == null)
+            {
+                string userAsJson = await jsRuntime.InvokeAsync<string>("sessionStorage.getItem", "currentUser");
+                if (!string.IsNullOrEmpty(userAsJson))
+                {
+                    User tmp = JsonSerializer.Deserialize<User>(userAsJson);
+                }
+            }
+
             return await Task.FromResult(new AuthenticationState(Claims));
         }
     }
