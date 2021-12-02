@@ -32,5 +32,15 @@ namespace eventTicketPesentation.Service.MQ
         {
             return SendAndConvertAsync<User, User>("updateUser", user);
         }
+
+        public Task<User> GrantAdminPrivilege(long userId)
+        {
+            return SendAndConvertAsync<User, long>("grantAdminPrivilege", userId);
+        }
+
+        public Task<List<User>> GetAllUsersAsync()
+        {
+            return SendAndConvertAsync<List<User>>("getAllUsers");
+        }
     }
 }

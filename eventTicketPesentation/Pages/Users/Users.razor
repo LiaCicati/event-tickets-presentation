@@ -1,0 +1,48 @@
+@page "/users"
+@using eventTicketPesentation.Service
+@using eventTicketPesentation.Models
+@using eventTicketPesentation.Shared.Components.Preloader
+@using eventTicketPesentation.Shared.Components.NavMenu
+@attribute [Authorize(Policy = "isAdmin")]
+@inject IUserService _userService
+
+<NavMenu ShowLogin="true" ShowRegister="true"></NavMenu>
+<h3>Users</h3>
+@if (_users == null)
+{
+    <Preloader/>
+}
+else
+{
+    <ul>
+        @foreach (var user in _users)
+        {
+            <li>
+                @user.Email
+                @if (!user.Admin)
+                {
+                    <button class="button-green"@onclick="@(e => @SetAdmin(user.Id))"> Set admin</button>
+                }
+            </li>
+        }
+    </ul>
+}
+
+@code {
+    private List<User> _users;
+
+    protected  override async Task OnInitializedAsync()
+    {
+        _users = await _userService.GetAllUsersAsync();
+        StateHasChanged();
+    }
+
+    private async Task SetAdmin(long userId)
+    {
+        await _userService.GrantAdminPrivilege(userId);
+        _users = await _userService.GetAllUsersAsync();
+        StateHasChanged();
+    }
+
+}
+
