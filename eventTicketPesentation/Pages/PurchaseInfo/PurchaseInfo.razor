@@ -1,0 +1,65 @@
+@page "/purchaseInfo"
+@using eventTicketPesentation.Service
+@using eventTicketPesentation.Models
+@using eventTicketPesentation.Shared.Components.Preloader
+@using eventTicketPesentation.Shared.Components.NavMenu
+@attribute [Authorize(Policy = "isAdmin")]
+@inject IEventService _eventService
+
+<NavMenu ShowLogin="true" ShowRegister="true"></NavMenu>
+
+<section class="section">
+    <h1 class="text-center">Purchase Information</h1>
+    @if (_events == null)
+    {
+        <Preloader/>
+    }
+    else
+    {
+        <div class="container">
+            <table class="table table-hover">
+                <thead>
+                <tr>
+                    <th scope="col">Event</th>
+                    <th scope="col">Total tickets</th>
+                    <th scope="col">Purchased tickets</th>
+                    <th scope="col">Remaining tickets</th>
+
+                </tr>
+                </thead>
+                <tbody>
+                @foreach (var e in _events)
+                {
+                    <tr>
+                        <td>@e.Name</td>
+                        <td>@e.AvailableTickets</td>
+                        <td>
+                            @e.BookedTickets
+                        </td>
+                        <td>
+                            @e.RemainingTickets
+                        </td>
+
+                    </tr>
+                }
+
+                </tbody>
+            </table>
+        </div>
+    }
+
+
+</section>
+
+
+@code {
+    private List<Event> _events;
+
+    protected override async Task OnInitializedAsync()
+    {
+        _events = await _eventService.GetUpcomingEventsAsync();
+        StateHasChanged();
+    }
+
+
+}
