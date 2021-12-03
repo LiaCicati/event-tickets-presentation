@@ -17,7 +17,8 @@
                 class="search__icon"
                 src="images/search-icon.svg"
                 alt="Search icon"/>
-            <input placeholder="Search by name" class="search__input" type="text"/>
+            <input placeholder="Search by name" class="search__input" type="text"
+                   @oninput="@((arg) => FilterByName(arg))"/>
         </div>
         <select class="input filter__location" id="location">
             <option value="">Select location</option>
@@ -71,11 +72,14 @@
 
 @code {
     private List<Event> _events;
+    private IList<Event> _eventsToShow = new List<Event>();
     private List<Category> _categories;
+    private string _filterByName;
 
     protected override async Task OnInitializedAsync()
     {
         _events = await _service.GetUpcomingEventsAsync();
+        _eventsToShow = _events;
         _categories = await _categoryService.GetAllCategoriesAsync();
         StateHasChanged();
     }
@@ -88,9 +92,37 @@
         }
         else
         {
-            _events = await _service.GetUpcomingEventsByCategoryAsync(Convert.ToInt64(args.Value)); 
+            _events = await _service.GetUpcomingEventsByCategoryAsync(Convert.ToInt64(args.Value));
         }
         StateHasChanged();
+    }
+
+
+    private async Task FilterByName(ChangeEventArgs changeEventArgs)
+    {
+        _filterByName = null;
+        try
+        {
+            if (changeEventArgs.Value == null || changeEventArgs.Value.ToString().Equals(""))
+            {
+                _events = await _service.GetUpcomingEventsAsync();
+            }
+            else
+            {
+                _filterByName = changeEventArgs.Value.ToString();
+            }
+        }
+        catch (Exception e)
+        {
+        }
+        ExecuteFilter();
+        StateHasChanged();
+    }
+
+    private void ExecuteFilter()
+    {
+        _events = _events.Where(e =>
+            ((_filterByName != null && e.Name.ToLower().Contains(_filterByName.ToLower()) || _filterByName == null) || _filterByName == null)).ToList();
     }
 
 }
