@@ -7,31 +7,54 @@
 @inject IUserService _userService
 
 <NavMenu ShowLogin="true" ShowRegister="true"></NavMenu>
-<h3>Users</h3>
-@if (_users == null)
-{
-    <Preloader/>
-}
-else
-{
-    <ul>
+
+<section class="section">
+    <h1 class="text-center">Users</h1>
+    @if (_users == null)
+    {
+        <Preloader/>
+    }
+    else
+    {
+        <div class="container">
+    <table class="table table-hover">
+        <thead>
+        <tr>
+            <th scope="col">Full Name</th>
+            <th scope="col">Email</th>
+            <th scope="col">Admin Privilege</th>
+
+        </tr>
+        </thead>
+        <tbody>
         @foreach (var user in _users)
         {
-            <li>
-                @user.Email
-                @if (!user.Admin)
-                {
-                    <button class="button-green"@onclick="@(e => @SetAdmin(user.Id))"> Set admin</button>
-                }
-            </li>
+            <tr>
+                <td>@user.FullName</td>
+                <td>@user.Email</td>
+                <td>
+                    @if (!user.Admin)
+                    {
+                        <button class="m-0 p-2 button-green"@onclick="@(e => @SetAdmin(user.Id))"> Set admin</button>
+                    }
+                </td>
+
+            </tr>
         }
-    </ul>
-}
+
+        </tbody>
+    </table>
+    </div>
+    }
+
+
+</section>
+
 
 @code {
     private List<User> _users;
 
-    protected  override async Task OnInitializedAsync()
+    protected override async Task OnInitializedAsync()
     {
         _users = await _userService.GetAllUsersAsync();
         StateHasChanged();
@@ -45,4 +68,3 @@ else
     }
 
 }
-

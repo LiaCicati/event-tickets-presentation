@@ -1,6 +1,6 @@
 @using eventTicketPesentation.Models
 <div class="col-md-12 my-2">
-<div class="notification">
+<div class="notification position-relative">
     <div class="notification__data">
         <img src="images/error_outline.svg" class="notification__icon" alt="Error icon"/>
         <div>
@@ -8,7 +8,7 @@
             <p class="notification__message">
                 @Notification.Message
             </p>
-            <span>@Notification.Timestamp</span>
+            <span class="notification__time">@Notification.Timestamp.Date</span>
         </div>
     </div>
 </div>

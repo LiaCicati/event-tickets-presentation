@@ -8,7 +8,7 @@
 @inject NavigationManager _navigationManager
 <NavMenu/>
 <section class="section">
-    <EditForm Model="@_event" OnValidSubmit="@Save">
+    <EditForm Model="@_event">
         <h1>Edit Event</h1>
         <div class="form__group">
             <label >Name</label>
@@ -90,7 +90,10 @@
         {
             <div class="error">@_errorMessage</div>
         }
-        <button class="button button-green">Save</button>
+        <div class="d-flex justify-content-between">
+           <button class="button button-gray" @onclick="Cancel">Cancel</button>
+        <button class="button button-green" @onclick="Save">Save</button>
+      </div>
     </EditForm>
 </section>
 
@@ -142,6 +145,11 @@
             _errorMessage = e.Message;
             StateHasChanged();
         }
+    }
+
+    private void  Cancel()
+    {
+        _navigationManager.NavigateTo($"/events/{EventId}");
     }
 
 
