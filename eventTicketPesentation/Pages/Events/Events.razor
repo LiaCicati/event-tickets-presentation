@@ -36,6 +36,9 @@
 
         <select class="input filter__category" id="category" @onchange="FilterEventsByCategory">
             <option value="">
+                Select Category
+            </option>
+            <option value="">
                 All
             </option>
             @if (_categories != null)
@@ -72,14 +75,12 @@
 
 @code {
     private List<Event> _events;
-    private IList<Event> _eventsToShow = new List<Event>();
     private List<Category> _categories;
     private string _filterByName;
 
     protected override async Task OnInitializedAsync()
     {
         _events = await _service.GetUpcomingEventsAsync();
-        _eventsToShow = _events;
         _categories = await _categoryService.GetAllCategoriesAsync();
         StateHasChanged();
     }
