@@ -26,7 +26,7 @@ namespace eventTicketPesentation.Service
 
                 PdfStandardFont font = new PdfStandardFont(PdfFontFamily.Helvetica, 20);
 
-                PdfTextElement title = new PdfTextElement("Electronic Ticket", font, PdfBrushes.Black);
+                PdfTextElement title = new PdfTextElement("Electronic Ticket - Event Enthusiast", font, PdfBrushes.Black);
 
                 PdfStandardFont contentFont = new PdfStandardFont(PdfFontFamily.Helvetica, 16);
 
@@ -41,14 +41,14 @@ namespace eventTicketPesentation.Service
                     PdfTextElement TicketName =
                         new PdfTextElement("Event: " + tgroup.NameOfEvent, contentFont, PdfBrushes.Black);
                     PdfTextElement TicketEventDate =
-                        new PdfTextElement("Date/Time: " + tgroup.TimeOfTheEvent, contentFont, PdfBrushes.Black);
+                        new PdfTextElement("Date/Time of the event: " + tgroup.TimeOfTheEvent, contentFont, PdfBrushes.Black);
                     PdfTextElement TicketNumber =
                         new PdfTextElement("Nr: " + ticket.TicketNr, contentFont, PdfBrushes.Black);
                     PdfTextElement TimeOfPurchase =
                         new PdfTextElement("Time of purchase: " + ticket.TimeOfPurchase, contentFont,
                             PdfBrushes.Black);
                     PdfTextElement PaidAmount =
-                        new PdfTextElement("Amount: " + tgroup.TicketPrice, contentFont,
+                        new PdfTextElement("Price: " + tgroup.TicketPrice + " dkk", contentFont,
                             PdfBrushes.Black);
                     
 
@@ -68,14 +68,7 @@ namespace eventTicketPesentation.Service
                         new RectangleF(0, result.Bounds.Bottom + paragraphAfterSpacing, page.GetClientSize().Width,
                             page.GetClientSize().Height), format);
                 }
-
-                // PdfGrid pdfGrid = new PdfGrid();
-                // pdfGrid.Style.CellPadding.Left = cellMargin;
-                // pdfGrid.Style.CellPadding.Right = cellMargin;
-                //
-                // pdfGrid.ApplyBuiltinStyle(PdfGridBuiltinStyle.ListTable4Accent1);
-
-
+                
                 using (MemoryStream stream = new MemoryStream())
                 {
                     pdfDocument.Save(stream);

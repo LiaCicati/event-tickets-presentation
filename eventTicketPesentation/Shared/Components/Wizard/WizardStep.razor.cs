@@ -2,6 +2,7 @@
 
 namespace eventTicketPesentation.Shared.Components.Wizard
 {
+    //Source : https://sinclairinat0r.com/2019/12/08/creating-a-simple-wizard-component-in-blazor
     /// <summary>
     /// Wizard Step component
     /// </summary>
