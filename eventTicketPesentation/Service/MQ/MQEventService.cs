@@ -46,5 +46,10 @@ namespace eventTicketPesentation.Service.MQ
         {
             return SendAndConvertAsync<List<Event>,long>("getUpcomingEventsByCategory", id);
         }
+        
+        public Task<List<Event>> GetUpcomingEventsByLocationAsync(string location)
+        {
+            return SendAndConvertAsync<List<Event>, string>("getUpcomingEventsByLocation", location);
+        }
     }
 }

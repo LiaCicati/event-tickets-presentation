@@ -20,18 +20,20 @@
             <input placeholder="Search by name" class="search__input" type="text"
                    @oninput="@((arg) => FilterByName(arg))"/>
         </div>
-        <select class="input filter__location" id="location">
+       <select class="input filter__location" id="location" @onchange="FilterEventsByLocation">
             <option value="">Select location</option>
             <option value="">
                 All
             </option>
-            <option value="Copenhagen">Copenhagen</option>
-            <option value="Horsens">Horsens</option>
-            <option value="Aarhus">Aarhus</option>
-            <option value="Odense">Odense</option>
-            <option value="Aalborg">Aalborg</option>
-            <option value="Kolding">Kolding</option>
-            <option value="Esbjerg">Esbjerg</option>
+          @if (_locations != null)
+                      {
+                          foreach (var location in _locations)
+                          {
+                              <option value="@location">
+                                  @location
+                              </option>
+                          }
+                      }
         </select>
 
         <select class="input filter__category" id="category" @onchange="FilterEventsByCategory">
@@ -76,13 +78,24 @@
 @code {
     private List<Event> _events;
     private List<Category> _categories;
+    private List<string> _locations = new List<string>();
     private string _filterByName;
 
     protected override async Task OnInitializedAsync()
     {
         _events = await _service.GetUpcomingEventsAsync();
         _categories = await _categoryService.GetAllCategoriesAsync();
+        _locations = GetAllLocations();
         StateHasChanged();
+    }
+    
+    private List<string> GetAllLocations()
+    {
+        foreach (var e in _events)
+        {
+            _locations.Add(e.Location);
+        }
+        return _locations;
     }
 
     private async Task FilterEventsByCategory(ChangeEventArgs args)
@@ -94,6 +107,19 @@
         else
         {
             _events = await _service.GetUpcomingEventsByCategoryAsync(Convert.ToInt64(args.Value));
+        }
+        StateHasChanged();
+    }
+    
+    private async Task FilterEventsByLocation(ChangeEventArgs args)
+    {
+        if (args.Value == null || args.Value.ToString().Equals(""))
+        {
+            _events = await _service.GetUpcomingEventsAsync();
+        }
+        else
+        {
+            _events = await _service.GetUpcomingEventsByLocationAsync((string) args.Value);
         }
         StateHasChanged();
     }
