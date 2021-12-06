@@ -20,20 +20,20 @@
             <input placeholder="Search by name" class="search__input" type="text"
                    @oninput="@((arg) => FilterByName(arg))"/>
         </div>
-       <select class="input filter__location" id="location" @onchange="FilterEventsByLocation">
+        <select class="input filter__location" id="location" @onchange="FilterEventsByLocation">
             <option value="">Select location</option>
             <option value="">
                 All
             </option>
-          @if (_locations != null)
-                      {
-                          foreach (var location in _locations)
-                          {
-                              <option value="@location">
-                                  @location
-                              </option>
-                          }
-                      }
+            @if (_distinctLocations != null)
+            {
+                foreach (var location in _distinctLocations)
+                {
+                    <option value="@location">
+                        @location
+                    </option>
+                }
+            }
         </select>
 
         <select class="input filter__category" id="category" @onchange="FilterEventsByCategory">
@@ -79,16 +79,17 @@
     private List<Event> _events;
     private List<Category> _categories;
     private List<string> _locations = new List<string>();
+    List<string> _distinctLocations = new List<string>();
     private string _filterByName;
 
     protected override async Task OnInitializedAsync()
     {
         _events = await _service.GetUpcomingEventsAsync();
         _categories = await _categoryService.GetAllCategoriesAsync();
-        _locations = GetAllLocations();
+        _distinctLocations = GetDistinctLocations();
         StateHasChanged();
     }
-    
+
     private List<string> GetAllLocations()
     {
         foreach (var e in _events)
@@ -96,6 +97,12 @@
             _locations.Add(e.Location);
         }
         return _locations;
+    }
+
+    private List<string> GetDistinctLocations()
+    {
+        _distinctLocations = GetAllLocations().Distinct().ToList();
+        return _distinctLocations;
     }
 
     private async Task FilterEventsByCategory(ChangeEventArgs args)
@@ -110,7 +117,7 @@
         }
         StateHasChanged();
     }
-    
+
     private async Task FilterEventsByLocation(ChangeEventArgs args)
     {
         if (args.Value == null || args.Value.ToString().Equals(""))
