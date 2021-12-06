@@ -37,6 +37,11 @@
                     {
                         <button class="m-0 p-2 button-green"@onclick="@(e => @SetAdmin(user.Id))"> Set admin</button>
                     }
+                    
+                    @if (user.Admin)
+                    {
+                        <img class="card__cancel-button" alt="Icon Cancel" src="images/cancel-button.svg" @onclick="@(e => RemoveAdmin(user.Id))"/>
+                    }
                 </td>
 
             </tr>
@@ -66,5 +71,10 @@
         _users = await _userService.GetAllUsersAsync();
         StateHasChanged();
     }
-
+    private async Task RemoveAdmin(long userId)
+    {
+        await _userService.RemoveAdminPrivilege(userId);
+        _users = await _userService.GetAllUsersAsync();
+        StateHasChanged();
+    }
 }

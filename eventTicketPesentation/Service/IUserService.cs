@@ -12,5 +12,6 @@ namespace eventTicketPesentation.Service
         Task<User> UpdateUserAsync(User user);
         Task<User> GrantAdminPrivilege(long userId);
         Task<List<User>> GetAllUsersAsync();
+        Task<User> RemoveAdminPrivilege(long userId);
     }
 }

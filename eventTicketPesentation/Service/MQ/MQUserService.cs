@@ -42,5 +42,10 @@ namespace eventTicketPesentation.Service.MQ
         {
             return SendAndConvertAsync<List<User>>("getAllUsers");
         }
+
+        public Task<User> RemoveAdminPrivilege(long userId)
+        {
+            return SendAndConvertAsync<User, long>("removeAdminPrivilege", userId);
+        }
     }
 }
