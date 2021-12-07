@@ -19,6 +19,10 @@ namespace eventTicketPesentation.Models
         [JsonPropertyName("location")]
         [Required]
         public string Location { get; set; }
+        
+        [JsonPropertyName("address")]
+        [Required]
+        public string Address { get; set; }
 
         [JsonPropertyName("thumbnail")]
         [Required]
