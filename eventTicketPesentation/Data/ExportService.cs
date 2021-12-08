@@ -42,6 +42,10 @@ namespace eventTicketPesentation.Service
                         new PdfTextElement("Event: " + tgroup.NameOfEvent, contentFont, PdfBrushes.Black);
                     PdfTextElement TicketEventDate =
                         new PdfTextElement("Date/Time of the event: " + tgroup.TimeOfTheEvent, contentFont, PdfBrushes.Black);
+                    PdfTextElement TicketEventLocation =
+                        new PdfTextElement("Location:  " + tgroup.Location, contentFont, PdfBrushes.Black);
+                    PdfTextElement TicketEventAddress =
+                        new PdfTextElement("Address:  " + tgroup.Address, contentFont, PdfBrushes.Black);
                     PdfTextElement TicketNumber =
                         new PdfTextElement("Nr: " + ticket.TicketNr, contentFont, PdfBrushes.Black);
                     PdfTextElement TimeOfPurchase =
@@ -62,6 +66,12 @@ namespace eventTicketPesentation.Service
                         new RectangleF(0, result.Bounds.Bottom + paragraphAfterSpacing, page.GetClientSize().Width,
                             page.GetClientSize().Height), format);
                     result = TicketEventDate.Draw(page,
+                        new RectangleF(0, result.Bounds.Bottom + paragraphAfterSpacing, page.GetClientSize().Width,
+                            page.GetClientSize().Height), format);
+                    result = TicketEventLocation.Draw(page,
+                        new RectangleF(0, result.Bounds.Bottom + paragraphAfterSpacing, page.GetClientSize().Width,
+                            page.GetClientSize().Height), format);
+                    result = TicketEventAddress.Draw(page,
                         new RectangleF(0, result.Bounds.Bottom + paragraphAfterSpacing, page.GetClientSize().Width,
                             page.GetClientSize().Height), format);
                     PaidAmount.Draw(page,

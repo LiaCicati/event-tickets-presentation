@@ -13,6 +13,7 @@ namespace eventTicketPesentation.Service.dto
         [JsonPropertyName("timeOfTheEvent")] public DateTime TimeOfTheEvent { get; set; }
         [JsonPropertyName("thumbnail")] public string Thumbnail { get; set; }
         [JsonPropertyName("location")] public string Location { get; set; }
+        [JsonPropertyName("address")] public string Address { get; set; }
         [JsonPropertyName("ticketPrice")] public double TicketPrice { get; set; }
         
         [JsonPropertyName("tickets")] public List<Ticket> Tickets { get; set; }

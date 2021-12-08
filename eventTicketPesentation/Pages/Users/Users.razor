@@ -3,6 +3,7 @@
 @using eventTicketPesentation.Models
 @using eventTicketPesentation.Shared.Components.Preloader
 @using eventTicketPesentation.Shared.Components.NavMenu
+@inject AuthenticationStateProvider _authenticationStateProvider
 @attribute [Authorize(Policy = "isAdmin")]
 @inject IUserService _userService
 
@@ -38,7 +39,7 @@
                         <button class="m-0 p-2 button-green"@onclick="@(e => @SetAdmin(user.Id))"> Set admin</button>
                     }
                     
-                    @if (user.Admin)
+                    @if (user.Admin && LoggedInUser.Id != user.Id)
                     {
                         <img class="card__cancel-button" alt="Icon Cancel" src="images/cancel-button.svg" @onclick="@(e => RemoveAdmin(user.Id))"/>
                     }
@@ -58,10 +59,12 @@
 
 @code {
     private List<User> _users;
+    private User LoggedInUser { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
         _users = await _userService.GetAllUsersAsync();
+        LoggedInUser = (((CustomAuthenticationStateProvider) _authenticationStateProvider).LoggedInUser);
         StateHasChanged();
     }
 
