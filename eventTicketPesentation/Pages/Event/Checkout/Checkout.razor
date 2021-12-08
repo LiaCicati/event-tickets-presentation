@@ -11,7 +11,7 @@
 @using eventTicketPesentation.Service
 @using eventTicketPesentation.Models
 @using eventTicketPesentation.Service.dto
-<NavMenu/>
+
 <section class="section position-relative">
     <h1 class="text-center">@_event.Name</h1>
     <div class="container">
@@ -117,7 +117,7 @@
                             </EditForm>
                             @if (_errorMessage != null)
                             {
-                                <div>
+                                <div class="error">
                                     @_errorMessage
                                 </div>
                             }

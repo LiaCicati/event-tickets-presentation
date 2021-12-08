@@ -23,3 +23,14 @@
     justify-content: space-between;
     align-items: flex-end;
 }
+
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    padding: 0 20px;
+}
+@media (max-width: 995px) {
+    .wrapper {
+        flex-direction: column;
+    }
+}

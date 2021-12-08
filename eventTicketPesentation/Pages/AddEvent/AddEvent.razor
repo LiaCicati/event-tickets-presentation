@@ -1,6 +1,5 @@
 @page "/addEvent"
 @attribute [Authorize(Policy = "isAdmin")]
-@using eventTicketPesentation.Shared.Components.NavMenu
 @using eventTicketPesentation.Models
 @using eventTicketPesentation.Service
 
@@ -9,7 +8,7 @@
 @inject AuthenticationStateProvider _auth;
 @inject ICategoryService _categoryService
 
-<NavMenu/>
+
 <section class="section">
     <EditForm Model="@newEvent" OnValidSubmit="@Submit">
         <h1>Add Event</h1>

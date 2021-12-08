@@ -26,6 +26,10 @@
     max-width: 84px;
 }
 
+.error {
+    color: #E74C3C;
+}
+
 .decrease, .increase {
     width: 30px;
     height: 30px;

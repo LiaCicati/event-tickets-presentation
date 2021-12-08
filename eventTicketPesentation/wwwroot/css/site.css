@@ -70,6 +70,13 @@ a {
     color: #5C6A79;
 }
 
+@media screen and (max-width: 690px) {
+   a {
+        font-size: 12px !important;
+    }
+}
+
+
 a.active {
     font-weight: bolder;
     color: #000;

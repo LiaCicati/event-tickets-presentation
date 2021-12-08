@@ -7,9 +7,9 @@
 @using eventTicketPesentation.Shared.Components.NavMenu
 @using eventTicketPesentation.Models
 @using eventTicketPesentation.Service
-<NavMenu></NavMenu>
+
 <section class=" section">
-    <div class="container">
+    <div class="wrapper" >
         <div class="row">
             <PageSwitcher></PageSwitcher>
             <div class="account__container col-xs-12 col-sm-7 col-md-8">
@@ -34,7 +34,7 @@
                         <InputText type="password" placeholder="password" @bind-Value="@_password"/>
                     </div>
 
-                    <div>@_errorMessage</div>
+                    <div class="error">@_errorMessage</div>
 
                     <button type="submit" class="button__full-width button-green">Save</button>
 

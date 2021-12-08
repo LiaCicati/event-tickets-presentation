@@ -1,3 +1,7 @@
 .form__button-create {
     width: 100%;
 }
+
+.error {
+    color: #E74C3C;
+}

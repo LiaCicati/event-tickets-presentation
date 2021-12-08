@@ -84,11 +84,11 @@
 }
 
 @media screen and (max-width: 573px) {
-    .header__main-link  {
+    .header__main-link {
         justify-content: center;
         display: flex;
-
     }
+    
 }
 
 .menu-icon {
