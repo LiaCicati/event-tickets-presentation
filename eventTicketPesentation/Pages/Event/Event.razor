@@ -3,7 +3,7 @@
 @inject NavigationManager _navigationManager
 @using eventTicketPesentation.Service
 @using eventTicketPesentation.Models
-@using eventTicketPesentation.Shared.Components.NavMenu
+@inject AuthenticationStateProvider _authenticationStateProvider
 
 <section class="event">
     <div class="container image__container">
@@ -75,6 +75,7 @@
 
     [Parameter]
     public long Id { get; set; }
+    private User LoggedInUser { get; set; }
 
     private Models.Event _event = new Models.Event();
 
@@ -82,6 +83,7 @@
     {
         Console.WriteLine("Id: " + Id);
         _event = await _service.GetEventByIdAsync(Id);
+        LoggedInUser = (((CustomAuthenticationStateProvider) _authenticationStateProvider).LoggedInUser);
         Console.WriteLine(_event);
         StateHasChanged();
     }
